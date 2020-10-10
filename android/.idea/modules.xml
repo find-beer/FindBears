@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TBear.iml" filepath="$PROJECT_DIR$/.idea/modules/TBear.iml" group="TBear" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="TBear/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1149132149/react-native-amap-geolocation.iml" filepath="$PROJECT_DIR$/.idea/modules/-1149132149/react-native-amap-geolocation.iml" group="TBear/react-native-amap-geolocation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/355460146/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/355460146/react-native-community_masked-view.iml" group="TBear/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/868111589/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/868111589/react-native-gesture-handler.iml" group="TBear/react-native-gesture-handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1909335999/react-native-image-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1909335999/react-native-image-picker.iml" group="TBear/react-native-image-picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-260131306/react-native-puti-pay.iml" filepath="$PROJECT_DIR$/.idea/modules/-260131306/react-native-puti-pay.iml" group="TBear/react-native-puti-pay" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1755050473/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-1755050473/react-native-reanimated.iml" group="TBear/react-native-reanimated" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1682950158/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/1682950158/react-native-safe-area-context.iml" group="TBear/react-native-safe-area-context" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/349520294/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/349520294/react-native-screens.iml" group="TBear/react-native-screens" />
+    </modules>
+  </component>
+</project>

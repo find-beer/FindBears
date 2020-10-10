@@ -1,0 +1,43 @@
+{
+  "name": "RNPutiPay",
+  "version": "1.4.0",
+  "summary": "微信和支付宝支付的react-native模块",
+  "requires_arc": true,
+  "license": "MIT",
+  "homepage": "https://github.com/puti94/react-native-puti-pay",
+  "source": {
+    "git": "https://github.com/puti94/react-native-puti-pay",
+    "tag": "master"
+  },
+  "authors": "puti94",
+  "source_files": "**/*.{h,m}",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "dependencies": {
+    "React": [
+
+    ],
+    "AlipaySDK-iOS": [
+
+    ]
+  },
+  "vendored_libraries": "libWeChatSDK.a",
+  "frameworks": [
+    "SystemConfiguration",
+    "CoreTelephony",
+    "QuartzCore",
+    "CoreText",
+    "CoreGraphics",
+    "UIKit",
+    "Foundation",
+    "CFNetwork",
+    "CoreMotion"
+  ],
+  "libraries": [
+    "c++",
+    "z",
+    "sqlite3.0",
+    "sqlite3"
+  ]
+}

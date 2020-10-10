@@ -1,0 +1,6 @@
+module Pods_TBear {
+  umbrella header "Pods-TBear-umbrella.h"
+
+  export *
+  module * { export * }
+}
