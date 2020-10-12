@@ -1,1 +1,0 @@
-../../../../../node_modules/react-native-puti-pay/ios/WXApiObject.h
