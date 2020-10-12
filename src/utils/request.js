@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {apiProd} from '../config';
+import KV from "./KV";
 
 const instance = axios.create({
     baseURL: apiProd.host,
@@ -11,7 +12,7 @@ instance.defaults.timeout = 30000;
 instance.interceptors.request.use(
     function (config) {
         // 添加响应头等等设置
-        // config.headers.userToken = 'this is my token'
+        config.headers.session = KV.getSessionId();
         return config;
     },
     function (error) {

@@ -12,19 +12,7 @@ import {GetRequest} from '../../../utils/request';
 
 export default class Login extends React.Component {
 
-    //测试方法
-    requestData = async () => {
-        const response = await GetRequest('user/relationfeed', {
-            limit: 10,
-            feedOffsetId: 0,
-            activityOffsetId: 0,
-        });
-        // alert(JSON.stringify(response))
-        console.log(response)
-    };
-
     componentDidMount() {
-        this.requestData();
     }
 
     render() {
