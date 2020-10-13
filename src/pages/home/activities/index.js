@@ -36,6 +36,7 @@ export default class Activities extends React.Component {
             feedOffsetId: 0,
             activityOffsetId: 0,
         });
+        console.log('数据', response);
         this.setState({
             relationDetailList: response.data.relationDetailList,
         }, () => {
