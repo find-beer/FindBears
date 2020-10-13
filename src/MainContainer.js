@@ -61,7 +61,8 @@ export const TabContainer = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: ({tintColor}) => {
                     return <TouchableOpacity onPress={()=>{
-                        global.publishDialog.show()
+                        global.publishDialog.show(()=>{},{
+                        })
                     }}>
                         <Image style={{width: 70, height: 70}} source={TabIcon.publish}/>
                     </TouchableOpacity>;

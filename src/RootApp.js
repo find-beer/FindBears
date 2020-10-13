@@ -9,6 +9,8 @@ import Splash from './pages/splash';
 import {TabContainer} from './MainContainer';
 import Activities from './pages/home/activities';
 import Login from './pages/account/login';
+import PublishActivity from "./pages/publish/publishActivity";
+import PublishTrend from "./pages/publish/publishTrend";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -44,6 +46,12 @@ const RootApp = createStackNavigator({
     },
     Activities: {
         screen: Activities,
+    },
+    PublishActivity: {
+        screen: PublishActivity,
+    },
+    PublishTrend: {
+        screen: PublishTrend,
     },
 }, {
     headerMode: 'none',

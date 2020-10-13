@@ -14,3 +14,8 @@ export const TabIcon = {
     mine: require('../assets/tab/mine_unselected.png'),
     mineActive: require('../assets/tab/mine_selected.png'),
 };
+
+export const PublishIcon = {
+    activity: require('../assets/publish/activity-publish.png'),
+    trend: require('../assets/publish/user-publish.png'),
+};

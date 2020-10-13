@@ -12,8 +12,19 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from "../../components/scrollable_tab_bar/CustomTabBar";
 import Activities from "./activities";
 import Trends from "./trends";
+import EventBus from "../../utils/EventBus";
 
 export default class Home extends React.Component {
+
+    componentDidMount() {
+        EventBus.on('GO_ACTIVITY', () => {
+            this.props.navigation.navigate('PublishActivity')
+        })
+        EventBus.on('GO_TREND', () => {
+            this.props.navigation.navigate('PublishTrend')
+        })
+    }
+
     render() {
         return <SafeAreaView style={styles.container}>
             <ScrollableTabView

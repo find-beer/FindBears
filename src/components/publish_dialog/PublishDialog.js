@@ -1,15 +1,15 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import BaseCommonDialog from './BaseCommonDialog';
-import PropTypes from 'prop-types';
-import {screenH, screenW} from '../../constants';
+import {PublishIcon, screenH, screenW} from '../../constants';
+import EventBus from "../../utils/EventBus";
 
 class PublishDialog extends BaseCommonDialog {
 
-    static defaultProps = {
-        onItemClick: PropTypes.func,
-        data: PropTypes.array,
-    };
+    // static defaultProps = {
+    //     onItemClick: PropTypes.func,
+    //     data: PropTypes.array,
+    // };
 
     constructor(props) {
         super(props);
@@ -31,11 +31,22 @@ class PublishDialog extends BaseCommonDialog {
     }
 
     renderContent() {
-        return <TouchableOpacity onPress={()=>{
-            global.publishDialog.dismiss()
-        }}>
-            <View style={styles.container}/>
-        </TouchableOpacity>;
+        return <TouchableOpacity onPress={()=>{this.dismiss()}} style={styles.container}>
+            <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity onPress={() => {
+                    EventBus.post('GO_ACTIVITY');
+                    this.dismiss(()=>{});
+                }}>
+                    <Image style={styles.icon} source={PublishIcon.activity}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    EventBus.post('GO_TREND');
+                    this.dismiss(()=>{});
+                }}>
+                    <Image style={styles.icon2} source={PublishIcon.trend}/>
+                </TouchableOpacity>
+            </View>
+        </TouchableOpacity>
     }
 
 }
@@ -44,8 +55,11 @@ const styles = StyleSheet.create({
     container: {
         width: screenW,
         height: screenH,
-        backgroundColor: 'yellow',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
+    icon: {width: 50, height: 50, marginRight: 10},
+    icon2: {width: 50, height: 50, marginLeft: 10},
 });
 
 export default PublishDialog;
