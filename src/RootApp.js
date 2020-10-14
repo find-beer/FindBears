@@ -9,6 +9,14 @@ import Splash from './pages/splash';
 import {TabContainer} from './MainContainer';
 import Activities from './pages/home/activities';
 import Login from './pages/account/login';
+import Register from './pages/account/register';
+import Hobby from './pages/account/hobby';
+import QrCode from './pages/qrCode'
+import Store from './pages/store'
+import StoreList from './pages/storeList'
+import EditInfo from './pages/editInfo'
+import Config from './pages/config'
+// import OrderList from './pages/orderList'
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -45,6 +53,30 @@ const RootApp = createStackNavigator({
     Activities: {
         screen: Activities,
     },
+    Register:{
+        screen: Register,
+    },
+    Hobby:{
+        screen: Hobby,
+    },
+    QrCode:{
+        screen: QrCode,
+    },
+    Store:{
+        screen: Store,
+    },
+    StoreList:{
+        screen: StoreList,
+    },
+    EditInfo:{
+        screen: EditInfo,
+    },
+    Config:{
+        screen: Config,
+    },
+    // OrderList:{
+    //     screen: OrderList,
+    // }
 }, {
     headerMode: 'none',
     lazy: true,

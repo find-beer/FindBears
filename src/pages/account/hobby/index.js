@@ -1,0 +1,209 @@
+import React, {Component} from 'react';
+import {
+    SafeAreaView,
+    View,
+    Text,
+    TouchableOpacity,
+    Toast,
+    AsyncStorage,
+    StyleSheet
+} from 'react-native';
+import {GetRequest} from '../../../utils/request';
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
+
+export default class Hobby extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hobbyList: [],
+            checkedHobby: [],
+            registerForm: this.props.navigation.state.params,
+        };
+    }
+    componentDidMount() {
+        this.getHobbyList();
+    }
+    getHobbyList() {
+      GetRequest('user/listHobbyTagName').then(res => {
+            res &&
+                this.setState({
+                    hobbyList: res,
+                });
+        });
+    }
+    activeItem(index) {
+        // 取消选中
+        if (this.state.checkedHobby.includes(index)) {
+            let arr = [...this.state.checkedHobby];
+            arr.splice(arr.findIndex(item => item === index), 1);
+            this.setState({
+                checkedHobby: arr,
+            });
+            return;
+        }
+        // 最多3个
+        if (this.state.checkedHobby.length >= 5) {
+            return;
+        }
+        // 选中
+        this.setState({
+            checkedHobby: [...this.state.checkedHobby, index],
+        });
+    }
+    add0(m) {
+        return m < 10 ? '0' + m : m;
+    }
+    format(times) {
+        //shijianchuo是整数，否则要parseInt转换
+        let time = new Date(times);
+        let y = time.getFullYear();
+        let m = time.getMonth() + 1;
+        let d = time.getDate();
+        return `${y}-${this.add0(m)}-${this.add0(d)}`;
+    }
+    register() {
+        if (this.state.checkedHobby.length < 1) {
+            Toast.fail('兴趣爱好至少选择一个~');
+        }
+        let checked = [];
+        for (let i = 0; i < this.state.checkedHobby.length; i++) {
+            checked.push(this.state.hobbyList[i]);
+        }
+        let params = {
+            ...this.state.registerForm,
+            hobbyTagNameList: checked,
+            birthday: this.format(
+                Date.parse(new Date(this.state.registerForm.birthday)),
+            ).toString(),
+        };
+        GetRequest('user/signUp', params).then(res => {
+            this.props.navigation.navigate('Home');
+            AsyncStorage.setItem(
+                'object',
+                JSON.stringify({userToken: res.token}),
+            );
+        });
+    }
+    getClass(index) {
+        return this.state.checkedHobby.includes(index)
+            ? styles.hobbyActiveItem
+            : styles.hobbyItem;
+    }
+    getTextClass(index) {
+        return this.state.checkedHobby.includes(index)
+            ? styles.hobbyActiveText
+            : styles.hobbyText;
+    }
+    render() {
+        return (
+            <SafeAreaView>
+                <View style={styles.bgWrapper}>
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>点选你喜欢的</Text>
+                    </View>
+                    <View style={styles.hobbyBox}>
+                        {this.state.hobbyList.map((item, index) => {
+                            return (
+                                <TouchableOpacity
+                                    key={item}
+                                    style={this.getClass(index)}
+                                    onPress={() => this.activeItem(index)}>
+                                    <Text style={this.getTextClass(index)}>
+                                        {item}
+                                    </Text>
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </View>
+                    <View style={styles.startBoxWrapper}>
+                        <TouchableOpacity
+                            style={styles.startBox}
+                            onPress={() => this.register()}>
+                            <Text style={styles.startTbearsBtn}>
+                                开启探熊APP
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </SafeAreaView>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+  bgWrapper: {
+      backgroundColor: '#fff',
+      height: '100%',
+  },
+  header: {
+      marginTop: scaleSize(240),
+      marginBottom: scaleSize(150),
+  },
+  headerText: {
+      fontSize: scaleFont(48),
+      color: '#999999',
+      textAlign: 'center',
+  },
+  hobbyBox: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      paddingLeft: scaleSize(50),
+      paddingRight: scaleSize(50),
+      marginBottom: scaleSize(80),
+  },
+  hobbyItem: {
+      height: scaleSize(100),
+      paddingLeft: scaleSize(50),
+      paddingRight: scaleSize(50),
+      borderRadius: scaleSize(50),
+      marginRight: scaleSize(20),
+      marginBottom: scaleSize(20),
+      backgroundColor: '#dddddd',
+  },
+  hobbyActiveItem: {
+      height: scaleSize(100),
+      paddingLeft: scaleSize(50),
+      paddingRight: scaleSize(50),
+      borderRadius: scaleSize(50),
+      marginRight: scaleSize(20),
+      marginBottom: scaleSize(20),
+      backgroundColor: '#8066E3',
+  },
+  hobbyText: {
+      color: '#564F5F',
+      fontSize: scaleFont(42),
+  },
+  hobbyActiveText: {
+      fontSize: scaleFont(42),
+      color: '#FFF',
+  },
+  handleAddBox: {
+      marginTop: scaleSize(90),
+      marginBottom: scaleSize(200),
+  },
+  handleAdd: {
+      fontSize: scaleFont(42),
+      color: '#999999',
+      textAlign: 'center',
+  },
+  startBoxWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: scaleSize(80),
+  },
+  startBox: {
+      width: scaleSize(560),
+      height: scaleSize(160),
+      borderRadius: scaleSize(80),
+      borderWidth: scaleSize(1),
+      borderColor: '#333333',
+      backgroundColor: '#ffffff',
+  },
+  startTbearsBtn: {
+      fontSize: scaleFont(52),
+      color: '#333333',
+      textAlign: 'center',
+  },
+});
