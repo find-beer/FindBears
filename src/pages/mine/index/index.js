@@ -15,22 +15,22 @@ import {StyleSheet,Image, ImageBackground, Text, View} from 'react-native';
 import DynamicTab from './dynamicTab';
 import PersonalInfo from './personalInfo';
 import {ScrollView,SafeAreaView} from 'react-navigation';
-import {GetRequest} from '../../utils/request';
-import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import {GetRequest} from '../../../utils/request';
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 const imageUrl = {
-    configIcon: require('../../assets/mine/download-icon.png'),
-    avatarBg: require('../../assets/mine/avatar-bg.png'),
-    avatar: require('../../assets/mine/avatar.jpeg'),
-    sexIcon: require('../../assets/mine/QR-icon.png'),
-    netIcon: require('../../assets/mine/QR-icon.png'),
-    hobbyIcon: require('../../assets/mine/bulb.png'),
-    locationIcon: require('../../assets/mine/local.png'),
-    QRCodeIcon: require('../../assets/mine/QR-icon.png'),
-    EditIcon: require('../../assets/mine/edit.png'),
-    done: require('../../assets/mine/undone-icon.png'),
-    wareHouse: require('../../assets/mine/warehouse-icon.png'),
-    unDone: require('../../assets/mine/undone-icon.png'),
+    configIcon: require('../../../assets/mine/download-icon.png'),
+    avatarBg: require('../../../assets/mine/avatar-bg.png'),
+    avatar: require('../../../assets/mine/avatar.jpeg'),
+    sexIcon: require('../../../assets/mine/QR-icon.png'),
+    netIcon: require('../../../assets/mine/QR-icon.png'),
+    hobbyIcon: require('../../../assets/mine/bulb.png'),
+    locationIcon: require('../../../assets/mine/local.png'),
+    QRCodeIcon: require('../../../assets/mine/QR-icon.png'),
+    EditIcon: require('../../../assets/mine/edit.png'),
+    done: require('../../../assets/mine/undone-icon.png'),
+    wareHouse: require('../../../assets/mine/warehouse-icon.png'),
+    unDone: require('../../../assets/mine/undone-icon.png'),
 };
 
 export default class Mine extends Component{

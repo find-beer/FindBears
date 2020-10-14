@@ -1,36 +1,57 @@
 import React, {Component} from 'react';
 import {StyleSheet,View, Text, Image,TouchableOpacity} from 'react-native';
-import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import {Button} from '@ant-design/react-native';
+import Card from './card.js';
+const defaultImg = require('../../../assets/mine/avatar.jpeg');
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 const imageUrl = {
-    like: require('../../assets/home/unlike.png'),
-    comment: require('../../assets/mine/comment.png'),
-    share: require('../../assets/mine/share-icon.png'),
-};
+    like: require('../../../assets/home/unlike.png'),
+    join: require('../../../assets/mine/join.png'),
+    share: require('../../../assets/mine/share-icon.png'),
+}
 import {get} from 'lodash'
-const defaultImg = require('../../assets/mine/avatar.jpeg');
 
-export default class DynamicItem extends Component {
+export default class ActivityItem extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            result:{}
+        }
     }
-    handleGoDetail(){
-			this.props.navigation.navigate('DynamicDetail')
-		}
+    handleViewDetail(){
+        this.props.navigation.navigate('ActivityDetail')
+    }
     render() {
         const item = this.props.item;
-        const picList = this.props.item.picUrl?this.props.item.picUrl.split(',') : [defaultImg,defaultImg,defaultImg]
+        const cardConfig = [
+            {
+                title: '活动主题',
+                content: item.activityTitle,
+            },
+            {
+                title: '活动时间',
+                content: new Date(item.activityTime).toLocaleString().split(' ')[0],
+            },
+            {
+                title: '活动地点',
+                content: item.activityAddress,
+            },
+            {
+                title: '活动人数',
+                content: item.memberCount,
+            },
+        ];
+        const picList = item.picUrl && item.picUrl.split(',') || [defaultImg,defaultImg,defaultImg]
         return (
-            <View style={styles.dynamicItemWrap} >
+            <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
                     <Image
-                        source={get(item.userVO,'pic',defaultImg)}
+                        source={get(item.userVO,'picUrl',defaultImg)}
                         style={styles.avatarInner}
                     />
                     <View style={styles.dynamicInfo}>
                         <Text style={styles.name}>
-                            {
-                                get(item.userVO,'userName','探熊')
-                            }
+                            {get(item.userVO,'userName','探熊')}
                         </Text>
                         <View style={styles.infoBox}>
                             <Text style={styles.infoPosition}>
@@ -43,40 +64,42 @@ export default class DynamicItem extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={styles.dynamicTextBox}>
-										<TouchableOpacity onPress={() => this.handleGoDetail()}>
-											<Text style={styles.dynamicText}>
-													{item.content}
-											</Text>
-										</TouchableOpacity>
-                    <View style={styles.imgBox}>
-                        {
-                            picList.map(item => {
-                                return(
-                                    <Image
-                                        source={item}
-                                        style={styles.dynamicImg}
-                                        key={item}
-                                    />
-                                )
-                            })
-                        }
-                    </View>
+                <TouchableOpacity onPress={() => handleViewDetail()}>
+                    <Card data={cardConfig}/>
+                </TouchableOpacity>
+                <View style={styles.imgBox}>
+                    {
+                        picList.map(item => {
+                            return (
+                                <Image
+																		source={item}
+																		key={item}
+                                    style={styles.dynamicImg}
+                                />
+                            )
+                        })
+                    }
+                
                 </View>
+                <Button
+                    style={styles.viewDetailBtn}
+                    onPress={() => this.handleViewDetail()}>
+                    <Text style={styles.viewDetailBtnText}>查看活动详情</Text>
+                </Button>
                 <View style={styles.operationBox}>
                     <View style={styles.oerationItem}>
                         <Image
                             source={imageUrl.like}
                             style={styles.operationIcon}
                         />
-                        <Text style={styles.operationText}>点赞{item.likeNum}</Text>
+                        <Text style={styles.operationText}>点赞{item.likeNum || 0}</Text>
                     </View>
                     <View style={styles.oerationItem}>
                         <Image
-                            source={imageUrl.comment}
+                            source={imageUrl.join}
                             style={styles.operationIcon}
                         />
-                        <Text style={styles.operationText}>已评论{item.commentNum}</Text>
+                        <Text style={styles.operationText}>已加入{item.ticketVoList.assembleMemberCount || 0}人</Text>
                     </View>
                     <View style={styles.oerationItem}>
                         <Image
@@ -90,7 +113,6 @@ export default class DynamicItem extends Component {
         );
     }
 }
-
 
 const styles = StyleSheet.create({
 	dynamicItemWrap: {

@@ -1,54 +1,59 @@
 import React from 'react'
-import { StyleSheet, View, Image, Text,ImageBackground } from 'react-native'
-import Header from '../../components/header'
-import { scaleSize, scaleFont } from '../../utils/scaleUtil'
+import { StyleSheet, View, Image, Text,ImageBackground,SafeAreaView } from 'react-native'
+import Header from '../../../components/header'
+import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 
 const imgUrl = {
-    scanIcon: require('../../assets/mine/QR-icon.png'),
-    arrowIcon: require('../../assets/mine/arrow_right.png'),
-    qrCodeBg:require('../../assets/mine/QR-code-bg.png'),
-    avatar: require('../../assets/mine/avatar.jpeg'),
-    downloadIcon:require('../../assets/mine/download-icon.png'),
-    shareIcon: require('../../assets/mine/share-icon.png')
+    scanIcon: require('../../../assets/mine/QR-icon.png'),
+    arrowIcon: require('../../../assets/mine/arrow_right.png'),
+    qrCodeBg:require('../../../assets/mine/QR-code-bg.png'),
+    avatar: require('../../../assets/mine/avatar.jpeg'),
+    downloadIcon:require('../../../assets/mine/download-icon.png'),
+    shareIcon: require('../../../assets/mine/share-icon.png')
 }
 export default () => (
-    <View style={styles.pages}>
-        <Header title="我的二维码" left={null} />
-        <View style={styles.qrItemBox} >
-            <View style={styles.qrItem}>
-                <Image source={imgUrl.scanIcon} style={styles.scanIcon}></Image>
-                <Text style={styles.scanText}>扫一扫</Text>
+    <SafeAreaView style={styles.pages}>
+        <Header title="我的二维码" />
+        <View style={styles.container}>
+            <View style={styles.qrItemBox} >
+                <View style={styles.qrItem}>
+                    <Image source={imgUrl.scanIcon} style={styles.scanIcon}></Image>
+                    <Text style={styles.scanText}>扫一扫</Text>
+                </View>
+                <View style={styles.qrItem}>
+                    <Image source={imgUrl.arrowIcon} style={styles.arrowIcon}></Image>
+                </View>
             </View>
-            <View style={styles.qrItem}>
-                <Image source={imgUrl.arrowIcon} style={styles.arrowIcon}></Image>
+            <View style={styles.qrCodeWrapper}>
+                <ImageBackground source={imgUrl.qrCodeBg} style={styles.qrBg}>
+                    <Image source={imgUrl.avatar} style={styles.avatar}></Image> 
+                    <Text style={styles.userName}>钱罗罗</Text> 
+                    <View style={styles.qrCode}></View> 
+                </ImageBackground> 
             </View>
+            <View style={styles.operationBox}>
+                <View style={styles.operationItem}>
+                    <Image source={imgUrl.downloadIcon} style={styles.btnIcon}></Image>
+                    <Text style={styles.btnText}>下载</Text>
+                </View> 
+                <View style={styles.operationItem}>
+                    <Image source={imgUrl.shareIcon} style={styles.btnIcon}></Image>
+                    <Text style={styles.btnText}>分享</Text>
+                </View> 
+            </View>
+            <Text style={styles.slogan}>[走，带你去看花花世界]</Text> 
         </View>
-        <View style={styles.qrCodeWrapper}>
-            <ImageBackground source={imgUrl.qrCodeBg} style={styles.qrBg}>
-                <Image source={imgUrl.avatar} style={styles.avatar}></Image> 
-                <Text style={styles.userName}>钱罗罗</Text> 
-                <View style={styles.qrCode}></View> 
-            </ImageBackground> 
-        </View>
-        <View style={styles.operationBox}>
-            <View style={styles.operationItem}>
-                <Image source={imgUrl.downloadIcon} style={styles.btnIcon}></Image>
-                <Text style={styles.btnText}>下载</Text>
-            </View> 
-            <View style={styles.operationItem}>
-                <Image source={imgUrl.shareIcon} style={styles.btnIcon}></Image>
-                <Text style={styles.btnText}>分享</Text>
-            </View> 
-        </View>
-        <Text style={styles.slogan}>[走，带你去看花花世界]</Text> 
-    </View>
+    </SafeAreaView>
 )
 
 
 const styles = StyleSheet.create({
-  pages:{
-      backgroundColor:'#fff',
-      paddingBottom:scaleSize(200)
+  pages:{ 
+      paddingBottom:scaleSize(200),
+      height:'100%'
+  },
+  container:{
+    backgroundColor:'#fff',
   },
   qrItemBox:{
       borderTopWidth:scaleSize(2),

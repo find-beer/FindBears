@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Home from './pages/home';
 import TabBar from './components/tabbar';
 import {TabIcon} from './constants';
-import Mine from './pages/mine';
+import Mine from './pages/mine/index';
 import Chat from './pages/chat';
 import Shoulder from './pages/shoulder';
 

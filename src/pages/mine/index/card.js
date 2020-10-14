@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 export default props => {
     return (

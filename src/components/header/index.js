@@ -5,24 +5,21 @@
 import React from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import { scaleSize, scaleFont } from '../../utils/scaleUtil'
-import { ifIphoneX } from '../../utils/screenUtil'
+
+const backIcon = require('../../assets/mine/arrow_left.png')
 
 export default props => (
     <View style={styles.headerContainer}>
         <View style={styles.header}>
             <View style={styles.headerLeft}>
                 {
-                    props.left || props.left === null 
-                    ? props.left
-                    : (
-                        <TouchableOpacity
-                            activeOpacity={.6}
-                            onPress={() => props.navigation && props.navigation.goBack()}>
-                            <Image
-                                source={{ uri: 'http://q4pas9fmo.bkt.clouddn.com/goBack.png' }}
-                                style={styles.headerGoBackIcon} />
-                        </TouchableOpacity>
-                    )
+                    <TouchableOpacity
+                    activeOpacity={.6}
+                    onPress={() => props.navigation && props.navigation.goBack()}>
+                    <Image
+                        source={backIcon}
+                        style={styles.headerGoBackIcon} />
+                    </TouchableOpacity>
                 }
             </View>
             <View style={styles.headerTitle}>
@@ -40,7 +37,8 @@ export default props => (
 
 const styles = StyleSheet.create({
   headerContainer: {
-      paddingTop: ifIphoneX(40, 30)
+      backgroundColor:'#FFF',
+      marginBottom:scaleSize(20)
   },
   header: {
       flexDirection: 'row',
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       height: scaleSize(159),
       borderBottomWidth: 1,
-      borderBottomColor: '#f2f2f2'
+      borderBottomColor: '#f2f2f2',
   },
   headerLeft: {
       position: 'absolute',

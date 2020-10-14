@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image,TouchableOpacity} from 'react-native'
-import Header from '../../components/header/index'
-const arrow = require('../../assets/mine/arrow_right.png')
+import { SafeAreaView,StyleSheet, View, Text, Image,TouchableOpacity} from 'react-native'
+import Header from '../../../components/header/index'
+const arrow = require('../../../assets/mine/arrow_right.png')
 import {Switch} from '@ant-design/react-native';
-import { scaleSize, scaleFont } from '../../utils/scaleUtil'
+import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 
 export default class Config extends Component {
     state = {
@@ -35,7 +35,7 @@ export default class Config extends Component {
     }
     render (){
         return (
-            <View style={styles.configWrap}>
+            <SafeAreaView style={styles.configWrap}>
                 <Header title="设置" left={null} />
                 <View style={styles.configInner}>
                     {/* <View style={styles.configItem}>
@@ -99,24 +99,25 @@ export default class Config extends Component {
                     </TouchableOpacity>
                     
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     configWrap:{
-        backgroundColor:'#fff',
         height:'100%'
     },
     configInner:{
         borderTopWidth: 1,
         borderColor: '#ccc',
+        height:'100%'
     },
     configItem:{
         height:scaleSize(170),
         paddingLeft:scaleSize(54),
         paddingRight:scaleSize(54),
+        backgroundColor:'#fff',
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-between',
@@ -151,6 +152,5 @@ const styles = StyleSheet.create({
         fontSize:scaleFont(32),
         height:scaleSize(130),
         lineHeight:scaleSize(130),
-        backgroundColor: '#F5F7FB'
     }
 })

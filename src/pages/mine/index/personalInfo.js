@@ -5,21 +5,21 @@
 import React, {Component} from 'react';
 import {StyleSheet,View, Image, Text} from 'react-native';
 const imageUrl = {
-    configIcon: require('../../assets/mine/download-icon.png'),
-    avatarBg: require('../../assets/mine/avatar-bg.png'),
-    avatar: require('../../assets/mine/avatar.jpeg'),
-    sexIcon: require('../../assets/mine/QR-icon.png'),
-    netIcon: require('../../assets/mine/QR-icon.png'),
-    hobbyIcon: require('../../assets/mine/bulb.png'),
-    locationIcon: require('../../assets/mine/local.png'),
-    QRCodeIcon: require('../../assets/mine/QR-icon.png'),
-    EditIcon: require('../../assets/mine/edit.png'),
-    done: require('../../assets/mine/undone-icon.png'),
-    wareHouse: require('../../assets/mine/warehouse-icon.png'),
-    unDone: require('../../assets/mine/undone-icon.png'),
+    configIcon: require('../../../assets/mine/download-icon.png'),
+    avatarBg: require('../../../assets/mine/avatar-bg.png'),
+    avatar: require('../../../assets/mine/avatar.jpeg'),
+    sexIcon: require('../../../assets/mine/QR-icon.png'),
+    netIcon: require('../../../assets/mine/QR-icon.png'),
+    hobbyIcon: require('../../../assets/mine/bulb.png'),
+    locationIcon: require('../../../assets/mine/local.png'),
+    QRCodeIcon: require('../../../assets/mine/QR-icon.png'),
+    EditIcon: require('../../../assets/mine/edit.png'),
+    done: require('../../../assets/mine/undone-icon.png'),
+    wareHouse: require('../../../assets/mine/warehouse-icon.png'),
+    unDone: require('../../../assets/mine/undone-icon.png'),
 };
 import {get} from 'lodash'
-import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 export default class PersonalInfo extends Component {
     constructor(props){

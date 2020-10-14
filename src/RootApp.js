@@ -3,7 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Home from './pages/home';
 import Shoulder from './pages/shoulder';
 import Chat from './pages/chat';
-import Mine from './pages/mine';
+import Mine from './pages/mine/index';
 import {createAppContainer} from 'react-navigation';
 import Splash from './pages/splash';
 import {TabContainer} from './MainContainer';
@@ -13,12 +13,12 @@ import PublishActivity from "./pages/publish/publishActivity";
 import PublishTrend from "./pages/publish/publishTrend";
 import Register from './pages/account/register';
 import Hobby from './pages/account/hobby';
-import QrCode from './pages/qrCode'
-import Store from './pages/store'
-import StoreList from './pages/storeList'
-import EditInfo from './pages/editInfo'
-import Config from './pages/config'
-// import OrderList from './pages/orderList'
+import QrCode from './pages/mine/qrCode'
+import Store from './pages/mine/store'
+import StoreList from './pages/mine/storeList'
+import EditInfo from './pages/mine/editInfo'
+import Config from './pages/mine/config'
+import OrderList from './pages/mine/orderList'
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -82,9 +82,9 @@ const RootApp = createStackNavigator({
     Config:{
         screen: Config,
     },
-    // OrderList:{
-    //     screen: OrderList,
-    // }
+    OrderList:{
+        screen: OrderList,
+    }
 }, {
     headerMode: 'none',
     lazy: true,

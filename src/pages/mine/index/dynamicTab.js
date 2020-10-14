@@ -3,8 +3,8 @@ import {StyleSheet,View, Text} from 'react-native';
 
 import DynamicItem from './dynamicItem'
 import ActivityItem from './activityItem'
-import {GetRequest} from '../../utils/request';
-import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import {GetRequest} from '../../../utils/request';
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 export default class DynamicTab extends Component {
 		constructor(props){

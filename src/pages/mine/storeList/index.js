@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { StyleSheet,View, Text, Image,ScrollView,SafeAreaView,TouchableOpacity} from 'react-native';
-import Header from '../../components/header/index';
+import Header from '../../../components/header/index';
 import {Button,Provider,Modal} from '@ant-design/react-native';
-import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
-const complainIcon = require('../../assets/mine/complain-icon.png');
-import {GetRequest,PostRequest} from '../../utils/request';
+const complainIcon = require('../../../assets/mine/complain-icon.png');
+import {GetRequest,PostRequest} from '../../../utils/request';
 
 export default class StoreList extends Component {
     constructor(props){
@@ -20,12 +20,10 @@ export default class StoreList extends Component {
         }
     }
     handleGoDetail(id){
-        console.log(id)
+        this.props.navigation.navigate('OrderList',{id})
     }
     handleGoActivityDetail(id){
-        this.props.navigation.navigate('ActivityDetail', {
-            tel: this.state.userPhone,
-        });
+        this.props.navigation.navigate('ActivityDetail', {id});
     }
     handleCancel(id){
       PostRequest('activity/stop',{id}).then((res) => {

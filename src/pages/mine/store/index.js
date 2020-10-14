@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { StyleSheet, View,Text,Image,TouchableOpacity } from 'react-native'
-import Header from '../../components/header/index'
-import { scaleSize, scaleFont } from '../../utils/scaleUtil'
+import { StyleSheet, View,Text,Image,TouchableOpacity,SafeAreaView } from 'react-native'
+import Header from '../../../components/header/index'
+import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 
-const storeDone = require('../../assets/mine/undone-icon.png')
+const storeDone = require('../../../assets/mine/undone-icon.png')
 
 export default class Store extends Component {
   constructor(props){
@@ -20,7 +20,7 @@ export default class Store extends Component {
     }
     render (){
         return (
-            <View style={styles.storeWrap}>
+            <SafeAreaView style={styles.storeWrap}>
                 <Header title="仓库" left={null} />
                 <View style={styles.storeCountWrap}>
                     {/* 圆角盒子 */}
@@ -78,7 +78,7 @@ export default class Store extends Component {
                     <Text style={styles.storeTipsPoint}>1.我是活动发布者：</Text>
                     <Text style={styles.storeTipsDes}>发布的活动按时举行，则活动费用会在三个工作日内到账</Text>
                 </View>
-            </View>
+            </SafeAreaView>
         ) 
     }   
 }
