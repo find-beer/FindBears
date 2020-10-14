@@ -11,6 +11,14 @@ import Activities from './pages/home/activities';
 import Login from './pages/account/login';
 import PublishActivity from "./pages/publish/publishActivity";
 import PublishTrend from "./pages/publish/publishTrend";
+import Register from './pages/account/register';
+import Hobby from './pages/account/hobby';
+import QrCode from './pages/qrCode'
+import Store from './pages/store'
+import StoreList from './pages/storeList'
+import EditInfo from './pages/editInfo'
+import Config from './pages/config'
+// import OrderList from './pages/orderList'
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -53,6 +61,30 @@ const RootApp = createStackNavigator({
     PublishTrend: {
         screen: PublishTrend,
     },
+    Register:{
+        screen: Register,
+    },
+    Hobby:{
+        screen: Hobby,
+    },
+    QrCode:{
+        screen: QrCode,
+    },
+    Store:{
+        screen: Store,
+    },
+    StoreList:{
+        screen: StoreList,
+    },
+    EditInfo:{
+        screen: EditInfo,
+    },
+    Config:{
+        screen: Config,
+    },
+    // OrderList:{
+    //     screen: OrderList,
+    // }
 }, {
     headerMode: 'none',
     lazy: true,

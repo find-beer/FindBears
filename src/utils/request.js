@@ -13,6 +13,7 @@ instance.interceptors.request.use(
     function (config) {
         // 添加响应头等等设置
         config.headers.session = KV.getSessionId();
+        config.headers.token='2_1602603032869';
         return config;
     },
     function (error) {
