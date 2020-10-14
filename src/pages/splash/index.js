@@ -10,6 +10,8 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {NavigationActions, StackActions} from 'react-navigation';
 
+import AsyncStorage from "@react-native-community/async-storage";
+
 export default class Splash extends React.Component {
 
     componentWillMount() {
@@ -18,11 +20,22 @@ export default class Splash extends React.Component {
 
     componentDidMount() {
         this.timer = setTimeout(() => {
-            const homeAction = StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({routeName: 'Login'})],//主页
+            AsyncStorage.getItem('session', (error, result) => {
+                if (error === null) {
+                    const loginAction = StackActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({routeName: 'Login'})],//登录页
+                    });
+                    this.props.navigation.dispatch(loginAction);
+                }
+                if (result) {
+                    const homeAction = StackActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({routeName: 'TabContainer'})],//主页
+                    });
+                    this.props.navigation.dispatch(homeAction);
+                }
             });
-            this.props.navigation.dispatch(homeAction);
         }, 2000);
     }
 
