@@ -100,9 +100,7 @@ export default class ActivityItem extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {},
     itemContainer: {
-        marginBottom: scaleSize(100),
     },
     goToDetail: {
         backgroundColor: '#564F5F',

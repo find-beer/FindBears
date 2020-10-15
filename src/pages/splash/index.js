@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {NavigationActions, StackActions} from 'react-navigation';
-
 import AsyncStorage from "@react-native-community/async-storage";
+import {screenH, screenW} from "../../constants";
 
 export default class Splash extends React.Component {
 
@@ -41,7 +41,8 @@ export default class Splash extends React.Component {
 
     render() {
         return <View style={styles.container}>
-            <Text>闪屏页</Text>
+            <Image style={{resizeMode: 'contain', width: screenW, height: screenH}}
+                   source={require('../../assets/splash/splash.png')}/>
         </View>;
     }
 }
@@ -49,7 +50,6 @@ export default class Splash extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor:'white'
     },
 });
