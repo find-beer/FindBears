@@ -10,6 +10,8 @@ target 'TBear' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-viewpager', :path => '../node_modules/@react-native-community/viewpager'
+
   target 'TBearTests' do
     inherit! :complete
     # Pods for testing
