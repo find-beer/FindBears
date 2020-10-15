@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         paddingRight: scaleSize(110),
     },
     getSmsCodeBtn: {
-        width: scaleSize(200),
+        width: scaleSize(250),
         color: '#564F5F',
     },
     formItem: {
