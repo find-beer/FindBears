@@ -16,7 +16,7 @@ export default class ActivityItem extends Component {
         const {activity, navigation} = this.props;
         return (
             <View style={styles.itemContainer}>
-                <View>
+                <View style={styles.cards}>
                     <View style={styles.outs}>
                         <Image resizeMode='contain'
                                style={styles.avatar}
@@ -32,61 +32,20 @@ export default class ActivityItem extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.cards}>
-                        <View style={{
-                            flexDirection: 'row',
-                        }}>
-                            <View style={styles.cardTop}>
-                                <View style={styles.con}>
-                                    <View style={styles.upName}/>
-                                    <Text>活动标题</Text>
-                                </View>
-                                <View style={styles.down}>
-                                    <View style={styles.rightCon}/>
-                                    <Text numberOfLines={1} style={styles.values}>{activity ? activity.activityTitle : ''}</Text>
-                                </View>
-                            </View>
-                            <View style={styles.cardTop}>
-                                <View style={styles.con}>
-                                    <View style={styles.upName}/>
-                                    <Text>活动时间</Text>
-                                </View>
-                                <View style={styles.down}>
-                                    <View style={styles.rightCon}/>
-                                    <Text numberOfLines={1} style={styles.values}>{activity ? new Date(activity.activityTime).getFullYear()
-                                        + '.' + (new Date(activity.activityTime).getMonth() + 1)
-                                        + '.' + new Date(activity.activityTime).getDate()
-                                        : ''}</Text>
-                                </View>
-                            </View>
-
-                        </View>
-                        <View style={{
-                            flexDirection: 'row',
-                        }}>
-                            <View style={styles.cardTop}>
-                                <View style={styles.con}>
-                                    <View style={styles.upName}/>
-                                    <Text>活动位置</Text>
-                                </View>
-                                <View style={styles.down}>
-                                    <View style={styles.rightCon}/>
-                                    <Text numberOfLines={1} style={styles.values}>{activity ? activity.cityName : ''}</Text>
-                                </View>
-                            </View>
-                            <View style={styles.cardTop}>
-                                <View style={styles.con}>
-                                    <View style={styles.upName}/>
-                                    <Text>活动人数</Text>
-                                </View>
-                                <View style={styles.down}>
-                                    <View style={styles.rightCon}/>
-                                    <Text numberOfLines={1} style={styles.values}>{activity ? activity.memberCount : ''}</Text>
-                                </View>
-                            </View>
-
-                        </View>
+                    <Text numberOfLines={1} style={styles.name}>{activity ? activity.activityTitle : '标题暂无'}</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={styles.timeLeft}>活动时间:</Text>
+                        <Text numberOfLines={1}
+                              style={styles.time}>{activity ? new Date(activity.activityTime).getFullYear()
+                            + '.' + (new Date(activity.activityTime).getMonth() + 1)
+                            + '.' + new Date(activity.activityTime).getDate()
+                            : '时间待定'}</Text>
                     </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={styles.cityLeft}>活动地点:</Text>
+                        <Text numberOfLines={1} style={styles.city}>{activity ? activity.cityName : '地点暂无'}</Text>
+                    </View>
+
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('ActivityDetail')}>
                     <View style={styles.goToDetail}>
@@ -100,8 +59,7 @@ export default class ActivityItem extends Component {
 }
 
 const styles = StyleSheet.create({
-    itemContainer: {
-    },
+    itemContainer: {},
     goToDetail: {
         backgroundColor: '#564F5F',
         borderRadius: scaleSize(46),
@@ -110,7 +68,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        marginTop:scaleSize(24)
+        marginTop: scaleSize(24)
     },
     text: {
         fontSize: scaleSize(36),
@@ -153,7 +111,7 @@ const styles = StyleSheet.create({
         marginLeft: 27,
         borderRadius: 10,
         backgroundColor: 'white',
-        height: 120,
+        height: 170,
         marginTop: 13,
         marginBottom: 13,
         justifyContent: 'center',
@@ -186,7 +144,33 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         marginTop: 12,
     },
-    values:{
-        width:60
-    }
+    values: {
+        width: 60
+    },
+    name: {
+        marginLeft: 27,
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginTop: 8
+    },
+    time: {
+        marginLeft: 8,
+        fontSize: 14,
+        marginTop: 8
+    },
+    timeLeft: {
+        marginLeft: 27,
+        fontSize: 14,
+        marginTop: 8
+    },
+    cityLeft: {
+        marginLeft: 27,
+        fontSize: 14,
+        marginTop: 8
+    },
+    city: {
+        marginLeft: 8,
+        fontSize: 14,
+        marginTop: 8
+    },
 });

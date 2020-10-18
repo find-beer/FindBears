@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
       left: scaleSize(54)
   },
   headerGoBackIcon: {
-      width: scaleSize(48.1),
-      height: scaleSize(48.1)
+      width: scaleSize(80),
+      height: scaleSize(80)
   },
   headerTitle: {
       justifyContent: 'center',

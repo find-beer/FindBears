@@ -62,6 +62,7 @@
 		898D626F19EE0B3933427573 /* Pods-TBear-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-TBear-tvOSTests/Pods-TBear-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8F3189CFB2D156DCE1139E63 /* Pods-TBear-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TBear-tvOSTests/Pods-TBear-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		9169DADE2534469700992314 /* libPods-TBear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TBear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91933BB62539787000C6786D /* libreact-native-amap-geolocation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-amap-geolocation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB223CA4D4D9B7170A0F6F6 /* libPods-TBear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA9D3F86D8CF0A2CC210A766 /* Pods-TBear-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOS.release.xcconfig"; path = "Target Support Files/Pods-TBear-tvOS/Pods-TBear-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -140,6 +141,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				91933BB62539787000C6786D /* libreact-native-amap-geolocation.a */,
 				9169DADE2534469700992314 /* libPods-TBear.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,

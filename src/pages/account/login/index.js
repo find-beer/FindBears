@@ -7,11 +7,10 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {GetRequest} from '../../../utils/request';
 import {Button, Provider, Toast} from '@ant-design/react-native';
 import {scaleFont, scaleSize} from '../../../utils/scaleUtil';
-import KV from "../../../utils/KV";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export default class Login extends React.Component {
@@ -107,11 +106,12 @@ export default class Login extends React.Component {
                                 style={styles.formItem}
                                 placeholder="输入验证码"
                             />
-                            <Text
-                                style={styles.getSmsCodeBtn}
-                                onPress={() => this.getSmsCode()}>
-                                {this.state.btnText}
-                            </Text>
+                            <TouchableOpacity onPress={() => this.getSmsCode()}>
+                                <Text
+                                    style={styles.getSmsCodeBtn}>
+                                    {this.state.btnText}
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                         <Button
                             style={styles.loginBtnBox}

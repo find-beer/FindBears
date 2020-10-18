@@ -23,8 +23,8 @@ export default class Activities extends React.Component {
     renderItem = (rowData: any) => {
         const {item} = rowData;
         const activity = item.activityDetailVO;
-        console.log('item数据', item);
-        console.log('活动数据', activity);
+        // console.log('item数据', item);
+        // console.log('活动数据', activity);
         return (
             <ActivityItem {...this.props} activity={activity}/>
         );

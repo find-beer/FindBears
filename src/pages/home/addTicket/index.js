@@ -8,14 +8,14 @@
 
 import React, {Fragment} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import Header from '../../components/header/index'
+import Header from '../../../components/header/index'
 
-export default class PublishTrend extends React.Component {
+export default class AddTicket extends React.Component {
 
     render() {
         return <Fragment style={styles.container}>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} title={'发布动态'}/>
+            <Header {...this.props} title={'增加票种'}/>
         </Fragment>;
     }
 }

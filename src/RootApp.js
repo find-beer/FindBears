@@ -19,6 +19,8 @@ import StoreList from './pages/mine/storeList'
 import EditInfo from './pages/mine/editInfo'
 import Config from './pages/mine/config'
 import OrderList from './pages/mine/orderList'
+import ActivityDetail from "./pages/home/activity_detail";
+import AddTicket from "./pages/home/addTicket";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -61,30 +63,37 @@ const RootApp = createStackNavigator({
     PublishTrend: {
         screen: PublishTrend,
     },
-    Register:{
+    Register: {
         screen: Register,
     },
-    Hobby:{
+    Hobby: {
         screen: Hobby,
     },
-    QrCode:{
+    QrCode: {
         screen: QrCode,
     },
-    Store:{
+    Store: {
         screen: Store,
     },
-    StoreList:{
+    StoreList: {
         screen: StoreList,
     },
-    EditInfo:{
+    EditInfo: {
         screen: EditInfo,
     },
-    Config:{
+    Config: {
         screen: Config,
     },
-    OrderList:{
+    OrderList: {
         screen: OrderList,
+    },
+    ActivityDetail: {
+        screen: ActivityDetail
+    },
+    AddTicket: {
+        screen: AddTicket
     }
+
 }, {
     headerMode: 'none',
     lazy: true,

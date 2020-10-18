@@ -1,15 +1,10 @@
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import BaseCommonDialog from './BaseCommonDialog';
-import {PublishIcon, screenH, screenW} from '../../constants';
+import {PublishIcon, screenW} from '../../constants';
 import EventBus from "../../utils/EventBus";
 
 class PublishDialog extends BaseCommonDialog {
-
-    // static defaultProps = {
-    //     onItemClick: PropTypes.func,
-    //     data: PropTypes.array,
-    // };
 
     constructor(props) {
         super(props);
@@ -31,19 +26,29 @@ class PublishDialog extends BaseCommonDialog {
     }
 
     renderContent() {
-        return <TouchableOpacity onPress={()=>{this.dismiss()}} style={styles.container}>
+        return <TouchableOpacity onPress={() => {
+            this.dismiss()
+        }} style={styles.container}>
             <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={() => {
-                    EventBus.post('GO_ACTIVITY');
-                    this.dismiss(()=>{});
-                }}>
+                <TouchableOpacity
+                    style={styles.btnBg}
+                    onPress={() => {
+                        EventBus.post('GO_ACTIVITY');
+                        this.dismiss(() => {
+                        });
+                    }}>
                     <Image style={styles.icon} source={PublishIcon.activity}/>
+                    <Text>发布活动</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                    EventBus.post('GO_TREND');
-                    this.dismiss(()=>{});
-                }}>
+                <TouchableOpacity
+                    style={styles.btnBg}
+                    onPress={() => {
+                        EventBus.post('GO_TREND');
+                        this.dismiss(() => {
+                        });
+                    }}>
                     <Image style={styles.icon2} source={PublishIcon.trend}/>
+                    <Text>发布动态</Text>
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>
@@ -54,12 +59,16 @@ class PublishDialog extends BaseCommonDialog {
 const styles = StyleSheet.create({
     container: {
         width: screenW,
-        height: screenH,
+        height: 220,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: 'white',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
     },
-    icon: {width: 50, height: 50, marginRight: 10},
-    icon2: {width: 50, height: 50, marginLeft: 10},
+    icon: {width: 50, height: 50},
+    icon2: {width: 50, height: 50},
+    btnBg: {alignItems: 'center', justifyContent: 'center', width: 100},
 });
 
 export default PublishDialog;
