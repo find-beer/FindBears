@@ -14,6 +14,9 @@ import SettingItem from "../../components/setting_item";
 import EventBus from "../../utils/EventBus";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
+import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
+import ImagePicker from "react-native-image-picker";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 export default class PublishActivity extends React.Component {
 
@@ -87,26 +90,59 @@ export default class PublishActivity extends React.Component {
     };
 
     handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
         this.setState({activityTime: date})
         this.hideDatePicker();
     };
 
     handleEndConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
         this.setState({endTime: date})
         this.hideEndDatePicker();
     };
 
+    onEditorInitialized = () => {
+
+    }
+
+    onPressAddImage = () => {
+        const options = {
+            quality: 1.0,
+            storageOptions: {
+                skipBackup: true,
+            },
+        };
+
+        ImagePicker.showImagePicker(options, response => {
+            console.log('图片 = ', response);
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                // let source = { uri: response.uri };
+
+                // You can also display the image using data:
+                let source = {uri: 'data:image/jpeg;base64,' + response.data};
+                // this.richText.insertImage('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png');
+                this.richText.insertImage(source.uri);
+                this.richText.blurContentEditor();
+            }
+        });
+    }
+
+    handleChange(html) {
+        console.log('editor data:', html);
+    }
 
     render() {
 
         const {type, isStartVisible, activityTime, isEndVisible, endTime} = this.state;
 
-        return <Fragment style={styles.container}>
+        return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'发布活动'}/>
-            <View style={{flex: 1}}>
+            <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={{flex: 1}}>
                 <SettingItem title={'活动标题'} subType={'input'} inputHint={'请填写标题'}
                              reflectText={(title) => {
                                  this.setState({
@@ -142,7 +178,30 @@ export default class PublishActivity extends React.Component {
                         userStatus: status
                     })
                 }} subType={'switch'} sub={type} onRightPress={this.selectType}/>
-            </View>
+
+                <RichEditor
+                    placeholder={'请输入富文本内容'}
+                    onChange={this.handleChange}
+                    ref={(r) => this.richText = r}
+                    initialContentHTML={''}
+                    editorInitializedCallback={() => this.onEditorInitialized()}
+                />
+
+                <RichToolbar
+                    onPressAddImage={this.onPressAddImage}
+                    style={{backgroundColor: '#cdcdcd', alignItems: "flex-start"}}
+                    getEditor={() => this.richText}
+                    actions={[
+                        actions.setBold,
+                        actions.setItalic,
+                        actions.insertBulletsList,
+                        actions.insertOrderedList,
+                        actions.insertImage,
+                        // actions.insertLink,
+                    ]}
+                    iconMap={{}}
+                />
+            </KeyboardAwareScrollView>
 
             <DateTimePickerModal
                 headerTextIOS={'请选择'}

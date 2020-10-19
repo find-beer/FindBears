@@ -66,7 +66,7 @@ export default class Home extends React.Component {
         EventBus.on('GO_TREND', () => {
             this.props.navigation.navigate('PublishTrend')
         })
-        this.loadLocation().then(r => {});
+        // this.loadLocation().then(r => {});
         // this.startToPay();
     }
 
