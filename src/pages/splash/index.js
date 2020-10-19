@@ -21,20 +21,25 @@ export default class Splash extends React.Component {
     componentDidMount() {
         this.timer = setTimeout(() => {
             AsyncStorage.getItem('session', (error, result) => {
-                if (error === null) {
-                    const loginAction = StackActions.reset({
-                        index: 0,
-                        actions: [NavigationActions.navigate({routeName: 'Login'})],//登录页
-                    });
-                    this.props.navigation.dispatch(loginAction);
-                }
-                if (result) {
-                    const homeAction = StackActions.reset({
-                        index: 0,
-                        actions: [NavigationActions.navigate({routeName: 'TabContainer'})],//主页
-                    });
-                    this.props.navigation.dispatch(homeAction);
-                }
+                // if (error === null) {
+                //     const loginAction = StackActions.reset({
+                //         index: 0,
+                //         actions: [NavigationActions.navigate({routeName: 'Login'})],//登录页
+                //     });
+                //     this.props.navigation.dispatch(loginAction);
+                // }
+                // if (result) {
+                //     const homeAction = StackActions.reset({
+                //         index: 0,
+                //         actions: [NavigationActions.navigate({routeName: 'TabContainer'})],//主页
+                //     });
+                //     this.props.navigation.dispatch(homeAction);
+                // }
+                const homeAction = StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({routeName: 'TabContainer'})],//主页
+                });
+                this.props.navigation.dispatch(homeAction);
             });
         }, 2000);
     }
