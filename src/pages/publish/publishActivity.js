@@ -12,6 +12,8 @@ import Header from "../../components/header";
 import {screenW} from "../../constants";
 import SettingItem from "../../components/setting_item";
 import EventBus from "../../utils/EventBus";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 
 export default class PublishActivity extends React.Component {
 
@@ -22,7 +24,11 @@ export default class PublishActivity extends React.Component {
             num: '',
             area: '',
             type: '周边游',
-            userStatus: false
+            userStatus: false,
+            isStartVisible: false,
+            isEndVisible: false,
+            activityTime: '',
+            endTime: '',
         };
     }
 
@@ -52,6 +58,15 @@ export default class PublishActivity extends React.Component {
     }
 
     showActivityTime = () => {
+        this.setState({isStartVisible: true})
+    }
+
+    showEndTime = () => {
+        const {activityTime} = this.state;
+        if (activityTime === '') {
+            return
+        }
+        this.setState({isEndVisible: true})
     }
 
     addTicket = () => {
@@ -63,9 +78,30 @@ export default class PublishActivity extends React.Component {
         global.selectItemsDialog.show()
     }
 
+    hideDatePicker = () => {
+        this.setState({isStartVisible: false})
+    };
+
+    hideEndDatePicker = () => {
+        this.setState({isEndVisible: false})
+    };
+
+    handleConfirm = (date) => {
+        console.warn("A date has been picked: ", date);
+        this.setState({activityTime: date})
+        this.hideDatePicker();
+    };
+
+    handleEndConfirm = (date) => {
+        console.warn("A date has been picked: ", date);
+        this.setState({endTime: date})
+        this.hideEndDatePicker();
+    };
+
+
     render() {
 
-        const {type} = this.state;
+        const {type, isStartVisible, activityTime, isEndVisible, endTime} = this.state;
 
         return <Fragment style={styles.container}>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
@@ -78,7 +114,9 @@ export default class PublishActivity extends React.Component {
                                  })
                              }}
                 />
-                <SettingItem title={'活动时间'} sub={'不选时间默认为长期活动'} onRightPress={this.showActivityTime}/>
+                <SettingItem title={'活动时间'}
+                             sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '不选时间默认为长期活动'}
+                             onRightPress={this.showActivityTime}/>
                 <SettingItem title={'活动人数'} subType={'number'} inputHint={'请填写人数'}
                              reflectNumText={(num) => {
                                  this.setState({
@@ -86,7 +124,10 @@ export default class PublishActivity extends React.Component {
                                  })
                              }}
                 />
-                <SettingItem title={'报名截止时间'} sub={'(默认活动开始前12小时)'}/>
+                <SettingItem title={'报名截止时间'}
+                             sub={endTime !== '' ? moment(endTime).format("YYYY-MM-DD HH:mm") : '(默认活动开始前12小时)'}
+                             onRightPress={this.showEndTime}
+                />
                 <SettingItem title={'活动位置'} subType={'input'}
                              reflectText={(area) => {
                                  this.setState({
@@ -102,6 +143,28 @@ export default class PublishActivity extends React.Component {
                     })
                 }} subType={'switch'} sub={type} onRightPress={this.selectType}/>
             </View>
+
+            <DateTimePickerModal
+                headerTextIOS={'请选择'}
+                confirmTextIOS={'确定'}
+                cancelTextIOS={'取消'}
+                isVisible={isStartVisible}
+                mode={'datetime'}
+                locale={'zh'}
+                onConfirm={this.handleConfirm}
+                onCancel={this.hideDatePicker}
+            />
+
+            <DateTimePickerModal
+                headerTextIOS={'请选择'}
+                confirmTextIOS={'确定'}
+                cancelTextIOS={'取消'}
+                isVisible={isEndVisible}
+                mode={'datetime'}
+                locale={'zh'}
+                onConfirm={this.handleEndConfirm}
+                onCancel={this.hideEndDatePicker}
+            />
 
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.saveDraft}>
