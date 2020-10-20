@@ -13,7 +13,7 @@ export default class ActivityItem extends Component {
     }
 
     render() {
-        const {activity, navigation} = this.props;
+        const {activity, navigation,onBtnClick} = this.props;
         return (
             <View style={styles.itemContainer}>
                 <View style={styles.cards}>
@@ -47,7 +47,8 @@ export default class ActivityItem extends Component {
                     </View>
 
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('ActivityDetail')}>
+                {/*<TouchableOpacity onPress={() => navigation.navigate('ActivityDetail')}>*/}
+                <TouchableOpacity onPress={onBtnClick}>
                     <View style={styles.goToDetail}>
                         <Text style={styles.text}>查看活动详情 >></Text>
                     </View>

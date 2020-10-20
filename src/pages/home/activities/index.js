@@ -22,11 +22,14 @@ export default class Activities extends React.Component {
 
     renderItem = (rowData: any) => {
         const {item} = rowData;
+        const {navigation} = this.props;
         const activity = item.activityDetailVO;
         // console.log('item数据', item);
         // console.log('活动数据', activity);
         return (
-            <ActivityItem {...this.props} activity={activity}/>
+            <ActivityItem onBtnClick={() => {
+                navigation.navigate('ActivityDetail', {id: activity.id})
+            }} {...this.props} activity={activity}/>
         );
     };
 

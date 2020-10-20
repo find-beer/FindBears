@@ -21,6 +21,8 @@ import Config from './pages/mine/config'
 import OrderList from './pages/mine/orderList'
 import ActivityDetail from "./pages/home/activity_detail";
 import AddTicket from "./pages/home/addTicket";
+import TicketSelect from "./pages/home/ticket_select";
+import Pay from "./pages/home/pay";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -92,6 +94,12 @@ const RootApp = createStackNavigator({
     },
     AddTicket: {
         screen: AddTicket
+    },
+    TicketSelect: {
+        screen: TicketSelect
+    },
+    Pay: {
+        screen: Pay
     }
 
 }, {
