@@ -189,7 +189,7 @@ export default class PublishActivity extends React.Component {
 
                 <RichToolbar
                     onPressAddImage={this.onPressAddImage}
-                    style={{backgroundColor: '#cdcdcd', alignItems: "flex-start"}}
+                    style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
                     getEditor={() => this.richText}
                     actions={[
                         actions.setBold,
@@ -228,12 +228,12 @@ export default class PublishActivity extends React.Component {
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.saveDraft}>
                     <View style={styles.draft}>
-                        <Text>存为草稿</Text>
+                        <Text style={styles.txt}>存为草稿</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.immePublish}>
                     <View style={styles.publish}>
-                        <Text style={{color: 'white'}}>立即发布</Text>
+                        <Text style={styles.txt}>立即发布</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -256,8 +256,9 @@ const styles = StyleSheet.create({
     publish: {
         height: 60,
         width: screenW / 2,
-        backgroundColor: 'blue',
+        backgroundColor: '#564F5F',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    txt: {color: 'white', fontSize: 16},
 });

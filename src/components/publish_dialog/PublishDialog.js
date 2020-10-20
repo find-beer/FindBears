@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10
     },
-    icon: {width: 50, height: 50},
-    icon2: {width: 50, height: 50},
+    icon: {width: 60, height: 60},
+    icon2: {width: 60, height: 60},
     btnBg: {alignItems: 'center', justifyContent: 'center', width: 100},
 });
 
