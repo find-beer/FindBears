@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor:'#fff'
     },
     tabs: {
         height: 50,
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 0,
         borderRightWidth: 0,
         borderColor: '#f4f4f4',
+        color:'#564F5F'
     },
 });
 
@@ -30,8 +32,8 @@ const propTypes = {
 };
 
 const defaultProps = {
-    activeColor: '#8A8DF9',
-    inactiveColor: '#222222',
+    activeColor: '#564F5F',
+    inactiveColor: '#999999',
     tabUnderlineScaleX: 2,
     tabUnderlineWidth: 30,
     underlineStyle: {},

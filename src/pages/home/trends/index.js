@@ -7,12 +7,52 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {FlatList,StyleSheet, View,Text} from 'react-native';
+import {GetRequest} from "../../../utils/request";
+import DynamicItem from "../../../components/dynamic_item/dynamicItem";
 
 export default class Trends extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            relationDetailList: [],
+        };
+    }
+
+    renderItem = (rowData) => {
+        const {item} = rowData;
+        const dynamic = item.feedDetailVO;
+        return (
+            <DynamicItem {...this.props} dynamic={dynamic}/>
+        );
+    };
+
+    getData = async () => {
+        const response = await GetRequest('user/relationfeed', {
+            limit: 500,
+            feedOffsetId: 0,
+            activityOffsetId:0
+        });
+        console.log('数据', response);
+        this.setState({
+            relationDetailList: response.data.relationDetailList,
+        }, () => {
+            console.log('数据啊', this.state.relationDetailList);
+        });
+    }
+
+    componentDidMount() {
+        
+        this.getData()
+    }
     render() {
+        const {relationDetailList} = this.state;
         return <View style={styles.container}>
-            <Text>动态</Text>
+            <FlatList
+                data={relationDetailList}
+                keyExtractor={(item, index) => item + index}
+                renderItem={this.renderItem}
+            />
         </View>;
     }
 }

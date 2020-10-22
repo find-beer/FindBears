@@ -33,8 +33,9 @@ export default class ActivityItem extends Component {
                         </View>
                     </View>
                     <Text numberOfLines={1} style={styles.name}>{activity ? activity.activityTitle : '标题暂无'}</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.timeLeft}>活动时间:</Text>
+                    <View style={{flexDirection: 'row',marginBottom:5}}>
+                        <View style={styles.tag} />
+                        <Text style={styles.timeLeft}>活动时间：</Text>
                         <Text numberOfLines={1}
                               style={styles.time}>{activity ? new Date(activity.activityTime).getFullYear()
                             + '.' + (new Date(activity.activityTime).getMonth() + 1)
@@ -42,16 +43,16 @@ export default class ActivityItem extends Component {
                             : '时间待定'}</Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.cityLeft}>活动地点:</Text>
+                        <View style={styles.tag} />
+                        <Text style={styles.cityLeft}>活动地点：</Text>
                         <Text numberOfLines={1} style={styles.city}>{activity ? activity.cityName : '地点暂无'}</Text>
                     </View>
-
+                    <TouchableOpacity onPress={() => navigation.navigate('ActivityDetail')}>
+                        <View style={styles.goToDetail}>
+                            <Text style={styles.text}>查看活动详情 >></Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('ActivityDetail')}>
-                    <View style={styles.goToDetail}>
-                        <Text style={styles.text}>查看活动详情 >></Text>
-                    </View>
-                </TouchableOpacity>
                 <View style={styles.sep}/>
             </View>
         );
@@ -59,7 +60,9 @@ export default class ActivityItem extends Component {
 }
 
 const styles = StyleSheet.create({
-    itemContainer: {},
+    itemContainer:{
+        backgroundColor: 'white',
+    },
     goToDetail: {
         backgroundColor: '#564F5F',
         borderRadius: scaleSize(46),
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        marginTop: scaleSize(24)
+        marginTop: scaleSize(54)
     },
     text: {
         fontSize: scaleSize(36),
@@ -103,18 +106,13 @@ const styles = StyleSheet.create({
         marginRight: 3,
     },
     cards: {
-        elevation: 1,  //  设置阴影角度，通过这个设置有无阴影（这个是最重要的，决定有没有阴影）
-        shadowColor: '#cdcdcd',  //  阴影颜色
-        shadowOffset: {width: 0, height: 0},  // 阴影偏移
-        shadowOpacity: 1,  // 阴影不透明度
-        width: screenW - 54,
-        marginLeft: 27,
-        borderRadius: 10,
-        backgroundColor: 'white',
-        height: 170,
+        width: screenW - 27,
+        marginLeft: 14,
         marginTop: 13,
         marginBottom: 13,
         justifyContent: 'center',
+        paddingBottom:30,
+        paddingTop:30
     },
     topTxt: {
         fontSize: 12,
@@ -150,27 +148,43 @@ const styles = StyleSheet.create({
     name: {
         marginLeft: 27,
         fontWeight: 'bold',
-        fontSize: 16,
-        marginTop: 8
+        fontSize: 18,
+        marginTop: 8,
+        color:'#564F5F',
+        marginBottom:5,
+        marginTop:10,
     },
     time: {
-        marginLeft: 8,
-        fontSize: 14,
-        marginTop: 8
+        marginLeft: 5,
+        fontSize: 16,
+        marginTop: 8,
+        color:'#564F5F'
     },
     timeLeft: {
-        marginLeft: 27,
-        fontSize: 14,
-        marginTop: 8
+        marginLeft: 5,
+        fontSize: 16,
+        marginTop: 8,
+        color:'#564F5F'
     },
     cityLeft: {
-        marginLeft: 27,
-        fontSize: 14,
-        marginTop: 8
+        marginLeft: 5,
+        fontSize: 16,
+        marginTop: 8,
+        color:'#564F5F'
     },
     city: {
-        marginLeft: 8,
-        fontSize: 14,
-        marginTop: 8
+        marginLeft: 5,
+        fontSize: 16,
+        marginTop: 8,
+        color:'#564F5F'
     },
+    tag:{
+        marginTop: 10,
+        marginLeft:20,
+        marginRight:2,
+        width: scaleSize(12),
+        height: scaleSize(32),
+        backgroundColor: '#8E79FE',
+        borderRadius: scaleSize(7),
+    }
 });
