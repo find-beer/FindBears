@@ -26,12 +26,16 @@ export default class Activities extends React.Component {
         const feed = rowData.item.feedDetailVO;
         if(activity){
             return (
-                <ActivityItem {...this.props} activity={activity}/>
+                <ActivityItem onBtnClick={() => {
+                    navigation.navigate('ActivityDetail', {id: activity.id})
+                }} {...this.props} activity={activity}/>
             );
         }
         if(feed){
             return (
-                <DynamicItem {...this.props} feed={feed}/>
+                <DynamicItem onBtnClick={() => {
+                    navigation.navigate('DynamicDetail', {id: activity.id})
+                }} {...this.props} feed={feed}/>
             );
         }
     };

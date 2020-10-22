@@ -4,6 +4,10 @@ import KV from "./KV";
 
 const instance = axios.create({
     baseURL: apiProd.host,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
 });
 
 instance.defaults.timeout = 30000;
@@ -13,7 +17,8 @@ instance.interceptors.request.use(
     function (config) {
         // 添加响应头等等设置
         config.headers.session = KV.getSessionId();
-        config.headers.token='2_1602603032869';
+        config.headers.token = '2_1602603032869';
+
         return config;
     },
     function (error) {

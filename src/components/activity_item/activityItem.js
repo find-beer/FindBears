@@ -13,7 +13,7 @@ export default class ActivityItem extends Component {
     }
 
     render() {
-        const {activity, navigation} = this.props;
+        const {activity, navigation,onBtnClick} = this.props;
         return (
             <View style={styles.itemContainer}>
                 <View style={styles.cards}>

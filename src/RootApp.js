@@ -20,7 +20,10 @@ import EditInfo from './pages/mine/editInfo'
 import Config from './pages/mine/config'
 import OrderList from './pages/mine/orderList'
 import ActivityDetail from "./pages/home/activity_detail";
-import AddTicket from "./pages/home/addTicket";
+import AddTicket from "./pages/home/add_ticket";
+import TicketSelect from "./pages/home/ticket_select";
+import Pay from "./pages/home/pay";
+import ticketDetail from "./pages/home/ticket_detail";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -92,6 +95,15 @@ const RootApp = createStackNavigator({
     },
     AddTicket: {
         screen: AddTicket
+    },
+    TicketSelect: {
+        screen: TicketSelect
+    },
+    Pay: {
+        screen: Pay
+    },
+    TicketDetail: {
+        screen: ticketDetail
     }
 
 }, {
