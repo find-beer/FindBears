@@ -1,14 +1,14 @@
 import React, {Component, Children} from 'react';
 import {StyleSheet,View, Text, Image,TouchableOpacity} from 'react-native';
 const imageUrl = {
-    like: require('../../assets/home/unlike.png'),
-    comment: require('../../assets/mine/comment.png'),
-    share: require('../../assets/mine/share-icon.png'),
+    like: require('../../../assets/home/unlike.png'),
+    comment: require('../../../assets/mine/comment.png'),
+    share: require('../../../assets/mine/share-icon.png'),
 };
 import {get} from 'lodash'
-import {scaleSize,scaleFont} from '../../utils/scaleUtil';
+import {scaleSize,scaleFont} from '../../../utils/scaleUtil';
 
-const defaultImg = require('../../assets/mine/avatar.jpeg');
+const defaultImg = require('../../../assets/mine/avatar.jpeg');
 export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
@@ -40,10 +40,6 @@ export default class DynamicItem extends Component {
 													}
 											</Text>
 											<View style={styles.infoBox}>
-													<Text style={styles.infoPosition}>
-															{feed.cityName || '北京'}
-													</Text>
-													<View style={styles.line} />
 													<Text style={styles.infoTime}>
 															{this.getDate(feed.publishTime)}
 													</Text>

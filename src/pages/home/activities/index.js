@@ -62,6 +62,7 @@ export default class Activities extends React.Component {
             <FlatList
                 data={relationDetailList}
                 renderItem={this.renderItem}
+                keyExtractor={(item, index) => item + index}
             />
         </View>;
     }

@@ -63,7 +63,7 @@ export default class Home extends React.Component {
                 <View style={styles.container} tabLabel="关系网">
                     <Activities {...this.props}/>
                 </View>
-                <View style={styles.container} tabLabel="XX活动">
+                <View style={styles.container} tabLabel="北京">
                     <Trends {...this.props}/>
                 </View>
             </ScrollableTabView>

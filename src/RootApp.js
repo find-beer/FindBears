@@ -24,6 +24,7 @@ import AddTicket from "./pages/home/add_ticket";
 import TicketSelect from "./pages/home/ticket_select";
 import Pay from "./pages/home/pay";
 import ticketDetail from "./pages/home/ticket_detail";
+import activityList from './pages/shoulder/activity_list'
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -104,7 +105,11 @@ const RootApp = createStackNavigator({
     },
     TicketDetail: {
         screen: ticketDetail
+    },
+    ActivityList: {
+        screen: activityList
     }
+    
 
 }, {
     headerMode: 'none',
