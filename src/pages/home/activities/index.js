@@ -22,16 +22,17 @@ export default class Activities extends React.Component {
     }
 
     renderItem = (rowData) => {
+        const {navigation} = this.props;
         const activity = rowData.item.activityDetailVO;
         const feed = rowData.item.feedDetailVO;
-        if(activity){
+        if (activity) {
             return (
                 <ActivityItem onBtnClick={() => {
                     navigation.navigate('ActivityDetail', {id: activity.id})
                 }} {...this.props} activity={activity}/>
             );
         }
-        if(feed){
+        if (feed) {
             return (
                 <DynamicItem onBtnClick={() => {
                     navigation.navigate('DynamicDetail', {id: activity.id})

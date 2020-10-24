@@ -12,6 +12,8 @@ import Header from '../../components/header/index'
 import {screenW} from "../../constants";
 import ImagePicker from "react-native-image-picker";
 import {scaleFont, scaleSize} from "../../utils/scaleUtil";
+import {PostRequest} from "../../utils/request";
+import EventBus from "../../utils/EventBus";
 
 export default class PublishTrend extends React.Component {
 
@@ -22,7 +24,7 @@ export default class PublishTrend extends React.Component {
             clockinTag: '',
             images: [],
             isPunchCard: false,
-            isPermit: false,
+            isPermit: true,
         };
     }
 
@@ -52,25 +54,34 @@ export default class PublishTrend extends React.Component {
         };
         ImagePicker.showImagePicker(options, response => {
             // console.log('Response = ', response);
+            console.log('图片文件', response.data)
+            this.uploadImage({
+                uri: response.uri,
+                type: 'multipart/form-data',
+                name: 'headPic.jpg',
+            });
 
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                console.log('User tapped custom button: ');
-            } else {
-                const source = {uri: response.uri};
-                images.push(source);
-                console.log(source);
-                // You can also display the image using data:
-                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-                this.setState({
-                    images,
-                });
-            }
         });
     };
+
+    uploadImage(file) {
+        let formData = new FormData();
+        formData.append('imgFile', file);
+        console.log('上传文件', file)
+        fetch('http://121.89.223.103:8080/common/uploadImage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data;charset=utf-8',
+            },
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(res => {
+                console.log('上传成功', res)
+            });
+    }
 
     onValueChange = () => {
         this.setState({
@@ -84,15 +95,32 @@ export default class PublishTrend extends React.Component {
         });
     };
 
-    immePublish = () => {
-
+    immePublish = async () => {
+        const {content, clockinTag, images, isPunchCard, isPermit} = this.state;
+        const {navigation} = this.props;
+        console.log(content, clockinTag, images, isPunchCard ? 1 : 0, isPermit ? 1 : 0)
+        const response = await PostRequest('feed/publish', {
+            "address": "上帝之城",
+            "clockIn": isPermit ? 1 : 0,
+            "clockInTag": clockinTag,
+            "content": content,
+            "displayCity": isPunchCard ? 1 : 0,
+            "location": "123.236944,41.267244",
+            "picUrl": "",
+            "videoUrl": ""
+        });
+        console.log('发布动态结果:', response)
+        if (response.code === 0) {
+            navigation.goBack();
+            EventBus.post('REFRESH_TREND', {});
+        }
     }
 
     render() {
 
         const {images, isPunchCard, clockinTag, isPermit} = this.state;
 
-        return <Fragment style={styles.container}>
+        return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'发布动态'}/>
             <View style={{flex: 1}}>
