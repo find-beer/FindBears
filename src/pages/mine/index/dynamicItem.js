@@ -13,8 +13,8 @@ export default class DynamicItem extends Component {
     constructor(props) {
         super(props);
     }
-    handleGoDetail(){
-			this.props.navigation.navigate('DynamicDetail')
+    handleGoDetail(id){
+			this.props.navigation.navigate('DynamicDetail',{id})
 		}
     render() {
         const item = this.props.item;
@@ -44,7 +44,7 @@ export default class DynamicItem extends Component {
                     </View>
                 </View>
                 <View style={styles.dynamicTextBox}>
-										<TouchableOpacity onPress={() => this.handleGoDetail()}>
+										<TouchableOpacity onPress={() => this.handleGoDetail(item.id)}>
 											<Text style={styles.dynamicText}>
 													{item.content}
 											</Text>

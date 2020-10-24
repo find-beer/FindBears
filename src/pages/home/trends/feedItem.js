@@ -13,8 +13,9 @@ export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
     }
-    handleGoDetail(){
-			this.props.navigation.navigate('DynamicDetail')
+    handleGoDetail(id){
+			console.log(id)
+			this.props.navigation.navigate('DynamicDetail',{id})
 		}
 		getDate(date){
 			if(new Date(date).toDateString() === new Date().toDateString()){
@@ -47,7 +48,7 @@ export default class DynamicItem extends Component {
 									</View>
 							</View>
 							<View style={styles.dynamicTextBox}>
-									<TouchableOpacity onPress={() => this.handleGoDetail()}>
+									<TouchableOpacity onPress={() => this.handleGoDetail(feed.id)}>
 										<Text style={styles.dynamicText}>
 												{feed.content}
 										</Text>

@@ -20,22 +20,23 @@ export default class Activities extends React.Component {
             relationDetailList: [],
         };
     }
-
+    goDetail(route,item){
+        console.log(item)
+        // this.props.navigation.navigate(route, {
+        //     type: item.id
+        // })
+    }
     renderItem = (rowData) => {
         const activity = rowData.item.activityDetailVO;
         const feed = rowData.item.feedDetailVO;
         if(activity){
             return (
-                <ActivityItem onBtnClick={() => {
-                    navigation.navigate('ActivityDetail', {id: activity.id})
-                }} {...this.props} activity={activity}/>
+                <ActivityItem onBtnClick={() => goDetail(ActivityItem,activity)} {...this.props} activity={activity}/>
             );
         }
         if(feed){
             return (
-                <DynamicItem onBtnClick={() => {
-                    navigation.navigate('DynamicDetail', {id: activity.id})
-                }} {...this.props} feed={feed}/>
+                <DynamicItem onBtnClick={() => goDetail(DynamicItem,feed)} {...this.props} feed={feed}/>
             );
         }
     };
