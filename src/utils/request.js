@@ -29,15 +29,6 @@ instance.interceptors.request.use(
 //返回拦截器
 instance.interceptors.response.use(
     function (response) {
-        // if (response.data.data.result === 404) {
-        //  let { retMsg } = response.data.data
-        //  // 服务端出现了一些问题的情况下
-        //  Alert.alert('温馨提示', retMsg)
-        //  // 等等按钮事件
-        //  return Promise.reject(retMsg)
-        // } else {
-        //  // 服务端一切正常 返回data数据
-        // }
         return response.data;
     },
     function (error) {
@@ -55,16 +46,4 @@ export function GetRequest(url, params, payload) {
 
 export function PostRequest(url, par) {
     return instance.post(url, par);
-}
-
-export function DelRequest(url, payload) {
-    return instance.delete(url, {
-        data: payload,
-    });
-}
-
-export function PutRequest(url, par, payload) {
-    return instance.put(url, par, {
-        data: payload,
-    });
 }

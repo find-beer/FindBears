@@ -13,7 +13,7 @@ export default class ActivityItem extends Component {
     }
 
     render() {
-        const {activity, navigation,onBtnClick} = this.props;
+        const {activity, navigation, onBtnClick} = this.props;
         return (
             <View style={styles.itemContainer}>
                 <View style={styles.cards}>
@@ -33,8 +33,8 @@ export default class ActivityItem extends Component {
                         </View>
                     </View>
                     <Text numberOfLines={1} style={styles.name}>{activity ? activity.activityTitle : '标题暂无'}</Text>
-                    <View style={{flexDirection: 'row',marginBottom:5}}>
-                        <View style={styles.tag} />
+                    <View style={{flexDirection: 'row', marginBottom: 5}}>
+                        <View style={styles.tag}/>
                         <Text style={styles.timeLeft}>活动时间：</Text>
                         <Text numberOfLines={1}
                               style={styles.time}>{activity ? new Date(activity.activityTime).getFullYear()
@@ -43,11 +43,11 @@ export default class ActivityItem extends Component {
                             : '时间待定'}</Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
-                        <View style={styles.tag} />
+                        <View style={styles.tag}/>
                         <Text style={styles.cityLeft}>活动地点：</Text>
                         <Text numberOfLines={1} style={styles.city}>{activity ? activity.cityName : '地点暂无'}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('ActivityDetail')}>
+                    <TouchableOpacity onPress={onBtnClick}>
                         <View style={styles.goToDetail}>
                             <Text style={styles.text}>查看活动详情 >></Text>
                         </View>
@@ -60,7 +60,7 @@ export default class ActivityItem extends Component {
 }
 
 const styles = StyleSheet.create({
-    itemContainer:{
+    itemContainer: {
         backgroundColor: 'white',
     },
     goToDetail: {
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
         marginTop: 13,
         marginBottom: 13,
         justifyContent: 'center',
-        paddingBottom:30,
-        paddingTop:30
+        paddingBottom: 30,
+        paddingTop: 30
     },
     topTxt: {
         fontSize: 12,
@@ -150,38 +150,37 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
         marginTop: 8,
-        color:'#564F5F',
-        marginBottom:5,
-        marginTop:10,
+        color: '#564F5F',
+        marginBottom: 5,
     },
     time: {
         marginLeft: 5,
         fontSize: 16,
         marginTop: 8,
-        color:'#564F5F'
+        color: '#564F5F'
     },
     timeLeft: {
         marginLeft: 5,
         fontSize: 16,
         marginTop: 8,
-        color:'#564F5F'
+        color: '#564F5F'
     },
     cityLeft: {
         marginLeft: 5,
         fontSize: 16,
         marginTop: 8,
-        color:'#564F5F'
+        color: '#564F5F'
     },
     city: {
         marginLeft: 5,
         fontSize: 16,
         marginTop: 8,
-        color:'#564F5F'
+        color: '#564F5F'
     },
-    tag:{
+    tag: {
         marginTop: 10,
-        marginLeft:20,
-        marginRight:2,
+        marginLeft: 20,
+        marginRight: 2,
         width: scaleSize(12),
         height: scaleSize(32),
         backgroundColor: '#8E79FE',
