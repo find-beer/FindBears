@@ -19,7 +19,7 @@ export default class ActivityItem extends Component {
         }
     }
     handleViewDetail(){
-        this.props.navigation.navigate('ActivityDetail')
+      this.props.navigation.navigate('ActivityDetail',{id:item.id})
     }
     render() {
         const item = this.props.item;

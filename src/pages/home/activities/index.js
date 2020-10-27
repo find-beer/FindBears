@@ -21,10 +21,9 @@ export default class Activities extends React.Component {
         };
     }
     goDetail(route,item){
-        console.log(item)
-        // this.props.navigation.navigate(route, {
-        //     type: item.id
-        // })
+        this.props.navigation.navigate(route, {
+            type: item.id
+        })
     }
     renderItem = (rowData) => {
         const {navigation} = this.props;

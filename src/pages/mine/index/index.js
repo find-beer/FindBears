@@ -109,7 +109,7 @@ export default class Mine extends Component{
 									</View>
 							</ImageBackground>
 							<View style={styles.lineSpace}/>
-							<DynamicTab personalInfo={this.state.personalInfo}/>
+							<DynamicTab personalInfo={this.state.personalInfo} {...this.props}/>
 					</View>
 					</ScrollView>
 				</SafeAreaView>

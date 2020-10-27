@@ -14,7 +14,6 @@ import {
     Toast,
 } from '@ant-design/react-native';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
-
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 export default class Register extends Component {

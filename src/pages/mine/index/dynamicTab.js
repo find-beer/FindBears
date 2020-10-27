@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet,View, Text} from 'react-native';
 
-import DynamicItem from './dynamicItem'
+// import DynamicItem from './dynamicItem'
+import DynamicItem from '../../home/trends/feedItem'
 import ActivityItem from './activityItem'
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
@@ -85,7 +86,7 @@ export default class DynamicTab extends Component {
 									<View>
 										{
 											this.state.activityList.map(item => {
-												return <ActivityItem item={item} key={item.id}/>
+												return <ActivityItem item={item} key={item.id}  {...this.props}/>
 											})
 										}
 									</View>
@@ -93,7 +94,7 @@ export default class DynamicTab extends Component {
 									<View>
 										{
 											this.state.dynamicList.map(item => {
-												return <DynamicItem item={item} key={item.id}/> 
+												return <DynamicItem feed={item} key={item.id} {...this.props}/> 
 											})
 										}
 									</View>
