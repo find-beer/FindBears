@@ -11,6 +11,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
+import EventBus from "../../../utils/EventBus";
 
 export default class Activities extends React.Component {
 
@@ -43,7 +44,7 @@ export default class Activities extends React.Component {
 
     getData = async () => {
         const response = await GetRequest('user/relationfeed', {
-            limit: 10,
+            limit: 100,
             feedOffsetId: 0,
             activityOffsetId: 0,
         });
@@ -55,6 +56,12 @@ export default class Activities extends React.Component {
 
     componentDidMount() {
         this.getData()
+        EventBus.on('REFRESH_ACTIVITY', () => {
+            this.getData();
+        })
+        EventBus.on('REFRESH_TREND', () => {
+            this.getData();
+        })
     }
 
     render() {

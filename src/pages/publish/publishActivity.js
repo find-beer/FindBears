@@ -17,6 +17,7 @@ import moment from 'moment';
 import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 import ImagePicker from "react-native-image-picker";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {_internalRequest, PostRequest} from "../../utils/request";
 
 export default class PublishActivity extends React.Component {
 
@@ -27,18 +28,21 @@ export default class PublishActivity extends React.Component {
             num: '',
             area: '',
             type: '周边游',
+            type_id: 1,
             userStatus: false,
             isStartVisible: false,
             isEndVisible: false,
             activityTime: '',
             endTime: '',
+            content: '',
         };
     }
 
     componentDidMount() {
         EventBus.on('typeName', (e) => {
             this.setState({
-                type: e.item
+                type: e.name,
+                type_id: e.id
             })
         })
     }
@@ -53,11 +57,50 @@ export default class PublishActivity extends React.Component {
     /**
      * 立即发布
      */
-    immePublish = () => {
+    immePublish = async () => {
+        const {navigation} = this.props;
         const {
-            title, num
+            title, num, activityTime, endTime, type_id, type, content, userStatus
         } = this.state;
-        console.log(title, num)
+        // try {
+        //     const response = await PostRequest('activity/publish', {
+        //         "activityTitle": title,
+        //         "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
+        //         "memberCount": num,
+        //         "enrollEndTime": endTime !== '' ? moment(endTime).format("YYYY-MM-DD HH:mm") : '',
+        //         "activityAddress": '北京',
+        //         "location": '123.236944,41.267244',
+        //         "ticketVoList": [],
+        //         "activityTypeName": type,
+        //         "activityType": type_id,
+        //         "needInfo": userStatus ? 1 : 0,
+        //         "content": content,
+        //     });
+        //     console.log('发布活动结果:', response)
+        //     if (response.code === 0) {
+        //         navigation.goBack();
+        //         EventBus.post('REFRESH_ACTIVITY', {});
+        //     }
+        // } catch (e) {
+        //     console.log('报错', e)
+        // }
+
+        _internalRequest('activity/publish',{
+            "activityTitle": title,
+            "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
+            "memberCount": num,
+            "enrollEndTime": endTime !== '' ? moment(endTime).format("YYYY-MM-DD HH:mm") : '',
+            "activityAddress": '北京',
+            "location": '123.236944,41.267244',
+            "ticketVoList": [],
+            "activityTypeName": type,
+            "activityType": type_id,
+            "needInfo": userStatus ? 1 : 0,
+            "content": content,
+            "userType":1,
+            "activityValid":1,
+        },'POST')
+
     }
 
     showActivityTime = () => {
@@ -133,6 +176,9 @@ export default class PublishActivity extends React.Component {
 
     handleChange(html) {
         console.log('editor data:', html);
+        this.setState({
+            content: html
+        })
     }
 
     render() {
