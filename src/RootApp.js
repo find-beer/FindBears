@@ -20,12 +20,12 @@ import EditInfo from './pages/mine/editInfo'
 import Config from './pages/mine/config'
 import OrderList from './pages/mine/orderList'
 import ActivityDetail from "./pages/home/activity_detail";
-import AddTicket from "./pages/home/tickets";
+import AddTicket from "./pages/home/add_ticket";
 import TicketSelect from "./pages/home/ticket_select";
 import Pay from "./pages/home/pay";
-import ticketDetail from "./pages/home/add_ticket";
+import ticketDetail from "./pages/home/ticket_detail";
 import activityList from './pages/shoulder/activity_list'
-import ModifyTicket from "./pages/home/modify_ticket";
+import dynamicDetail from './pages/home/dynamic_detail/index'
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -110,11 +110,9 @@ const RootApp = createStackNavigator({
     ActivityList: {
         screen: activityList
     },
-    ModifyTicket:{
-        screen:ModifyTicket
+    DynamicDetail:{
+        screen:dynamicDetail
     }
-
-
 }, {
     headerMode: 'none',
     lazy: true,
