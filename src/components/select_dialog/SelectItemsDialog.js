@@ -1,20 +1,12 @@
+import React from 'react';
 
-import React, { Component } from 'react';
-
-import {
-    View,
-    Text,
-    Animated,
-    TouchableOpacity,
-    FlatList
-} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 
 import BaseCommonDialog from './BaseCommonDialog';
-import {isIphoneX} from "../../utils/screenUtil";
 import {screenW} from "../../constants";
 import EventBus from "../../utils/EventBus";
 
-class SelectItemsDialog extends BaseCommonDialog {
+export default class SelectItemsDialog extends BaseCommonDialog {
 
     static defaultProps = {
         itemKey: 'key',
@@ -31,15 +23,15 @@ class SelectItemsDialog extends BaseCommonDialog {
             color: '#999999'
         },
         onPress: null,
-        items:[
-            '周边游',
-            '电影演出',
-            '轰趴桌游',
-            '户外运动',
-            '游乐园',
-            '沉浸式娱乐',
-            '文化体验',
-            '新奇探索',
+        items: [
+            {name: '周边游', id: 1},
+            {name: '电影演出', id: 3},
+            {name: '轰趴桌游', id: 2},
+            {name: '户外运动', id: 4},
+            {name: '游乐园', id: 5},
+            {name: '沉浸式娱乐', id: 6},
+            {name: '文化体验', id: 7},
+            {name: '新奇探索', id: 8},
         ]
     }
 
@@ -53,14 +45,17 @@ class SelectItemsDialog extends BaseCommonDialog {
                 onPress={() => {
                     this.dismiss(() => {
                         if (this.props.onPress) {
-                            EventBus.post('typeName',{item})
+                            EventBus.post('typeName', {name:item.name,id:item.id})
                         }
                     });
                 }}
                 key={index}
-                style={{ width: screenW, height: 49, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{fontSize:14,color:'#333'}}>{typeof item == 'string' ? item : item[this.props.itemKey]}</Text>
-                <View style={{ position: 'absolute', bottom: 0, width: screenW, height: 1, backgroundColor: '#E8EEF0' }} />
+                style={{width: screenW, height: 49, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{
+                    fontSize: 14,
+                    color: '#333'
+                }}>{item.name}</Text>
+                <View style={{position: 'absolute', bottom: 0, width: screenW, height: 1, backgroundColor: '#E8EEF0'}}/>
             </TouchableOpacity>
         })
     }
@@ -68,17 +63,16 @@ class SelectItemsDialog extends BaseCommonDialog {
     renderCancel() {
         return <TouchableOpacity
             onPress={() => this.dismiss()}
-            style={{ width: screenW, height: 49, justifyContent: 'center', alignItems: 'center' }}>
+            style={{width: screenW, height: 49, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={this.props.cancelTextStyle}>{this.props.cancelText}</Text>
         </TouchableOpacity>
     }
 
     renderContent() {
-        return <View style={{ width: screenW, backgroundColor: '#fff',paddingBottom: 16}}>
+        return <View style={{width: screenW, backgroundColor: '#fff', paddingBottom: 16}}>
             {this.renderItems()}
             {this.props.cancel ? this.renderCancel() : null}
         </View>
     }
 }
 
-export default SelectItemsDialog;

@@ -7,40 +7,72 @@
  */
 
 import React, {Fragment} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Header from '../../../components/header/index'
+import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
 
-export default class AddTicket extends React.Component {
+export default class TicketDetail extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
+            price: '',
+            desc: '',
         };
     }
 
-    createTicket = () => {
-        this.props.navigation.navigate('TicketDetail')
-    }
-
-    saveTicket = () => {
-
+    addTicket = () => {
+        const {name, price, desc} = this.state;
+        this.props.navigation.state.params.onAdd({
+            name,
+            price,
+            desc,
+        })
+        this.props.navigation.goBack()
     }
 
     render() {
         return <Fragment style={styles.container}>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} title={'票种'}/>
+            <Header {...this.props} title={'票种详情'}/>
             <View style={{flex: 1}}>
-
+                <SettingItem title={'票种名称'} subType={'input'} inputHint={'请填写'}
+                             reflectText={(title) => {
+                                 this.setState({
+                                     name: title
+                                 })
+                             }}
+                />
+                <SettingItem title={'价格'} subType={'number'} inputHint={'请填写'}
+                             reflectNumText={(num) => {
+                                 this.setState({
+                                     price: num
+                                 })
+                             }}
+                />
+                {/*<SettingItem title={'是否允许拼团'} reflectStatus={(status) => {*/}
+                {/*    this.setState({*/}
+                {/*        userStatus: status*/}
+                {/*    })*/}
+                {/*}} subType={'switch'} onRightPress={this.selectType}/>*/}
+                <SettingItem title={'票种说明'} subType={'none'}/>
+                <TextInput textAlign='left'
+                           underlineColorAndroid='transparent'
+                           onChangeText={(text) => {
+                               this.setState({
+                                   desc: text
+                               })
+                           }}
+                           textAlignVertical="top"
+                           multiline
+                           style={styles.up}
+                           placeholder={'此处添加票种说明...'}
+                           placeholderTextColor='#999'/>
             </View>
             <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={this.createTicket}>
-                    <View style={styles.draft}>
-                        <Text style={styles.txt}>创建新票种</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.saveTicket}>
+                <TouchableOpacity onPress={this.addTicket}>
                     <View style={styles.publish}>
                         <Text style={styles.txt}>保存</Text>
                     </View>
@@ -54,16 +86,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    draft: {
-        height: 60,
-        width: screenW / 2,
-        backgroundColor: '#cdcdcd',
-        alignItems: 'center',
-        justifyContent: 'center'
+    up: {
+        height: 180,
+        fontSize: 16,
+        backgroundColor: 'white',
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingTop: 8,
+        paddingBottom: 8,
+        borderRadius: 8
     },
     publish: {
         height: 60,
-        width: screenW / 2,
+        width: screenW,
         backgroundColor: '#564F5F',
         alignItems: 'center',
         justifyContent: 'center',

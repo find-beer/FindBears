@@ -12,50 +12,61 @@ import Header from '../../../components/header/index'
 import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
 
-export default class TicketDetail extends React.Component {
+export default class ModifyTicket extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            name: props.navigation.state.params.name,
+            price: props.navigation.state.params.price,
+            desc: props.navigation.state.params.desc,
         };
     }
 
-    addTicket = () => {
-
+    modiTicket = () => {
+        const {name, price, desc} = this.state;
+        this.props.navigation.state.params.onModify({
+            name,
+            price,
+            desc,
+        })
+        this.props.navigation.goBack()
     }
 
     render() {
+        const {name, price, desc} = this.state;
         return <Fragment style={styles.container}>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'票种详情'}/>
             <View style={{flex: 1}}>
-                <SettingItem title={'票种名称'} subType={'input'} inputHint={'请填写'}
+                <SettingItem title={'票种名称'} subType={'input'} inputHint={name}
                              reflectText={(title) => {
                                  this.setState({
-                                     title
+                                     name: title
                                  })
                              }}
                 />
-                <SettingItem title={'价格'} subType={'number'} inputHint={'请填写'}
+                <SettingItem title={'价格'} subType={'number'} inputHint={price}
                              reflectNumText={(num) => {
                                  this.setState({
-                                     num
+                                     price: num
                                  })
                              }}
                 />
-                <SettingItem title={'是否允许拼团'} reflectStatus={(status) => {
-                    this.setState({
-                        userStatus: status
-                    })
-                }} subType={'switch'} onRightPress={this.selectType}/>
+                {/*<SettingItem title={'是否允许拼团'} reflectStatus={(status) => {*/}
+                {/*    this.setState({*/}
+                {/*        userStatus: status*/}
+                {/*    })*/}
+                {/*}} subType={'switch'} onRightPress={this.selectType}/>*/}
                 <SettingItem title={'票种说明'} subType={'none'}/>
                 <TextInput textAlign='left'
                            underlineColorAndroid='transparent'
                            onChangeText={(text) => {
                                this.setState({
-                                   content: text
+                                   desc: text
                                })
                            }}
+                           value={desc}
                            textAlignVertical="top"
                            multiline
                            style={styles.up}
@@ -63,9 +74,9 @@ export default class TicketDetail extends React.Component {
                            placeholderTextColor='#999'/>
             </View>
             <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={this.addTicket}>
+                <TouchableOpacity onPress={this.modiTicket}>
                     <View style={styles.publish}>
-                        <Text style={styles.txt}>保存</Text>
+                        <Text style={styles.txt}>修改</Text>
                     </View>
                 </TouchableOpacity>
             </View>

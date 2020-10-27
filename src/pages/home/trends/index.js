@@ -10,6 +10,7 @@ import React from 'react';
 import {FlatList,StyleSheet, View} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import FeedItem from "./feedItem.js";
+import EventBus from "../../../utils/EventBus";
 
 export default class Trends extends React.Component {
     constructor(props) {
@@ -75,7 +76,10 @@ export default class Trends extends React.Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getData();
+        EventBus.on('REFRESH_TREND',()=>{
+            this.getData();
+        })
     }
     render() {
         const {feedDetailVOList} = this.state;
