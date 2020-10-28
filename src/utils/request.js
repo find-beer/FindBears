@@ -86,11 +86,12 @@ export function _internalRequest(requestUri, params, type) {
             },
         )
         .then((responseText) => {
-            console.log('请求结果', responseText)
+            console.log('请求结果', responseText);
+            return responseText;
         })
         .catch((error) => {
             console.log('error==>', error);
-            // showMessage({message: I18n.t('weak_error'), type: "warning"});
+            return error;
         })
         .done();
 

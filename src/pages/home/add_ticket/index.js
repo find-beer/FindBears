@@ -11,8 +11,9 @@ import {SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 
 import Header from '../../../components/header/index'
 import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
+import {_internalRequest} from "../../../utils/request";
 
-export default class TicketDetail extends React.Component {
+export default class AddTicket extends React.Component {
 
     constructor(props) {
         super(props);
@@ -23,14 +24,30 @@ export default class TicketDetail extends React.Component {
         };
     }
 
-    addTicket = () => {
+    addTicket = async () => {
         const {name, price, desc} = this.state;
-        this.props.navigation.state.params.onAdd({
-            name,
-            price,
-            desc,
-        })
-        this.props.navigation.goBack()
+        const response = await _internalRequest('activity/publish', {
+            "activityTitle": '我是标题',
+            "activityTime": '2020-09-10',
+            "memberCount": 1,
+            "enrollEndTime": '2020-09-11',
+            "activityAddress": '北京',
+            "location": '123.236944,41.267244',
+            "activityTypeName": 1,
+            "activityType": 1,
+            "needInfo": 1,
+            "content": '',
+            "userType": 1,
+            "activityValid": 1,
+            "ticketVoList": [
+                {
+                    "illustration": desc,
+                    "price": price,
+                    "ticketName": name,
+                }
+            ]
+        }, 'POST');
+        console.log('新增票种', response)
     }
 
     render() {

@@ -23,10 +23,10 @@ import ActivityDetail from "./pages/home/activity_detail";
 import AddTicket from "./pages/home/add_ticket";
 import TicketSelect from "./pages/home/ticket_select";
 import Pay from "./pages/home/pay";
-import ticketDetail from "./pages/home/ticket_detail";
 import activityList from './pages/shoulder/activity_list'
 import dynamicDetail from './pages/home/dynamic_detail/index'
 import ModifyTicket from "./pages/home/modify_ticket";
+import Tickets from "./pages/home/tickets";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -96,17 +96,17 @@ const RootApp = createStackNavigator({
     ActivityDetail: {
         screen: ActivityDetail
     },
-    AddTicket: {
-        screen: AddTicket
-    },
     TicketSelect: {
         screen: TicketSelect
     },
     Pay: {
         screen: Pay
     },
-    TicketDetail: {
-        screen: ticketDetail
+    Tickets: {
+        screen: Tickets
+    },
+    AddTicket: {
+        screen: AddTicket
     },
     ActivityList: {
         screen: activityList

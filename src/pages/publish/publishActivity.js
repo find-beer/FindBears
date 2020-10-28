@@ -117,7 +117,7 @@ export default class PublishActivity extends React.Component {
 
     addTicket = () => {
         const {navigation} = this.props;
-        navigation.navigate('AddTicket')
+        navigation.navigate('Tickets')
     }
 
     selectType = () => {
