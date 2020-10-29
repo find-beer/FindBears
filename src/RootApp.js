@@ -27,6 +27,9 @@ import activityList from './pages/shoulder/activity_list'
 import dynamicDetail from './pages/home/dynamic_detail/index'
 import ModifyTicket from "./pages/home/modify_ticket";
 import Tickets from "./pages/home/tickets";
+import ActivityList from "./pages/chat/activity_list";
+import InteractiveList from "./pages/chat/interactive";
+import DigFriend from "./pages/chat/dig_friends";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -46,7 +49,7 @@ const RootApp = createStackNavigator({
         screen: Login,
     },
     TabContainer: {
-        screen: TabContainer,
+        screen: DigFriend,
     },
     Home: {
         screen: Home,
@@ -116,6 +119,15 @@ const RootApp = createStackNavigator({
     },
     ModifyTicket: {
         screen: ModifyTicket
+    },
+    ActivityList:{
+        screen:ActivityList
+    },
+    InteractiveList:{
+        screen:InteractiveList
+    },
+    DigFriend:{
+        screen:DigFriend
     }
 }, {
     headerMode: 'none',
