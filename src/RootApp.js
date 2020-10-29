@@ -49,7 +49,7 @@ const RootApp = createStackNavigator({
         screen: Login,
     },
     TabContainer: {
-        screen: DigFriend,
+        screen: TabContainer,
     },
     Home: {
         screen: Home,

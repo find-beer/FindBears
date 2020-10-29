@@ -34,7 +34,7 @@ export default class DigFriends extends React.Component {
                 <TextInput 
                   style={styles.search_input}
                   placeholder="输入手机号/探熊号" 
-                  value={this.state.searchString}></TextInput>
+                  value={this.state.searchString}/>
               </View>
             </View>
           </View>
