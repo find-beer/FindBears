@@ -27,9 +27,12 @@ import activityList from './pages/shoulder/activity_list'
 import dynamicDetail from './pages/home/dynamic_detail/index'
 import ModifyTicket from "./pages/home/modify_ticket";
 import Tickets from "./pages/home/tickets";
-import ActivityList from "./pages/chat/activity_list";
 import InteractiveList from "./pages/chat/interactive";
 import DigFriend from "./pages/chat/dig_friends";
+import InteractiveNotification from "./pages/chat/InteractiveNotification";
+import ActivityMsgList from "./pages/chat/ActivityMsgList";
+import FriendsList from "./pages/chat/FriendsList";
+import MyFollow from "./pages/chat/MyFollow";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -120,15 +123,24 @@ const RootApp = createStackNavigator({
     ModifyTicket: {
         screen: ModifyTicket
     },
-    ActivityList:{
-        screen:ActivityList
+    InteractiveList: {
+        screen: InteractiveList
     },
-    InteractiveList:{
-        screen:InteractiveList
+    DigFriend: {
+        screen: DigFriend
     },
-    DigFriend:{
-        screen:DigFriend
-    }
+    InteractiveNotification: {
+        screen: InteractiveNotification
+    },
+    ActivityMsgList: {
+        screen: ActivityMsgList
+    },
+    FriendsList: {
+        screen: FriendsList
+    },
+    MyFollow: {
+        screen: MyFollow
+    },
 }, {
     headerMode: 'none',
     lazy: true,
