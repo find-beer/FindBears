@@ -17,7 +17,8 @@ import moment from 'moment';
 import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 import ImagePicker from "react-native-image-picker";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {_internalRequest, PostRequest} from "../../utils/request";
+import {_internalRequest} from "../../utils/request";
+import {apiProd} from "../../config";
 
 export default class PublishActivity extends React.Component {
 
@@ -85,7 +86,7 @@ export default class PublishActivity extends React.Component {
         //     console.log('报错', e)
         // }
 
-        _internalRequest('activity/publish',{
+        _internalRequest('activity/publish', {
             "activityTitle": title,
             "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
             "memberCount": num,
@@ -97,9 +98,9 @@ export default class PublishActivity extends React.Component {
             "activityType": type_id,
             "needInfo": userStatus ? 1 : 0,
             "content": content,
-            "userType":1,
-            "activityValid":1,
-        },'POST')
+            "userType": 1,
+            "activityValid": 1,
+        }, 'POST')
 
     }
 
@@ -163,13 +164,29 @@ export default class PublishActivity extends React.Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
-                // let source = { uri: response.uri };
-
-                // You can also display the image using data:
-                let source = {uri: 'data:image/jpeg;base64,' + response.data};
+                let formData = new FormData();
+                formData.append('imgFile', {
+                    uri: 'data:image/jpeg;base64,' + response.data,
+                    type: 'multipart/form-data',
+                    name: 'trend' + new Date().getTime() + '.jpg',
+                });
+                fetch(apiProd.host + 'common/uploadImage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'multipart/form-data;charset=utf-8',
+                        'token': '1_1604737548947'
+                    },
+                    body: formData,
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(res => {
+                        console.log('---->', res.data.url);
+                        this.richText.insertImage(res.data.url);
+                        this.richText.blurContentEditor();
+                    });
                 // this.richText.insertImage('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png');
-                this.richText.insertImage(source.uri);
-                this.richText.blurContentEditor();
             }
         });
     }

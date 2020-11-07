@@ -14,8 +14,7 @@ import Activities from "./activities";
 import Trends from "./trends";
 import EventBus from "../../utils/EventBus";
 import {addLocationListener, Geolocation, init, setNeedAddress} from "react-native-amap-geolocation";
-import {PostRequest} from "../../utils/request";
-import {apiProd} from "../../config";
+import KV from "../../utils/KV";
 
 export default class Home extends React.Component {
 

@@ -14,7 +14,10 @@ import ImagePicker from "react-native-image-picker";
 import {scaleFont, scaleSize} from "../../utils/scaleUtil";
 import {PostRequest} from "../../utils/request";
 import EventBus from "../../utils/EventBus";
+import {apiProd} from "../../config";
+import KV from "../../utils/KV";
 
+let arr = [];
 export default class PublishTrend extends React.Component {
 
     constructor(props) {
@@ -26,6 +29,13 @@ export default class PublishTrend extends React.Component {
             isPunchCard: false,
             isPermit: true,
         };
+    }
+
+    componentWillUnmount() {
+        arr = [];
+        this.setState({
+            images: arr
+        })
     }
 
     choosePicture = () => {
@@ -43,7 +53,7 @@ export default class PublishTrend extends React.Component {
             maxHeight: 600,
             aspectX: 2,
             aspectY: 1,
-            quality: 0.8,
+            quality: 0.5,
             angle: 0,
             allowsEditing: false,
             noData: false,
@@ -52,36 +62,35 @@ export default class PublishTrend extends React.Component {
                 path: 'images',
             },
         };
-        ImagePicker.showImagePicker(options, response => {
-            // console.log('Response = ', response);
-            console.log('图片文件', response.data)
-            this.uploadImage({
-                uri: response.uri,
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('图片文件', response);
+            console.log('图片文件uri', response.data);
+            let formData = new FormData();
+            formData.append('imgFile', {
+                uri: 'data:image/jpeg;base64,' + response.data,
                 type: 'multipart/form-data',
-                name: 'headPic.jpg',
+                name: 'trend' + new Date().getTime() + '.jpg',
             });
-
+            fetch(apiProd.host + 'common/uploadImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data;charset=utf-8',
+                    'token': '1_1604737548947'
+                },
+                body: formData,
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(res => {
+                    console.log('---->', res);
+                    arr.push(res.data.url);
+                    this.setState({
+                        images: arr
+                    })
+                });
         });
     };
-
-    uploadImage(file) {
-        let formData = new FormData();
-        formData.append('imgFile', file);
-        console.log('上传文件', file)
-        fetch('http://121.89.223.103:8080/common/uploadImage', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data;charset=utf-8',
-            },
-            body: formData,
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(res => {
-                console.log('上传成功', res)
-            });
-    }
 
     onValueChange = () => {
         this.setState({
@@ -106,7 +115,7 @@ export default class PublishTrend extends React.Component {
             "content": content,
             "displayCity": isPunchCard ? 1 : 0,
             "location": "123.236944,41.267244",
-            "picUrl": "",
+            "picUrl": this.state.images.join(','),
             "videoUrl": ""
         });
         console.log('发布动态结果:', response)
@@ -144,7 +153,7 @@ export default class PublishTrend extends React.Component {
                                     styles.picture,
                                     (index + 1) % 3 && styles.picMargin,
                                 ]}
-                                source={img}
+                                source={{'uri': img}}
                             />
                         </View>
                     ))}
@@ -224,7 +233,8 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         paddingTop: 8,
         paddingBottom: 8,
-        borderRadius: 8
+        borderRadius: 8,
+        marginTop: 16
     },
     pictures: {
         marginTop: scaleSize(54),

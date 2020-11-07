@@ -12,6 +12,7 @@ import {GetRequest} from '../../../utils/request';
 import {Button, Provider, Toast} from '@ant-design/react-native';
 import {scaleFont, scaleSize} from '../../../utils/scaleUtil';
 import AsyncStorage from "@react-native-community/async-storage";
+import KV from "../../../utils/KV";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -87,7 +88,7 @@ export default class Login extends React.Component {
                 Toast.fail(res.msg || '发送失败，请稍后重试');
             }
         });
-        
+
     }
 
     render() {
