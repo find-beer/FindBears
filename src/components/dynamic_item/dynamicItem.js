@@ -61,7 +61,7 @@ export default class DynamicItem extends Component {
 					<View style={styles.dynamicItemWrap} >
 							<View style={styles.itemHeader}>
 									<Image
-											source={get(feed.userVO,'pic',defaultImg)}
+											source={{uri:get(feed.userVO,'pic','')}}
 											style={styles.avatarInner}
 									/>
 									<View style={styles.dynamicInfo}>
@@ -92,7 +92,7 @@ export default class DynamicItem extends Component {
 													picList.map((item,index) => {
 															return(
 																	<Image
-																			source={item}
+																			source={{uri:item}}
 																			style={styles.dynamicImg}
 																			key={index}
 																	/>
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
 			display:'flex',
 			flexDirection:'row',
 			justifyContent:'space-between',
+			flexWrap:'wrap'
 	},
 	dynamicText: {
 			fontSize: scaleSize(48),
