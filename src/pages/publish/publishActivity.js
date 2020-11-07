@@ -149,9 +149,25 @@ export default class PublishActivity extends React.Component {
 
     onPressAddImage = () => {
         const options = {
-            quality: 1.0,
+            title: '选择图片',
+            cancelButtonTitle: '取消',
+            takePhotoButtonTitle: '拍照',
+            chooseFromLibraryButtonTitle: '图片库',
+            cameraType: 'back',
+            mediaType: 'photo',
+            videoQuality: 'high',
+            durationLimit: 10,
+            maxWidth: 600,
+            maxHeight: 600,
+            aspectX: 2,
+            aspectY: 1,
+            quality: 0.5,
+            angle: 0,
+            allowsEditing: false,
+            noData: false,
             storageOptions: {
                 skipBackup: true,
+                path: 'images',
             },
         };
 

@@ -7,7 +7,7 @@
  */
 
 import React, {Fragment} from 'react';
-import {Image, SafeAreaView, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Image, Platform, SafeAreaView, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Header from '../../components/header/index'
 import {screenW} from "../../constants";
 import ImagePicker from "react-native-image-picker";
@@ -15,7 +15,6 @@ import {scaleFont, scaleSize} from "../../utils/scaleUtil";
 import {PostRequest} from "../../utils/request";
 import EventBus from "../../utils/EventBus";
 import {apiProd} from "../../config";
-import KV from "../../utils/KV";
 
 let arr = [];
 export default class PublishTrend extends React.Component {
@@ -64,19 +63,28 @@ export default class PublishTrend extends React.Component {
         };
         ImagePicker.showImagePicker(options, (response) => {
             console.log('图片文件', response);
-            console.log('图片文件uri', response.data);
             let formData = new FormData();
             formData.append('imgFile', {
-                uri: 'data:image/jpeg;base64,' + response.data,
+                uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
                 type: 'multipart/form-data',
                 name: 'trend' + new Date().getTime() + '.jpg',
             });
-            fetch(apiProd.host + 'common/uploadImage', {
-                method: 'POST',
-                headers: {
+
+            let currentHeader;
+            if (Platform.OS === 'ios') {
+                currentHeader = {
                     'Content-Type': 'multipart/form-data;charset=utf-8',
                     'token': '1_1604737548947'
-                },
+                }
+            } else {
+                currentHeader = {
+                    'Accept': 'application/json',
+                    'token': '1_1604737548947'
+                }
+            }
+            fetch(apiProd.host + 'common/uploadImage', {
+                method: 'POST',
+                headers: currentHeader,
                 body: formData,
             })
                 .then(response => {
@@ -88,7 +96,10 @@ export default class PublishTrend extends React.Component {
                     this.setState({
                         images: arr
                     })
-                });
+                }).catch((e) => {
+                console.log('上传失败:', e)
+            });
+
         });
     };
 
@@ -231,8 +242,8 @@ const styles = StyleSheet.create({
         marginRight: 16,
         paddingLeft: 16,
         paddingRight: 16,
-        paddingTop: 8,
-        paddingBottom: 8,
+        paddingTop: 16,
+        paddingBottom: 16,
         borderRadius: 8,
         marginTop: 16
     },

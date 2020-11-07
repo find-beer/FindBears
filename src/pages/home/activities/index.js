@@ -48,7 +48,10 @@ export default class Activities extends React.Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getData();
+        EventBus.on('REFRESH_TREND', () => {
+            this.getData();
+        })
     }
 
     render() {
