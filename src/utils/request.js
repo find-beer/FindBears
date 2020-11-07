@@ -17,7 +17,7 @@ instance.interceptors.request.use(
     function (config) {
         // 添加响应头等等设置
         config.headers.session = KV.getSessionId();
-        config.headers.token = '2_1602603032869';
+        config.headers.token = '1_1604737548947';
 
         return config;
     },
@@ -56,7 +56,7 @@ export function _internalRequest(requestUri, params, type) {
         method: type,
         headers: {
             "Content-Type": 'application/json',
-            'token': '2_1602603032869',
+            'token': '1_1604737548947',
         },
     };
 

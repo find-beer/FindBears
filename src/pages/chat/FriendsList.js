@@ -9,7 +9,7 @@
 import React, {Fragment} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import Header from "../../components/header";
-import {GetRequest} from "../../../utils/request";
+import {GetRequest} from "../../utils/request";
 
 export default class FriendsList extends React.Component {
     constructor(){

@@ -16,42 +16,7 @@ export default class Trends extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedDetailVOList: [
-                {
-                cityName: "北京",
-                commentNum: 0,
-                content: "钱罗罗公司成立盛典",
-                id: 0,
-                like: false,
-                likeNum: 0,
-                location: "北京",
-                picUrl: "string",
-                publishTime: new Date().getTime(),
-                userVO: {
-                  order: 0,
-                  pic: "string",
-                  userId: 0,
-                  userName: "string"
-                },
-                videoUrl: "string"
-            },{
-                cityName: "北京",
-                commentNum: 0,
-                content: "钱罗罗公司成立盛典",
-                id: 2,
-                like: false,
-                likeNum: 0,
-                location: "北京",
-                picUrl: "string",
-                publishTime: new Date().getTime(),
-                userVO: {
-                  order: 0,
-                  pic: "string",
-                  userId: 0,
-                  userName: "string"
-                },
-                videoUrl: "string"
-            }],
+            feedDetailVOList: [],
         };
     }
 
@@ -67,11 +32,8 @@ export default class Trends extends React.Component {
             feedOffsetId: 0,
             activityOffsetId:0
         });
-        console.log('数据', response);
         this.setState({
             feedDetailVOList: response.data.feedDetailVOList,
-        }, () => {
-            console.log('数据啊', this.state.feedDetailVOList);
         });
     }
 
