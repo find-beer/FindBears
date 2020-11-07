@@ -1,6 +1,5 @@
 import React from 'react';
 import {FlatList, StyleSheet, View, SafeAreaView,Text,Image} from 'react-native';
-import {GetRequest} from "../../../utils/request";
 import Header from '../../../components/header/index'
 import ActivityItem from "../../../components/activity_item/activityItem";
 import { scaleSize,scaleFont } from '../../../utils/scaleUtil';
@@ -50,7 +49,7 @@ export default class ActivityList extends React.Component {
   }
   goDetail(route,item){
     this.props.navigation.navigate(route, {
-        type: item.id
+        id: item.id
     })
   }
   renderItem = (rowData) => {

@@ -26,9 +26,10 @@ export default props => (
                 <Text style={styles.headerTitleText}>{props.title || ''}</Text>
             </View>
             <View style={styles.headerRight}>
-                <Text>{
+                <Text>
+                    {
                     props.right && props.right
-                }
+                    }
                 </Text>
             </View>
         </View>

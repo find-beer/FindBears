@@ -8,56 +8,58 @@ import {
 } from 'react-native';
 import {scaleSize} from '../../../utils/scaleUtil';
 import {PostRequest} from "../../../utils/request";
-// import eventBus from '../../../utils/EventBus';
 
 export default class Action extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            like: false,
-            likeNum: 0,
-            commentNum: 0,
+            ...this.props.data
         };
     }
-
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps){
         this.setState({
-            likeNum: nextProps.data.likeNum,
-            commentNum: nextProps.data.commentNum,
-        });
+            likeNum:nextProps.data.likeNum,
+            commentNum:nextProps.data.commentNum
+        })
     }
-
     giveLike() {
-        PostRequest('/like/operate', {
-            infoId: 1,
+        PostRequest('like/operate', {
+            infoId: this.state.id,
             infoType: 2,
-            state: 0,
-        }).then(res => {
-            // eventBus.emit('dynamicDetail.getDetail');
+            state: this.state.like?0:1,
+        }).then(() => {
+            if(this.state.like){
+                this.setState({
+                    like:false,
+                    likeNum:this.state.likeNum - 1
+                })
+            }else{
+                this.setState({
+                    like:true,
+                    likeNum:this.state.likeNum + 1
+                })
+            }
         });
     }
-
-    join() {}
-
+    comment(){}
     share() {}
-
     render() {
         const {like, likeNum, commentNum} = this.state;
         const list = [
             {
                 icon: like ? images.likeImage : images.unlikeImage,
                 text: `点赞${likeNum}`,
-                hander: this.giveLike,
+                hander: 'giveLike',
             },
             {
-                icon: images.joinImage,
+                icon: images.commentImage,
                 text: `评论${commentNum}`,
-                hander: this.join,
+                hander: 'comment',
             },
             {
                 icon: images.shareImage,
                 text: `分享`,
-                hander: this.share,
+                hander: 'share',
             },
         ];
 
@@ -68,7 +70,7 @@ export default class Action extends React.Component {
                         <TouchableOpacity
                             key={item.text}
                             onPress={() => {
-                                item.hander();
+                                this[item.hander]();
                             }}>
                             <View style={styles.action}>
                                 <ImageBackground
@@ -88,7 +90,7 @@ export default class Action extends React.Component {
 const images = {
     unlikeImage: require('../../../assets/home/unlike.png'),
     likeImage: require('../../../assets/home/like.png'),
-    joinImage: require('../../../assets/home/join.png'),
+    commentImage: require('../../../assets/mine/comment.png'),
     shareImage: require('../../../assets/home/share.png'),
 };
 

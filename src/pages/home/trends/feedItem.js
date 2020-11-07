@@ -1,20 +1,26 @@
-import React, {Component, Children} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet,View, Text, Image,TouchableOpacity} from 'react-native';
 const imageUrl = {
-    like: require('../../../assets/home/unlike.png'),
+		like: require('../../../assets/home/like.png'),
+		unlike: require('../../../assets/home/unlike.png'),
     comment: require('../../../assets/mine/comment.png'),
     share: require('../../../assets/mine/share-icon.png'),
 };
 import {get} from 'lodash'
 import {scaleSize,scaleFont} from '../../../utils/scaleUtil';
+import {PostRequest} from "../../../utils/request";
 
 const defaultImg = require('../../../assets/mine/avatar.jpeg');
 export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
+				this.state = {
+					feed:this.props.feed
+				}
     }
     handleGoDetail(id){
-			this.props.navigation.navigate('DynamicDetail',{id})
+			// console.log(id)
+			// this.props.navigation.navigate('DynamicDetail',{id})
 		}
 		getDate(date){
 			if(new Date(date).toDateString() === new Date().toDateString()){
@@ -23,8 +29,34 @@ export default class DynamicItem extends Component {
 				return `${new Date().toLocaleString('chinese', { hour12: false }).replace(/\//g,'-').substr(5,11)}`
 			}
 		}
+		handleLike(){
+			PostRequest('like/operate',{
+				infoId: this.state.feed.id,
+				infoType: 2,
+				state: this.state.feed.like?0:1,
+			}).then(res => {
+				if(this.state.feed.like){
+					this.setState({
+						feed:{
+							...this.state.feed,
+							like:false,
+							likeNum:this.state.feed.likeNum-1
+						}
+						
+					})
+				}else{
+					this.setState({
+						feed:{
+							...this.state.feed,
+							like:true,
+							likeNum:this.state.feed.likeNum+1
+						}
+					})
+				}
+			})
+		}
     render() {
-			const feed = this.props.feed;
+			const feed = this.state.feed;
 			const picList = feed.picUrl? feed.picUrl.split(',')  : [defaultImg,defaultImg,defaultImg]
 			return (
 					<View style={styles.dynamicItemWrap} >
@@ -67,13 +99,15 @@ export default class DynamicItem extends Component {
 									</View>
 							</View>
 							<View style={styles.operationBox}>
-									<View style={styles.operationItem1}>
+									<TouchableOpacity 
+									style={styles.operationItem1} 
+									onPress={() => this.handleLike()}>
 											<Image
-													source={imageUrl.like}
+													source={feed.like?imageUrl.like:imageUrl.unlike}
 													style={styles.operationIcon}
 											/>
 											<Text style={styles.operationText}>点赞{feed.likeNum}</Text>
-									</View>
+									</TouchableOpacity>
 									<View style={styles.operationItem2}>
 											<Image
 													source={imageUrl.comment}

@@ -5,19 +5,23 @@
 import React from 'react';
 import {StyleSheet, View, Text, ImageBackground} from 'react-native';
 import {scaleSize} from '../../../utils/scaleUtil';
+import {getDate} from '../../../utils/date'
 
-export default () => (
-    <View style={{...styles.isRow, ...styles.container}}>
-        <ImageBackground source={images.headshot} style={styles.headshot} />
-        <View>
-            <Text style={styles.name}>叄个键盘</Text>
-            <Text style={styles.time}>2019-08-23 9:00</Text>
-            <Text style={styles.words}>
-                你好你好你好你好你好你好你好你好你好你好你好你
-            </Text>
+export default props => {
+    const {data} = props;
+    return (
+        <View style={{...styles.isRow, ...styles.container}}>
+            <ImageBackground source={images.headshot} style={styles.headshot} />
+            <View>
+                <Text style={styles.name}>{data.nickname || `探熊用户${parseInt(Math.random()*10000)}`}</Text>
+                <Text style={styles.time}>{getDate(data.commentTime)}</Text>
+                <Text style={styles.words}>
+                    {data.toUserId?`回复${data.toNickname || `探熊用户${parseInt(Math.random()*10000)}`}：`:''}{data.content}
+                </Text>
+            </View>
         </View>
-    </View>
-);
+    )
+};
 
 const images = {
     headshot: require('../../../assets/punchList/headshot.png'),

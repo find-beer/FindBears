@@ -14,30 +14,23 @@ import DynamicItem from "../../../components/dynamic_item/dynamicItem";
 import EventBus from "../../../utils/EventBus";
 
 export default class Activities extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             relationDetailList: [],
         };
     }
-    goDetail(route,item){
-        this.props.navigation.navigate(route, {
-            type: item.id
-        })
-    }
     renderItem = (rowData) => {
-        const {navigation} = this.props;
         const activity = rowData.item.activityDetailVO;
         const feed = rowData.item.feedDetailVO;
         if (activity) {
             return (
-                <ActivityItem onBtnClick={() => goDetail(ActivityItem,activity)} {...this.props} activity={activity}/>
+                <ActivityItem {...this.props} activity={activity}/>
             );
         }
         if (feed) {
             return (
-                <DynamicItem onBtnClick={() => goDetail(DynamicItem,feed)} {...this.props} feed={feed}/>
+                <DynamicItem  {...this.props} feed={feed}/>
             );
         }
     };
@@ -56,12 +49,6 @@ export default class Activities extends React.Component {
 
     componentDidMount() {
         this.getData()
-        EventBus.on('REFRESH_ACTIVITY', () => {
-            this.getData();
-        })
-        EventBus.on('REFRESH_TREND', () => {
-            this.getData();
-        })
     }
 
     render() {

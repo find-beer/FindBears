@@ -5,6 +5,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ImageBackground} from 'react-native';
 import {scaleSize} from '../../../utils/scaleUtil';
+import {getDate} from '../../../utils/date'
 
 export default props => {
     const {data} = props;
@@ -13,10 +14,10 @@ export default props => {
         <View style={{...styles.isRow, ...styles.container}}>
             <ImageBackground source={images.headshot} style={styles.headshot} />
             <View>
-                <Text style={styles.name}>{userVO.userName}</Text>
+                <Text style={styles.name}>{userVO && userVO.userName || '探熊'}</Text>
                 <View style={styles.isRow}>
                     <Text style={styles.city}>{cityName} 丨</Text>
-                    <Text style={styles.time}>{publishTime}</Text>
+                    <Text style={styles.time}>{getDate(publishTime)}</Text>
                 </View>
             </View>
         </View>
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     },
     container: {
         marginBottom: scaleSize(54),
+        paddingTop:scaleSize(20)
     },
     headshot: {
         height: scaleSize(132),

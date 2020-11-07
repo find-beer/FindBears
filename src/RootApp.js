@@ -24,15 +24,14 @@ import AddTicket from "./pages/home/add_ticket";
 import TicketSelect from "./pages/home/ticket_select";
 import Pay from "./pages/home/pay";
 import activityList from './pages/shoulder/activity_list'
-import dynamicDetail from './pages/home/dynamic_detail/index'
+import DynamicDetail from './pages/home/dynamic_detail/index'
 import ModifyTicket from "./pages/home/modify_ticket";
 import Tickets from "./pages/home/tickets";
 import InteractiveList from "./pages/chat/interactive";
 import DigFriend from "./pages/chat/dig_friends";
-import InteractiveNotification from "./pages/chat/InteractiveNotification";
-import ActivityMsgList from "./pages/chat/ActivityMsgList";
 import FriendsList from "./pages/chat/FriendsList";
 import MyFollow from "./pages/chat/MyFollow";
+import ActivityMsgList from './pages/chat/activity_list'
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -118,7 +117,7 @@ const RootApp = createStackNavigator({
         screen: activityList
     },
     DynamicDetail: {
-        screen: dynamicDetail
+        screen: DynamicDetail
     },
     ModifyTicket: {
         screen: ModifyTicket
@@ -128,9 +127,6 @@ const RootApp = createStackNavigator({
     },
     DigFriend: {
         screen: DigFriend
-    },
-    InteractiveNotification: {
-        screen: InteractiveNotification
     },
     ActivityMsgList: {
         screen: ActivityMsgList

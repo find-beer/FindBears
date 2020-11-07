@@ -90,7 +90,7 @@ export default class Chat extends React.Component {
 
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate('InteractiveNotification')
+                    navigation.navigate('InteractiveList')
                 }}>
                     <View style={styles.headerItem}>
                         <Image source={require('../../assets/tab/publish.png')} style={styles.headerImg}/>

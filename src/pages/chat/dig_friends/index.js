@@ -49,9 +49,9 @@ export default class DigFriends extends React.Component {
           <View style={styles.line}></View>
           <View style={styles.main_list}>
             {
-              this.state.requestList.map(item => {
+              this.state.requestList.map((item,index) => {
                 return (
-                  <View style={styles.list_item}>
+                  <View style={styles.list_item} key={index}>
                     <Image style={styles.head_pic} source={item.headPic || defaultHeader}/>
                     <View style={styles.info_box}>
                       <Text style={styles.request_name}>

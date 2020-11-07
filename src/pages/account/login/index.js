@@ -76,8 +76,18 @@ export default class Login extends React.Component {
     }
 
     login = async () => {
-        AsyncStorage.setItem('session', '2_1602603032869', null);
-        this.props.navigation.navigate('TabContainer');
+        GetRequest(`user/login`,{
+            phoneNumber:this.state.userPhone,
+            verifyCode:this.state.userCode
+        }).then(res => {
+            if (res.code === 0) {
+                AsyncStorage.setItem('session', res.data.token, null);
+                this.props.navigation.navigate('TabContainer');
+            } else {
+                Toast.fail(res.msg || '发送失败，请稍后重试');
+            }
+        });
+        
     }
 
     render() {
