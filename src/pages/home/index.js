@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {Fragment} from 'react';
 import {PermissionsAndroid, Platform, SafeAreaView, StyleSheet, View} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from "../../components/scrollable_tab_bar/CustomTabBar";
@@ -14,7 +14,6 @@ import Activities from "./activities";
 import Trends from "./trends";
 import EventBus from "../../utils/EventBus";
 import {addLocationListener, Geolocation, init, setNeedAddress} from "react-native-amap-geolocation";
-import KV from "../../utils/KV";
 
 export default class Home extends React.Component {
 
@@ -55,18 +54,22 @@ export default class Home extends React.Component {
     }
 
     render() {
-        return <SafeAreaView style={styles.container}>
-            <ScrollableTabView
-                renderTabBar={() => <CustomTabBar/>}
-            >
-                <View style={styles.container} tabLabel="关系网">
-                    <Activities {...this.props}/>
-                </View>
-                <View style={styles.container} tabLabel="北京">
-                    <Trends {...this.props}/>
-                </View>
-            </ScrollableTabView>
-        </SafeAreaView>;
+        return <Fragment>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                <SafeAreaView style={styles.container}>
+                <ScrollableTabView
+                    renderTabBar={() => <CustomTabBar/>}
+                >
+                    <View style={styles.container} tabLabel="关系网">
+                        <Activities {...this.props}/>
+                    </View>
+                    <View style={styles.container} tabLabel="北京">
+                        <Trends {...this.props}/>
+                    </View>
+                </ScrollableTabView>
+            </SafeAreaView>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        </Fragment>
     }
 }
 
