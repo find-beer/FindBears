@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {apiProd} from '../config';
 import KV from "./KV";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const instance = axios.create({
     baseURL: apiProd.host,
@@ -14,11 +15,11 @@ instance.defaults.timeout = 30000;
 
 //请求拦截器
 instance.interceptors.request.use(
-    function (config) {
+    async function (config) {
         // 添加响应头等等设置
+        let result = await AsyncStorage.getItem('session');
+        config.headers.token = result;
         config.headers.session = KV.getSessionId();
-        config.headers.token = '1_1604737548947';
-
         return config;
     },
     function (error) {
@@ -51,15 +52,14 @@ export function PostRequest(url, par) {
 }
 
 export function _internalRequest(requestUri, params, type) {
-
     let options = {
         method: type,
         headers: {
             "Content-Type": 'application/json',
-            'token': '1_1604737548947',
+            'token': '2_1604970056519',
         },
     };
-
+    console.log('session'+KV.getSessionId())
     let finalUri = requestUri;
     if (type === 'GET') {
         if (params !== {}) {
