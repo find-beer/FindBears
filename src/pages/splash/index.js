@@ -19,7 +19,6 @@ export default class Splash extends React.Component {
     }
 
     componentDidMount() {
-        AsyncStorage.removeItem('session');
         this.timer = setTimeout(() => {
             AsyncStorage.getItem('session', (error, result) => {
                 if (error === null) {
