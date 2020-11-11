@@ -47,7 +47,7 @@ export default class PersonalInfo extends Component {
                 <View style={styles.hobbyWrapper}>
                     <View style={styles.hobbyInner}>
                         <Image
-                            source={info.headPicUrl || imageUrl.hobbyIcon}
+                            source={imageUrl.hobbyIcon}
                             style={styles.hobbyIcon}
                         />
                         {get(info,'hobbyTagNameList',[]).map(item => {
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
         paddingRight: scaleSize(56),
         backgroundColor: 'rgba(204,204,204,.23)',
         marginTop: scaleSize(42),
+        alignItems:'center'
     },
     hobbyIcon: {
         width: scaleSize(60),

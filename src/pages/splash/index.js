@@ -19,6 +19,7 @@ export default class Splash extends React.Component {
     }
 
     componentDidMount() {
+        AsyncStorage.removeItem('session');
         this.timer = setTimeout(() => {
             AsyncStorage.getItem('session', (error, result) => {
                 if (error === null) {
@@ -35,11 +36,6 @@ export default class Splash extends React.Component {
                     });
                     this.props.navigation.dispatch(homeAction);
                 }
-                // const homeAction = StackActions.reset({
-                //     index: 0,
-                //     actions: [NavigationActions.navigate({routeName: 'TabContainer'})],//主页
-                // });
-                // this.props.navigation.dispatch(homeAction);
             });
         }, 2000);
     }

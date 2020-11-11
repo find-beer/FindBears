@@ -40,7 +40,7 @@ export default class Mine extends Component{
 	componentWillMount(){
 		GetRequest('user/detail').then(res => {
 			this.setState({
-				personalInfo:res
+				personalInfo:res.data
 			})
 		})
 	}
