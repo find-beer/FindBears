@@ -20,22 +20,24 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {apiProd} from "../../config";
 import {PostRequest} from "../../utils/request";
 
-export default class PublishActivity extends React.Component {
+export default class EditDraft extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            num: '',
-            area: '',
-            type: '周边游',
-            type_id: 1,
-            userStatus: false,
+            draft: props.navigation.state.params.draft,
+            title: props.navigation.state.params.draft.activityTitle,
+            num: props.navigation.state.params.draft.memberCount,
+            area: props.navigation.state.params.draft.activityAddress,
+            type: props.navigation.state.params.draft.activityTypeName,
+            type_id: props.navigation.state.params.draft.activityType,
+            userStatus: props.navigation.state.params.draft.needInfo,
+            activityTime: props.navigation.state.params.draft.activityTime,
+            endTime: props.navigation.state.params.draft.enrollEndTime,
+            content: props.navigation.state.params.draft.content,
+            ticketVoList: props.navigation.state.params.draft.ticketVoList,
             isStartVisible: false,
             isEndVisible: false,
-            activityTime: '',
-            endTime: '',
-            content: '',
         };
     }
 
@@ -46,6 +48,7 @@ export default class PublishActivity extends React.Component {
                 type_id: e.id
             })
         })
+        console.log('页面传参', this.state.draft);
     }
 
     /**
@@ -200,7 +203,7 @@ export default class PublishActivity extends React.Component {
 
     render() {
 
-        const {type, isStartVisible, activityTime, isEndVisible, endTime} = this.state;
+        const {type, isStartVisible, activityTime, isEndVisible, endTime, title, area, num, userStatus,ticketVoList} = this.state;
 
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
@@ -212,6 +215,7 @@ export default class PublishActivity extends React.Component {
                                      title
                                  })
                              }}
+                             sub={title}
                 />
                 <SettingItem title={'活动时间'}
                              sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '不选时间默认为长期活动'}
@@ -222,6 +226,7 @@ export default class PublishActivity extends React.Component {
                                      num
                                  })
                              }}
+                             sub={num}
                 />
                 <SettingItem title={'报名截止时间'}
                              sub={endTime !== '' ? moment(endTime).format("YYYY-MM-DD HH:mm") : '(默认活动开始前12小时)'}
@@ -233,14 +238,17 @@ export default class PublishActivity extends React.Component {
                                      area
                                  })
                              }}
+                             sub={area}
                              inputHint={'请填写位置'}/>
-                <SettingItem title={'增加票种'} subType={'txt'} sub={'已设置0个'} showArrow onRightPress={this.addTicket}/>
+                <SettingItem title={'增加票种'} subType={'txt'} sub={'已设置'+(ticketVoList.length || 0)+'个'} showArrow onRightPress={this.addTicket}/>
                 <SettingItem title={'活动类型'} subType={'txt'} sub={type} showArrow onRightPress={this.selectType}/>
                 <SettingItem title={'是否需要报名人身份证信息'} reflectStatus={(status) => {
                     this.setState({
                         userStatus: status
                     })
-                }} subType={'switch'} sub={type} onRightPress={this.selectType}/>
+                }}
+                             switchStatus={userStatus === 1}
+                             subType={'switch'} sub={type} onRightPress={this.selectType}/>
 
                 <RichEditor
                     placeholder={'请输入富文本内容'}

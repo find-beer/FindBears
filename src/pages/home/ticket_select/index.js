@@ -25,7 +25,7 @@ export default class TicketSelect extends React.Component {
         this.props.navigation.navigate('Pay', {data: this.state.data})
     }
 
-    renderItem = (rowData: any) => {
+    renderItem = (rowData) => {
         const {item} = rowData;
         console.log('item票种数据', item);
         return (

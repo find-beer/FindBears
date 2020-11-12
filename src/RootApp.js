@@ -32,6 +32,7 @@ import DigFriend from "./pages/chat/dig_friends";
 import FriendsList from "./pages/chat/FriendsList";
 import MyFollow from "./pages/chat/MyFollow";
 import ActivityMsgList from './pages/chat/activity_list'
+import EditDraft from "./pages/publish/editDraft";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -136,6 +137,9 @@ const RootApp = createStackNavigator({
     },
     MyFollow: {
         screen: MyFollow
+    },
+    EditDraft: {
+        screen: EditDraft
     },
 }, {
     headerMode: 'none',

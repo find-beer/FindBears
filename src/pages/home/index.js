@@ -14,6 +14,7 @@ import Activities from "./activities";
 import Trends from "./trends";
 import EventBus from "../../utils/EventBus";
 import {addLocationListener, Geolocation, init, setNeedAddress} from "react-native-amap-geolocation";
+import {GetRequest} from "../../utils/request";
 
 export default class Home extends React.Component {
 
@@ -42,9 +43,23 @@ export default class Home extends React.Component {
 
     };
 
+    /**
+     * 查询草稿
+     */
+    queryDraft = async () => {
+        const response = await GetRequest('activity/querydraft', {});
+        if (response.data) { //
+            console.log('存在草稿');
+            this.props.navigation.navigate('EditDraft', {"draft": response.data})
+        } else { //
+            console.log('不存在草稿');
+            this.props.navigation.navigate('PublishActivity')
+        }
+    }
+
     componentDidMount() {
         EventBus.on('GO_ACTIVITY', () => {
-            this.props.navigation.navigate('PublishActivity')
+            this.queryDraft();
         })
         EventBus.on('GO_TREND', () => {
             this.props.navigation.navigate('PublishTrend')
@@ -56,7 +71,7 @@ export default class Home extends React.Component {
     render() {
         return <Fragment>
             <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-                <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <ScrollableTabView
                     renderTabBar={() => <CustomTabBar/>}
                 >

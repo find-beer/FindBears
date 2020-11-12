@@ -9,14 +9,14 @@
 import React from 'react';
 import RootApp from './RootApp';
 import PublishDialog from './components/publish_dialog/PublishDialog';
-import {View} from 'react-native';
+import {LogBox, View} from 'react-native';
 import SelectItemsDialog from "./components/select_dialog/SelectItemsDialog";
 
-console.disableYellowBox = true;
+LogBox.ignoreAllLogs(true);
 
 export default class App extends React.Component {
     render() {
-        return <View style={{flex:1}}>
+        return <View style={{flex: 1}}>
             <RootApp/>
             <PublishDialog ref={ref => global.publishDialog = ref}/>
             <SelectItemsDialog

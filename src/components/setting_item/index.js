@@ -6,9 +6,6 @@ export default class SettingItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            switchStatus: false
-        };
     }
 
     renderSub = (title,
@@ -18,7 +15,9 @@ export default class SettingItem extends React.Component {
                  onRightPress,
                  reflectNumText,
                  reflectText,
-                 reflectStatus) => {
+                 reflectStatus,
+                 switchStatus
+    ) => {
         if (subType === 'input') {
             return <TextInput
                 onChangeText={(text) => {
@@ -45,7 +44,7 @@ export default class SettingItem extends React.Component {
                     }, () => {
                     })
                 }}
-                value={this.state.switchStatus}
+                value={switchStatus}
                 style={styles.switch}/>
         } else {
             return <TouchableOpacity onPress={onRightPress}>
@@ -66,6 +65,7 @@ export default class SettingItem extends React.Component {
             reflectText,
             reflectStatus,
             showArrow,
+            switchStatus = false
         } = this.props;
         return <View>
             <View style={styles.container}>
@@ -80,6 +80,7 @@ export default class SettingItem extends React.Component {
                         reflectNumText,
                         reflectText,
                         reflectStatus,
+                        switchStatus
                     )
                 }
                 {
