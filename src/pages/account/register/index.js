@@ -15,6 +15,7 @@ import {
 } from '@ant-design/react-native';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
+import {apiProd} from "../../../config";
 
 export default class Register extends Component {
     constructor(props) {
@@ -41,7 +42,6 @@ export default class Register extends Component {
                 birthday: '生日不能为空~',
                 sex: '性别也要加上~',
             },
-            headPicUrl: '',
         };
     }
     confirmBirthday(value) {
@@ -106,7 +106,7 @@ export default class Register extends Component {
                 path: 'images',
             },
         };
-        ImagePicker.showImagePicker(options, response => {
+        ImagePicker.showImagePicker(options, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.error) {
@@ -114,39 +114,48 @@ export default class Register extends Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ');
             } else {
-                const source = {uri: 'data:image/jpeg;base64,' + response.data};
-                this.uploadImage({
-                    uri: response.uri,
+                console.log('图片文件', response);
+                let formData = new FormData();
+                formData.append('imgFile', {
+                    uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
                     type: 'multipart/form-data',
-                    name: 'headPic.jpg',
+                    name: 'trend' + new Date().getTime() + '.jpg',
                 });
-                this.setState({
-                    headPicUrl: source,
+
+                let currentHeader;
+                if (Platform.OS === 'ios') {
+                    currentHeader = {
+                        'Content-Type': 'multipart/form-data;charset=utf-8',
+                        'token': '1_1604737548947'
+                    }
+                } else {
+                    currentHeader = {
+                        'Accept': 'application/json',
+                        'token': '1_1604737548947'
+                    }
+                }
+                fetch(apiProd.host + 'common/uploadImage', {
+                    method: 'POST',
+                    headers: currentHeader,
+                    body: formData,
+                })
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(res => {
+                        console.log(res)
+                        this.setState({
+                            registerForm: {
+                                ...this.state.registerForm,
+                                headPicUrl: res.data.url,
+                            },
+                        });
+                    }).catch((e) => {
+                    console.log('上传失败:', e)
                 });
             }
+
         });
-    }
-    uploadImage(file) {
-        let formData = new FormData();
-        formData.append('imgFile', file);
-        fetch('http://121.89.223.103:8080/common/uploadImage', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data;charset=utf-8',
-            },
-            body: formData,
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(res => {
-                this.setState({
-                    registerForm: {
-                        ...this.state.registerForm,
-                        headPicUrl: res.data.url,
-                    },
-                });
-            });
     }
     render() {
         return (
@@ -157,7 +166,7 @@ export default class Register extends Component {
                             style={styles.flexImg}
                             onPress={() => this.choosePicture()}>
                             <Image
-                                source={this.state.headPicUrl || imgUrl.avater}
+                                source={this.state.registerForm.headPicUrl?{'uri':this.state.registerForm.headPicUrl}:imgUrl.avater}
                                 style={styles.avaterIcon}
                             />
                             <Text style={styles.label}>上传头像</Text>
@@ -267,6 +276,7 @@ export default class Register extends Component {
       height: scaleSize(278),
       marginBottom: scaleSize(50),
       borderRadius: scaleSize(139),
+      backgroundColor:'#000'
   },
   registerForm: {
       paddingLeft: scaleSize(110),
