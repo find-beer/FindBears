@@ -56,6 +56,7 @@ export default class PublishActivity extends React.Component {
         const {
             title, num, activityTime, endTime, type_id, type, content, userStatus, area
         } = this.state;
+        console.log(content)
         const response = await PostRequest('activity/publish', {
             "activityTitle": title,
             "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
@@ -66,7 +67,7 @@ export default class PublishActivity extends React.Component {
             "ticketVoList": [
                 {
                     "id": 1,
-                    "illustration": "string",
+                    "illustration": "探熊小票票说明！",
                     "price": 0,
                     "ticketName": "探熊小票票"
                 }
@@ -191,10 +192,12 @@ export default class PublishActivity extends React.Component {
         });
     }
 
-    handleChange(html) {
-        console.log('editor data:', html);
+    handleChange = (html) => {
+        // console.log('editor data:', html);
         this.setState({
             content: html
+        }, () => {
+            console.log(this.state.content)
         })
     }
 

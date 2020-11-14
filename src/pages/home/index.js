@@ -50,6 +50,7 @@ export default class Home extends React.Component {
         const response = await GetRequest('activity/querydraft', {});
         if (response.data) { //
             console.log('存在草稿');
+            console.log(response.data);
             this.props.navigation.navigate('EditDraft', {"draft": response.data})
         } else { //
             console.log('不存在草稿');

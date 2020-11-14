@@ -20,12 +20,16 @@ export default class Activities extends React.Component {
             relationDetailList: [],
         };
     }
+
     renderItem = (rowData) => {
         const activity = rowData.item.activityDetailVO;
         const feed = rowData.item.feedDetailVO;
+        const {navigation} = this.props;
         if (activity) {
             return (
-                <ActivityItem {...this.props} activity={activity}/>
+                <ActivityItem
+                    onBtnClick={() => navigation.navigate('ActivityDetail', {id: activity.id})} {...this.props}
+                    activity={activity}/>
             );
         }
         if (feed) {

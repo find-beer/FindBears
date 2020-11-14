@@ -7,41 +7,31 @@
  */
 
 import React, {Fragment} from 'react';
-import {FlatList, ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, FlatList, ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Header from '../../../components/header/index'
 import Button from '../../../components/ticket_button/index'
 import {screenW} from "../../../constants";
 import {scaleSize} from "../../../utils/scaleUtil";
-import {GetRequest} from "../../../utils/request";
+import {GetRequest, PostRequest} from "../../../utils/request";
+import EventBus from "../../../utils/EventBus";
 
 export default class Tickets extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tickets: []
+            // tickets: props.navigation.state.params.tickets,
+            // draft: props.navigation.state.params.draft,
         };
-    }
-
-    queryTickets = async () => {
-        const response = await GetRequest('activity/querydraft', {});
-        console.log('票种数据列表', response.data.ticketVoList);
-        this.setState({
-            tickets:response.data.ticketVoList
-        })
-    }
-
-    componentDidMount() {
-        this.queryTickets();
     }
 
     createTicket = () => {
         let arr = [];
         this.props.navigation.navigate('AddTicket', {
             onAdd: (data) => {
+                console.log('新增数据', data);
                 arr.push(data);
                 this.setState({
-                    // tickets: [...this.state.tickets, arr]
                     tickets: this.state.tickets.concat(arr)
                 }, () => {
                     console.log('最终数据=>', this.state.tickets)
@@ -51,30 +41,93 @@ export default class Tickets extends React.Component {
     }
 
     modifyTicket = (index) => {
-        let arr = [];
-        console.log(this.state.tickets[index])
-        this.props.navigation.navigate('ModifyTicket', {
-            name: this.state.tickets[index].name,
-            price: this.state.tickets[index].price,
-            desc: this.state.tickets[index].desc,
-            onModify: (data) => {
-                arr.push(data);
-                this.setState({
-                    // tickets: [...this.state.tickets, arr]
-                    tickets: this.state.tickets.concat(arr)
-                }, () => {
-                    console.log('最终数据=>', this.state.tickets)
-                })
-            }
-        })
+        this.props.navigation.navigate('ModifyTicket', {"index": index});
     }
 
-    deleteTicket = (index) => {
-        const {tickets} = this.state;
-        console.log(tickets)
-        this.state.tickets.splice(index, 1)
-        this.setState({})
+    /**
+     * 查询草稿
+     */
+    queryDraft = async () => {
+        const response = await GetRequest('activity/querydraft', {});
+        if (response.data) { //
+            console.log('存在草稿');
+            console.log(response.data);
+            this.setState({
+                activityTitle: response.data.activityTitle,
+                memberCount: response.data.memberCount,
+                activityAddress: response.data.activityAddress,
+                activityTypeName: response.data.activityTypeName,
+                activityType: response.data.activityType,
+                needInfo: response.data.needInfo,
+                activityTime: response.data.activityTime,
+                enrollEndTime: response.data.enrollEndTime,
+                ticketVoList: response.data.ticketVoList,
+                content: response.data.content,
+                id: response.data.id,
+            })
+        } else { //
+            console.log('不存在草稿');
+        }
     }
+
+    showAlert = (index) => {
+        Alert.alert("确定要删除该票种么", '', [
+            {
+                text: "取消",
+            },
+            {
+                text: "确认",
+                style: 'destructive',
+                onPress: () => {
+                    this.deleteTicket(index)
+                },
+            },
+        ]);
+    }
+
+    deleteTicket = async (index) => {
+        const {ticketVoList} = this.state;
+        ticketVoList[index].ticketState = 0;
+        this.saveData(this.state.ticketVoList);
+    }
+
+    /**
+     * 立即发布/存为草稿
+     */
+    saveData = async (arr) => {
+        const {
+            id, activityTitle, activityTime, memberCount, enrollEndTime,
+            activityAddress, activityTypeName, activityType,
+            needInfo, content
+        } = this.state;
+        try {
+            const response = await PostRequest('activity/publish', {
+                id,
+                activityTitle,
+                activityTime,
+                memberCount,
+                enrollEndTime,
+                activityAddress,
+                "location": '123.236944,41.267244',
+                "ticketVoList": arr,
+                activityTypeName,
+                activityType,
+                needInfo,
+                content,
+                "userType": 1,
+                "activityValid": 1,
+                "state": 1
+            }, 'POST');
+            if (response.code === 0) {
+                EventBus.post('REFRESH_TICKETS', {});
+                ;
+                this.queryDraft()
+            }
+        } catch (e) {
+            console.log('报错了', e);
+        }
+    }
+
 
     renderItem = (rowData) => {
         const {navigation} = this.props;
@@ -84,7 +137,7 @@ export default class Tickets extends React.Component {
         const index = rowData.index;
         console.log('item', data);
 
-        return <ImageBackground
+        return <View><ImageBackground
             style={styles.tickeCard}
             source={require('../../../assets/publish/ticket-card.png')}>
             <View
@@ -120,7 +173,7 @@ export default class Tickets extends React.Component {
                         style={
                             styles.tickePrice
                         }>
-                        {data.assemblePrice}元
+                        {data.price + ''}元
                     </Text>
 
                 </View>
@@ -142,24 +195,48 @@ export default class Tickets extends React.Component {
                         color: '#333333',
                         fontSize: scaleSize(42),
                     }}
-                    onTap={() => this.deleteTicket(index)}
+                    onTap={() => this.showAlert(index)}
                 />
             </View>
+
         </ImageBackground>
+            <View style={{marginLeft: scaleSize(54)}}>
+                <Text style={{color: '#333'}}>票种说明:</Text>
+                <Text style={{color: '#999', marginRight: scaleSize(54),}}>{data.illustration}</Text>
+            </View>
+        </View>
     };
 
     saveTicket = () => {
         console.log('最后提交数据', this.state.tickets);
+        const {navigation} = this.props;
+        const {tickets} = this.state;
+        // navigation.state.params.onSave(tickets);
+        navigation.goBack();
+    }
+
+    componentWillUnmount() {
+        const {navigation} = this.props;
+        const {tickets} = this.state;
+        // navigation.state.params.onSave(tickets);
+        navigation.goBack();
+    }
+
+    componentDidMount() {
+        this.queryDraft();
+        EventBus.on('REFRESH_TICKETS', (e) => {
+            this.queryDraft();
+        });
     }
 
     render() {
-        const {tickets} = this.state;
+        const {ticketVoList} = this.state;
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'票种'}/>
             <View style={{flex: 1}}>
                 <FlatList
-                    data={tickets}
+                    data={ticketVoList}
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => item + index}
                 />
@@ -214,8 +291,8 @@ const styles = StyleSheet.create({
     tickeCard: {
         width: scaleSize(1080),
         height: scaleSize(506),
-        marginBottom: scaleSize(60),
-        marginTop: scaleSize(54),
+        marginBottom: scaleSize(30),
+        marginTop: scaleSize(27),
     },
     tickeCardContent: {
         flexDirection: 'row',

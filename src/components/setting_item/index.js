@@ -38,7 +38,7 @@ export default class SettingItem extends React.Component {
         } else if (subType === 'switch') {
             return <Switch
                 onValueChange={(value) => {
-                    reflectStatus(value)
+                    reflectStatus(value ? 1 : 0);
                     this.setState({
                         switchStatus: value
                     }, () => {
@@ -65,7 +65,7 @@ export default class SettingItem extends React.Component {
             reflectText,
             reflectStatus,
             showArrow,
-            switchStatus = false
+            switchStatus
         } = this.props;
         return <View>
             <View style={styles.container}>

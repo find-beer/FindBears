@@ -60,7 +60,7 @@ export default class ActivityList extends React.Component {
   }
   render() {
     const {relationDetailList} = this.state;
-    return( 
+    return(
     <SafeAreaView style={styles.container}>
         <Header title="活动列表" left={null} />
         <View style={styles.horn_wrapper}>
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
   },
   horn_wrapper:{
     display:'flex',
-    justifyContent:'row',
     justifyContent:'center',
     alignItems:'center',
     marginTop:scaleSize(30),
