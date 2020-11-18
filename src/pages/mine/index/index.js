@@ -51,7 +51,7 @@ export default class Mine extends Component{
 		this.props.navigation.navigate('Store')
 	}
 	handleGoEdit(){
-		this.props.navigation.navigate('EditInfo')
+		this.props.navigation.navigate('EditInfo',this.state.personalInfo)
 	}
 	handleGoConfig(){
 		this.props.navigation.navigate('Config')

@@ -82,7 +82,7 @@ export default class Login extends React.Component {
         }).then(res => {
             if (res.code === 0) {
                 AsyncStorage.setItem('session', res.data.token, null);
-                this.props.navigation.navigate('TabContainer');
+                this.props.navigation.navigate('Register');
             } else if(res.code === 10001){
                 this.props.navigation.navigate('Register');
             } else {

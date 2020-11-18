@@ -1,147 +1,195 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, SafeAreaView, TextInput,TouchableOpacity} from 'react-native'
+import { 
+	StyleSheet, 
+	View, 
+	Text, 
+	Image, 
+	SafeAreaView, 
+	TextInput,
+	TouchableOpacity
+} from 'react-native'
 import Header from '../../../components/header/index'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
-
-const avatar = require('../../../assets/mine/avatar.jpeg')
 const camera = require('../../../assets/mine/camera-icon.png')
 const tbears = require('../../../assets/mine/tbears.png')
 import ImagePicker from 'react-native-image-picker';
+import {apiProd} from "../../../config";
 import {
-    Provider,
-    List,
-    DatePicker,
+	Button,
+	Provider,
+	List,
+	DatePicker,
 } from '@ant-design/react-native';
-import {GetRequest} from '../../../utils/request';
+import {GetRequest,PutRequest, PostRequest} from '../../../utils/request';
 const defaultImg = require('../../../assets/mine/avatar.jpeg');
-const options = {
-	title: '选择图片',
-	cancelButtonTitle: '取消',
-	takePhotoButtonTitle: '拍照',
-	chooseFromLibraryButtonTitle: '图片库',
-	cameraType: 'back',
-	mediaType: 'photo',
-	videoQuality: 'high',
-	durationLimit: 10,
-	maxWidth: 600,
-	maxHeight: 600,
-	aspectX: 2,
-	aspectY: 1,
-	quality: 0.8,
-	angle: 0,
-	allowsEditing: false,
-	noData: false,
-	storageOptions: {
-			skipBackup: true,
-			path: 'images',
-	},
-};
+import {xor} from 'lodash'
 
 export default class EditInfo extends Component {
     constructor(props){
         super(props)
         this.state = {
             editForm:{
-                headPicUrl: '',
-                name:'',
-                birthday:undefined,
+							...this.props.navigation.state.params,
+							loginToken:this.props.navigation.state.params.loginToken,
 						},
-						checkedHobby:[],
-						hobbyList: [],
+            hobbyList: [],
         }
-		}
-		componentDidMount() {
-			this.getHobbyList();
-		}
-		getHobbyList() {
-			GetRequest('user/listHobbyTagName').then(res => {
-						res &&
-								this.setState({
-										hobbyList: res.data,
-								});
-				});
-		}
+    }
+    componentDidMount() {
+        this.getHobbyList();
+    }
+    getHobbyList() {
+        GetRequest('user/listHobbyTagName').then(res => {
+                    res &&
+                            this.setState({
+                                    hobbyList: res.data,
+                            });
+            });
+    }
     changeDate(val) {
         this.setState({
-            registerForm: {
-                ...this.state.registerForm,
-                birthday: val,
-            },
+					editForm: {
+						...this.state.editForm,
+						birthdayTimeStamp: new Date(val).getTime(),
+					},
         });
     }
-    activeItem(index) {
+    activeItem(name) {
         // 取消选中
-        if (this.state.checkedHobby.includes(index)) {
-            let arr = [...this.state.checkedHobby];
-            arr.splice(arr.findIndex(item => item === index), 1);
+        if (this.state.editForm.hobbyTagNameList.includes(name)) {
+            let arr = [...this.state.editForm.hobbyTagNameList];
+            arr.splice(arr.findIndex(item => item === name), 1);
             this.setState({
-							checkedHobby: arr
-            });
+							editForm:{
+								...this.state.editForm,
+								hobbyTagNameList:arr
+							}
+						});
             return;
         }
         // 最多3个
-        if (this.state.checkedHobby.length >= 5) {
+        if (this.state.editForm.hobbyTagNameList.length >= 5) {
             return;
 				}
 				// 选中
         this.setState({
-					checkedHobby: [...this.state.checkedHobby, index],
-			});
+					editForm:{
+						...this.state.editForm,
+						hobbyTagNameList:[...this.state.editForm.hobbyTagNameList, name]
+					}
+				});
     }
-    getClass(index) {
-        return this.state.checkedHobby.includes(index)
+    getClass(item) {
+        return this.state.editForm.hobbyTagNameList.includes(item)
             ? styles.hobbyActiveItem
             : styles.hobbyItem;
     }
-    getTextClass(index) {
-        return this.state.checkedHobby.includes(index)
+    getTextClass(name) {
+        return this.state.editForm.hobbyTagNameList.includes(name)
             ? styles.hobbyActiveText
             : styles.hobbyText;
 		}
-		choosePicture() {
-			this.setState({});
-			ImagePicker.showImagePicker(options, response => {
-					if (response.didCancel) {
-							console.log('User cancelled image picker');
-					} else if (response.error) {
-							console.log('ImagePicker Error: ', response.error);
-					} else if (response.customButton) {
-							console.log('User tapped custom button: ');
-					} else {
-							const source = {uri: 'data:image/jpeg;base64,' + response.data};
-							this.uploadImage({
-									uri: response.uri,
-									type: 'multipart/form-data',
-									name: 'headPic.jpg',
-							});
-							this.setState({
-									headPicUrl: source,
-							});
-					}
-			});
-	}
-	uploadImage(file) {
-			let formData = new FormData();
-			formData.append('imgFile', file);
-			fetch('http://121.89.223.103:8080/common/uploadImage', {
-					method: 'POST',
-					headers: {
-							'Content-Type': 'multipart/form-data;charset=utf-8',
-					},
-					body: formData,
+    choosePicture() {
+        this.setState({});
+        const options = {
+            title: '选择图片',
+            cancelButtonTitle: '取消',
+            takePhotoButtonTitle: '拍照',
+            chooseFromLibraryButtonTitle: '图片库',
+            cameraType: 'back',
+            mediaType: 'photo',
+            videoQuality: 'high',
+            durationLimit: 10,
+            maxWidth: 600,
+            maxHeight: 600,
+            aspectX: 2,
+            aspectY: 1,
+            quality: 0.8,
+            angle: 0,
+            allowsEditing: false,
+            noData: false,
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ');
+            } else {
+                console.log('图片文件', response);
+                let formData = new FormData();
+                formData.append('imgFile', {
+                    uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
+                    type: 'multipart/form-data',
+                    name: 'trend' + new Date().getTime() + '.jpg',
+                });
+
+                let currentHeader;
+                if (Platform.OS === 'ios') {
+                    currentHeader = {
+                        'Content-Type': 'multipart/form-data;charset=utf-8'
+                    }
+                } else {
+                    currentHeader = {
+                        'Accept': 'application/json',
+                    }
+                }
+                PostRequest('common/uploadImage', formData)
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(res => {
+                        this.setState({
+                            editForm: {
+                                ...this.state.editForm,
+                                headPicUrl: res.data.url,
+                            },
+                        });
+                    }).catch((e) => {
+                    console.log('上传失败:', e)
+                });
+            }
+
+        });
+		}
+		checkModify(){
+			let that = this;
+			return new Promise((resolve,reject) => {
+				let oldObj = that.props.navigation.state.params;
+				let newObj = that.state.editForm
+				if(
+					oldObj.birthdayTimeStamp === newObj.birthdayTimeStamp
+					&&
+					oldObj.name === newObj.name
+					&&
+					oldObj.adName === newObj.adName
+					&&
+					xor(oldObj.hobbyTagNameList,newObj.hobbyTagNameList).length === 0
+				){
+						reject()
+				}else{
+					resolve()
+				}
 			})
-					.then(response => {
-							return response.json();
-					})
-					.then(res => {
-							this.setState({
-									registerForm: {
-											...this.state.registerForm,
-											headPicUrl: res.data.url,
-									},
-							});
-					});
-	}
+		}
+		modify(){
+			let date = new Date(this.state.editForm.birthdayTimeStamp)
+			this.checkModify().then(() => {
+			})
+			PutRequest('user/modifyUser',{
+				...this.state.editForm,
+				birthday:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+				loginToken:this.state.editForm.token,
+				locationStr:`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`
+			}).then(res => {
+				console.log(res)
+			})
+		}
     render (){
         return (
             <Provider>
@@ -150,21 +198,21 @@ export default class EditInfo extends Component {
                     <List>
                         <View style={styles.container}>
                             <View style={styles.editInfoMain}>
-															<TouchableOpacity
-																style={styles.avatarItemWrap}
-																onPress={() => this.choosePicture()}>
-																<Image
-																		source={this.state.headPicUrl || defaultImg}
-																		style={styles.avatarItem}
-																/>
-																<Image source={camera} style={styles.avatarCamera}></Image>
-																<Text style={styles.label}>编辑头像</Text>
-															</TouchableOpacity>
-															<View style={styles.avatarCoverWrap}>
-																	<View style={styles.avatarCoverBtn}>
-																			<Text style={styles.avatarCover}>更换封面</Text>
-																	</View>
-															</View>
+                                <TouchableOpacity
+                                    style={styles.avatarItemWrap}
+                                    onPress={() => this.choosePicture()}>
+                                    <Image
+                                        source={{'uri':this.state.editForm.headPicUrl}}
+                                        style={styles.avatarItem}
+                                    />
+                                    <Image source={camera} style={styles.avatarCamera}></Image>
+                                    <Text style={styles.label}>编辑头像</Text>
+                                </TouchableOpacity>
+                                {/* <View style={styles.avatarCoverWrap}>
+                                    <View style={styles.avatarCoverBtn}>
+                                        <Text style={styles.avatarCover}>更换封面</Text>
+                                    </View>
+                                </View> */}
                             </View>
                             <View style={styles.infoFormWrap}>
                                 <View style={styles.infoFormItem}>
@@ -173,8 +221,8 @@ export default class EditInfo extends Component {
                                         value={this.state.editForm.name}
                                         onChangeText={val =>
                                             this.setState({
-                                                registerForm: {
-                                                    ...this.state.registerForm,
+																							editForm: {
+                                                    ...this.state.editForm,
                                                     name: val,
                                                 },
                                             })
@@ -184,10 +232,11 @@ export default class EditInfo extends Component {
                                 </View>
                                 <View style={styles.infoFormItem}>
                                     <Text style={styles.formItemTitle}>常驻地</Text>
+																			<Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
                                 </View>
                                 <View style={styles.dateItem}>
                                     <DatePicker
-                                        value={this.state.editForm.birthday}
+                                        value={new Date(this.state.editForm.birthdayTimeStamp)}
                                         mode="date"
                                         minDate={new Date(1970, 1, 1)}
                                         maxDate={new Date(2020, 1, 1)}
@@ -208,24 +257,29 @@ export default class EditInfo extends Component {
                                 </View>
                             </View>
                             <View style={styles.hobbyWrap}>
-                            <View style={styles.hobbyList}>
-															{
-																this.state.hobbyList.map((item, index) => {
-																		return (
-																				<TouchableOpacity
-																						key={item}
-																						style={this.getClass(index)}
-																						onPress={() => this.activeItem(index)}>
-																						<Text style={this.getTextClass(index)}>
-																								{item}
-																						</Text>
-																				</TouchableOpacity>
-																		);
-																})
-															}
-                            </View>
-                        </View>
-                        </View>
+																<View style={styles.hobbyList}>
+																		{
+																				this.state.hobbyList.map(item => {
+																						return (
+																								<TouchableOpacity
+																										key={item}
+																										style={this.getClass(item)}
+																										onPress={() => this.activeItem(item)}>
+																										<Text style={this.getTextClass(item)}>
+																												{item}
+																										</Text>
+																								</TouchableOpacity>
+																						);
+																				})
+																		}
+																</View>
+																<Button
+																	style={styles.modifyBtnBox}
+																	onPress={() => this.modify()}>
+																	<Text style={styles.modifyBtnText}>修改</Text>
+																</Button>
+														</View>
+												</View>
                     </List>
                 </SafeAreaView>
             </Provider>
@@ -240,10 +294,10 @@ container:{
   editInfoMain:{
 		display:'flex',
 		alignItems:'center',
-      flexDirection:'column',
-      justifyContent:'center',
-      backgroundColor:'#564F61',
-      height:scaleSize(550),
+		flexDirection:'column',
+		justifyContent:'center',
+		backgroundColor:'#564F61',
+		height:scaleSize(550),
   },
   avatarWrap:{
       display:'flex',
@@ -256,8 +310,8 @@ container:{
 		display:'flex',
 		flexDirection:'column',
 		alignItems:'center',
-      width:scaleSize(266),
-      height:scaleSize(266)
+		width:scaleSize(266),
+		height:scaleSize(266)
   },
   avatarItem:{
       width:scaleSize(266),
@@ -385,15 +439,15 @@ hobbyActiveItem: {
 		marginRight: scaleSize(20),
 		marginBottom: scaleSize(20),
 		backgroundColor: '#8066E3',
-},
-hobbyText: {
-		color: '#564F5F',
-		fontSize: scaleFont(42),
-},
-hobbyActiveText: {
-		fontSize: scaleFont(42),
-		color: '#FFF',
-},
+	},
+	hobbyText: {
+			color: '#564F5F',
+			fontSize: scaleFont(42),
+	},
+	hobbyActiveText: {
+			fontSize: scaleFont(42),
+			color: '#FFF',
+	},
   hobbyAddBtn:{
       marginTop:scaleSize(100),
       marginBottom:scaleSize(92),
@@ -419,5 +473,14 @@ hobbyActiveText: {
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-  }
+	},
+	modifyBtnBox: {
+		width: '100%',
+		height: scaleSize(120),
+		borderRadius: scaleSize(40),
+		backgroundColor: '#8A8DF9',
+	},
+	modifyBtnText: {
+			color: '#fff',
+	},
 })

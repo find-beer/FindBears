@@ -19,13 +19,13 @@ export default class Splash extends React.Component {
     }
 
     componentDidMount() {
-        AsyncStorage.removeItem('session');
+        // AsyncStorage.removeItem('session');
         this.timer = setTimeout(() => {
             AsyncStorage.getItem('session', (error, result) => {
                 if (error === null) {
                     const loginAction = StackActions.reset({
                         index: 0,
-                        actions: [NavigationActions.navigate({routeName: 'Register'})],//登录页
+                        actions: [NavigationActions.navigate({routeName: 'Login'})],//登录页
                     });
                     this.props.navigation.dispatch(loginAction);
                 }
