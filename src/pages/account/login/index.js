@@ -49,6 +49,7 @@ export default class Login extends React.Component {
 
     getSmsCodeRequest() {
         GetRequest(`user/getVerifyCode/${this.state.userPhone}`).then(res => {
+            console.log('获取验证码结果',res)
             if (res.code === 0) {
                 this.startCountDown();
             } else {
@@ -80,6 +81,7 @@ export default class Login extends React.Component {
             phoneNumber:this.state.userPhone,
             verifyCode:this.state.userCode
         }).then(res => {
+            console.log('登录结果',res)
             if (res.code === 0) {
                 AsyncStorage.setItem('session', res.data.token, null);
                 this.props.navigation.navigate('TabContainer');
@@ -88,7 +90,7 @@ export default class Login extends React.Component {
             } else {
                 Toast.fail(res.msg || '登录失败，请稍后重试');
             }
-            
+
         });
 
     }

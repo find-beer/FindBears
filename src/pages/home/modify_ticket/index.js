@@ -11,62 +11,143 @@ import {SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 
 import Header from '../../../components/header/index'
 import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
+import {GetRequest, PostRequest} from "../../../utils/request";
+import EventBus from "../../../utils/EventBus";
 
 export default class ModifyTicket extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            name: props.navigation.state.params.name,
-            price: props.navigation.state.params.price,
-            desc: props.navigation.state.params.desc,
+            index: props.navigation.state.params.index,
+            ticketName: '',
+            price: '',
+            illustration: '',
+            ticketVoList: []
         };
     }
 
     modiTicket = () => {
-        const {name, price, desc} = this.state;
-        this.props.navigation.state.params.onModify({
-            name,
-            price,
-            desc,
-        })
-        this.props.navigation.goBack()
+        const {index, ticketVoList, price, illustration, ticketName} = this.state;
+
+        ticketVoList[index].assemblePrice = price;
+        ticketVoList[index].ticketName = ticketName;
+        ticketVoList[index].illustration = illustration;
+        ticketVoList[index].ticketState = 1;
+        ticketVoList[index].assemble = 0;
+        ticketVoList[index].assembleMemberCount = 0;
+
+        this.saveData(ticketVoList);
+
+    }
+
+    /**
+     * 立即发布/存为草稿
+     */
+    saveData = async (arr) => {
+        const {
+            id, activityTitle, activityTime, memberCount, enrollEndTime,
+            activityAddress, activityTypeName, activityType,
+            needInfo, content
+        } = this.state;
+        const {navigation} = this.props;
+        try {
+            const response = await PostRequest('activity/publish', {
+                id,
+                activityTitle,
+                activityTime,
+                memberCount,
+                enrollEndTime,
+                activityAddress,
+                "location": '123.236944,41.267244',
+                "ticketVoList": arr,
+                activityTypeName,
+                activityType,
+                needInfo,
+                content,
+                "userType": 1,
+                "activityValid": 1,
+                "state": 1
+            }, 'POST');
+            if (response.code === 0) {
+                EventBus.post('REFRESH_TICKETS', {});
+                navigation.goBack();
+            }
+        } catch (e) {
+            console.log('报错了', e);
+        }
+    }
+
+
+    /**
+     * 查询草稿
+     */
+    queryDraft = async () => {
+        const response = await GetRequest('activity/querydraft', {});
+        if (response.data) { //
+            console.log('存在草稿');
+            console.log(response.data);
+            this.setState({
+                activityTitle: response.data.activityTitle,
+                memberCount: response.data.memberCount,
+                activityAddress: response.data.activityAddress,
+                activityTypeName: response.data.activityTypeName,
+                activityType: response.data.activityType,
+                needInfo: response.data.needInfo,
+                activityTime: response.data.activityTime,
+                enrollEndTime: response.data.enrollEndTime,
+                content: response.data.content,
+                ticketVoList: response.data.ticketVoList,
+                id: response.data.id,
+            }, () => {
+                this.setState({
+                    ticketName: this.state.ticketVoList[this.state.index].ticketName,
+                    price: this.state.ticketVoList[this.state.index].price,
+                    illustration: this.state.ticketVoList[this.state.index].illustration,
+                })
+            })
+        } else { //
+            console.log('不存在草稿');
+        }
+    }
+
+    componentDidMount() {
+        this.queryDraft();
     }
 
     render() {
-        const {name, price, desc} = this.state;
+        const {ticketName, price, illustration} = this.state;
         return <Fragment style={styles.container}>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} title={'票种详情'}/>
+            <Header {...this.props} title={'修改票种'}/>
             <View style={{flex: 1}}>
-                <SettingItem title={'票种名称'} subType={'input'} inputHint={name}
+                <SettingItem title={'票种名称'} subType={'input'} inputHint={ticketName}
                              reflectText={(title) => {
                                  this.setState({
-                                     name: title
+                                     ticketName: title
                                  })
                              }}
+                             sub={ticketName}
+
                 />
-                <SettingItem title={'价格'} subType={'number'} inputHint={price}
+                <SettingItem title={'价格'} subType={'number'}
+                             inputHint={'请填写'}
                              reflectNumText={(num) => {
                                  this.setState({
                                      price: num
                                  })
                              }}
+                             sub={price}
                 />
-                {/*<SettingItem title={'是否允许拼团'} reflectStatus={(status) => {*/}
-                {/*    this.setState({*/}
-                {/*        userStatus: status*/}
-                {/*    })*/}
-                {/*}} subType={'switch'} onRightPress={this.selectType}/>*/}
                 <SettingItem title={'票种说明'} subType={'none'}/>
                 <TextInput textAlign='left'
                            underlineColorAndroid='transparent'
                            onChangeText={(text) => {
                                this.setState({
-                                   desc: text
+                                   illustration: text
                                })
                            }}
-                           value={desc}
+                           value={illustration}
                            textAlignVertical="top"
                            multiline
                            style={styles.up}

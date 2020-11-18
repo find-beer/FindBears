@@ -12,6 +12,8 @@ import Header from '../../../components/header/index'
 import {GetRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
 import moment from "moment";
+import {RichEditor} from "react-native-pell-rich-editor";
+import KV from "../../../utils/KV";
 
 export default class ActivityDetail extends React.Component {
 
@@ -23,7 +25,8 @@ export default class ActivityDetail extends React.Component {
                 activityTitle: '',
                 activityTime: '',
                 cityName: '',
-                memberCount: 0
+                memberCount: 0,
+                content: ''
             },
         };
     }
@@ -78,7 +81,12 @@ export default class ActivityDetail extends React.Component {
                     {/*    <Text style={styles.left}>活动经费</Text>*/}
                     {/*    <Text style={styles.right}>{activityTitle}</Text>*/}
                     {/*</View>*/}
+
                 </View>
+                <RichEditor
+                    disabled
+                    initialContentHTML={data.content}
+                />
             </View>
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.joinTalk}>
@@ -129,17 +137,17 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     card: {
-        elevation: 1,  //  设置阴影角度，通过这个设置有无阴影（这个是最重要的，决定有没有阴影）
-        shadowColor: '#cdcdcd',  //  阴影颜色
-        shadowOffset: {width: 0, height: 0},  // 阴影偏移
-        shadowOpacity: 1,  // 阴影不透明度
-        width: screenW - 32,
-        marginLeft: 16,
-        borderRadius: 10,
+        // elevation: 1,  //  设置阴影角度，通过这个设置有无阴影（这个是最重要的，决定有没有阴影）
+        // shadowColor: '#cdcdcd',  //  阴影颜色
+        // shadowOffset: {width: 0, height: 0},  // 阴影偏移
+        // shadowOpacity: 1,  // 阴影不透明度
+        // width: screenW - 32,
+        // marginLeft: 16,
+        // borderRadius: 10,
         backgroundColor: 'white',
         height: 150,
-        marginTop: 12,
-        marginBottom: 12,
+        // marginTop: 12,
+        // marginBottom: 12,
         justifyContent: 'center',
         paddingLeft: 16
     },

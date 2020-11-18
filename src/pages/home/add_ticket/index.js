@@ -11,54 +11,130 @@ import {SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 
 import Header from '../../../components/header/index'
 import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
-import {_internalRequest} from "../../../utils/request";
+import {GetRequest, PostRequest} from "../../../utils/request";
+import EventBus from "../../../utils/EventBus";
 
 export default class AddTicket extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            ticketName: '',
             price: '',
-            desc: '',
+            illustration: '',
+            ticketVoList: []
         };
     }
 
     addTicket = async () => {
-        const {name, price, desc} = this.state;
-        const response = await _internalRequest('activity/publish', {
-            "activityTitle": '我是标题',
-            "activityTime": '2020-09-10',
-            "memberCount": 1,
-            "enrollEndTime": '2020-09-11',
-            "activityAddress": '北京',
-            "location": '123.236944,41.267244',
-            "activityTypeName": 1,
-            "activityType": 1,
-            "needInfo": 1,
-            "content": '',
-            "userType": 1,
-            "activityValid": 1,
-            "ticketVoList": [
+        const {ticketName, price, illustration} = this.state;
+
+        if(!ticketName){
+            return
+        }
+
+        if(!price){
+            return
+        }
+
+        let arr = this.state.ticketVoList ? this.state.ticketVoList : [];
+
+        this.setState({
+            ticketVoList: arr.push(
                 {
-                    "illustration": desc,
-                    "price": price,
-                    "ticketName": name,
+                    assemble: 0,
+                    assembleMemberCount: 0,
+                    assemblePrice: price,
+                    illustration,
+                    price,
+                    ticketName,
+                    ticketState: 1
                 }
-            ]
-        }, 'POST');
-        console.log('新增票种', response)
+            )
+        }, () => {
+            this.saveData(arr);
+            // console.log('当前票种数据', this.state.ticketVoList)
+            console.log('--->', arr)
+        })
+
+    }
+
+    /**
+     * 立即发布/存为草稿
+     */
+    saveData = async (arr) => {
+        const {
+            id, activityTitle, activityTime, memberCount, enrollEndTime,
+            activityAddress, activityTypeName, activityType,
+            needInfo, content
+        } = this.state;
+        const {navigation} = this.props;
+        try {
+            const response = await PostRequest('activity/publish', {
+                id,
+                activityTitle,
+                activityTime,
+                memberCount,
+                enrollEndTime,
+                activityAddress,
+                "location": '123.236944,41.267244',
+                "ticketVoList": arr,
+                activityTypeName,
+                activityType,
+                needInfo,
+                content,
+                "userType": 1,
+                "activityValid": 1,
+                "state": 1
+            }, 'POST');
+            if (response.code === 0) {
+                EventBus.post('REFRESH_TICKETS', {});
+                navigation.goBack();
+            }
+        } catch (e) {
+            console.log('报错了', e);
+        }
+    }
+
+    /**
+     * 查询草稿
+     */
+    queryDraft = async () => {
+        const response = await GetRequest('activity/querydraft', {});
+        if (response.data) { //
+            console.log('存在草稿');
+            console.log(response.data);
+            this.setState({
+                activityTitle: response.data.activityTitle,
+                memberCount: response.data.memberCount,
+                activityAddress: response.data.activityAddress,
+                activityTypeName: response.data.activityTypeName,
+                activityType: response.data.activityType,
+                needInfo: response.data.needInfo,
+                activityTime: response.data.activityTime,
+                enrollEndTime: response.data.enrollEndTime,
+                content: response.data.content,
+                ticketVoList: response.data.ticketVoList,
+                id: response.data.id,
+            })
+        } else { //
+            console.log('不存在草稿');
+        }
+    }
+
+    componentDidMount() {
+        this.queryDraft();
     }
 
     render() {
-        return <Fragment style={styles.container}>
+        return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} title={'票种详情'}/>
+            <Header {...this.props} title={'新增票种'}/>
             <View style={{flex: 1}}>
                 <SettingItem title={'票种名称'} subType={'input'} inputHint={'请填写'}
                              reflectText={(title) => {
                                  this.setState({
-                                     name: title
+                                     ticketName: title
                                  })
                              }}
                 />
@@ -69,17 +145,12 @@ export default class AddTicket extends React.Component {
                                  })
                              }}
                 />
-                {/*<SettingItem title={'是否允许拼团'} reflectStatus={(status) => {*/}
-                {/*    this.setState({*/}
-                {/*        userStatus: status*/}
-                {/*    })*/}
-                {/*}} subType={'switch'} onRightPress={this.selectType}/>*/}
                 <SettingItem title={'票种说明'} subType={'none'}/>
                 <TextInput textAlign='left'
                            underlineColorAndroid='transparent'
                            onChangeText={(text) => {
                                this.setState({
-                                   desc: text
+                                   illustration: text
                                })
                            }}
                            textAlignVertical="top"
