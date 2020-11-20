@@ -7,7 +7,7 @@
  */
 
 import React, {Fragment} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Header from "../../../components/header";
 import {screenW} from "../../../constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -20,23 +20,40 @@ export default class TicketSelect extends React.Component {
         this.state = {
             tickets: props.navigation.state.params.data.ticketVoList,
             data: props.navigation.state.params.data,
-            isVisible: false
+            isVisible: false,
+            currentIndex: 0,
+            time:'请选择'
         };
     }
 
     confirmInfo = () => {
-        this.props.navigation.navigate('Pay', {data: this.state.data})
+        const {currentIndex,tickets,time} = this.state;
+        this.props.navigation.navigate('Pay', {data: this.state.data,ticket:tickets[currentIndex],time})
     }
 
     renderItem = (rowData) => {
-        const {item} = rowData;
+        const {item, index} = rowData;
+        const {currentIndex} = this.state;
         console.log('item票种数据', item);
         return (
-            <View style={styles.card}>
-                <Text>{item.ticketName}</Text>
-                <Text>￥{item.price}</Text>
-                <Text>{item.illustration}</Text>
-            </View>
+            <TouchableOpacity onPress={() => this.setState({currentIndex: index})}>
+                <View style={styles.card}>
+                    <View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.ticketName}>{item.ticketName}</Text>
+                            <Text style={styles.price}>￥{item.price}</Text>
+                        </View>
+                        <View style={styles.shuo}>
+                            <Text>说明：</Text>
+                            <Text>{item.illustration}</Text>
+                        </View>
+                    </View>
+                    <View style={{flex: 1}}/>
+                    <Image style={styles.icon}
+                           source={currentIndex === index ? require('../../../assets/publish/choose.png') :
+                               require('../../../assets/publish/unchoose.png')}/>
+                </View>
+            </TouchableOpacity>
         );
     };
 
@@ -80,6 +97,15 @@ export default class TicketSelect extends React.Component {
                     data={tickets}
                     keyExtractor={(item, index) => item + index}
                     renderItem={this.renderItem}
+                    ListFooterComponent={() => {
+                        return <View style={styles.footer}>
+                            <Image style={styles.img} source={require('../../../assets/publish/small-bear-icon.png')}/>
+                            <View style={styles.tip}>
+                                <Text style={styles.msg}>小熊叮嘱：</Text>
+                                <Text style={styles.msg}>参加活动的时候，要保证自己的安全哦</Text>
+                            </View>
+                        </View>
+                    }}
                 />
             </View>
             <View style={{flexDirection: 'row'}}>
@@ -126,8 +152,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 100,
         marginBottom: 12,
-        justifyContent: 'center',
-        paddingLeft: 16
+        alignItems: 'center',
+        paddingLeft: 16,
+        paddingRight: 16,
+        flexDirection: 'row'
     },
     header: {
         flexDirection: 'row',
@@ -136,5 +164,41 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 16,
         alignItems: 'center'
-    }
+    },
+    ticketName: {
+        fontSize: 20,
+        color: '#8A8DF9'
+    },
+    price: {
+        fontSize: 20,
+        color: '#8A8DF9',
+        marginLeft: 12
+    },
+    footer: {
+        flexDirection: 'row',
+        marginLeft: 16,
+        alignItems: 'center',
+        marginTop: 20
+    },
+    img: {
+        width: 30,
+        height: 30,
+    },
+    icon: {
+        width: 18,
+        height: 18,
+    },
+    tip: {
+        flex: 1,
+        backgroundColor: 'white',
+        padding: 16,
+        marginRight: 16,
+        marginLeft: 8,
+        borderRadius: 8
+    },
+    msg: {
+        margin: 4
+    },
+    shuo: {flexDirection: 'row', marginTop: 12, alignItems: 'center'},
+
 });

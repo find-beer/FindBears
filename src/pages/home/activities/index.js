@@ -39,16 +39,20 @@ export default class Activities extends React.Component {
         }
     };
 
-    getData = async () => {
-        const response = await GetRequest('user/relationfeed', {
-            limit: 100,
+    getData() {
+        GetRequest('user/relationfeed', {
+            limit: 500,
             feedOffsetId: 0,
-            activityOffsetId: 0,
+            activityOffsetId: 0
+        }).then((res, err) => {
+            console.log('===>', res)
+            this.setState({
+                relationDetailList: res.data.relationDetailList
+            })
+        }).catch((e) => {
+            console.log('报错', e)
         });
-        this.setState({
-            relationDetailList: response.data.relationDetailList,
-        }, () => {
-        });
+
     }
 
     componentDidMount() {

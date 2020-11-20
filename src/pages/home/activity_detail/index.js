@@ -13,7 +13,6 @@ import {GetRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
 import moment from "moment";
 import {RichEditor} from "react-native-pell-rich-editor";
-import KV from "../../../utils/KV";
 
 export default class ActivityDetail extends React.Component {
 
@@ -26,7 +25,8 @@ export default class ActivityDetail extends React.Component {
                 activityTime: '',
                 cityName: '',
                 memberCount: 0,
-                content: ''
+                content: '',
+                userType: 0
             },
         };
     }
@@ -45,12 +45,18 @@ export default class ActivityDetail extends React.Component {
     }
 
     joinTalk = () => {
-        alert('joinTalk')
+    }
+
+    confirmParticipate = () => {
     }
 
     immeJoin = () => {
         const {data} = this.state;
-        this.props.navigation.navigate('TicketSelect', {data})
+        if (data.userType === 0) {
+            this.confirmParticipate();
+        } else {
+            this.props.navigation.navigate('TicketSelect', {data})
+        }
     }
 
     render() {
@@ -77,17 +83,13 @@ export default class ActivityDetail extends React.Component {
                         <Text style={styles.left}>【参与人数】</Text>
                         <Text style={styles.right}>{memberCount}</Text>
                     </View>
-                    {/*<View>*/}
-                    {/*    <Text style={styles.left}>活动经费</Text>*/}
-                    {/*    <Text style={styles.right}>{activityTitle}</Text>*/}
-                    {/*</View>*/}
-
                 </View>
                 <RichEditor
                     disabled
                     initialContentHTML={data.content}
                 />
             </View>
+
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.joinTalk}>
                     <View style={styles.draft}>

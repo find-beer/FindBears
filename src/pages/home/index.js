@@ -44,17 +44,35 @@ export default class Home extends React.Component {
     };
 
     /**
+     * 查询个人信息
+     * @returns {Promise<void>}
+     */
+    getUserInfo = async (flag) => {
+        const response = await GetRequest('user/detail', {});
+        console.log('用户信息', response);
+        if (response.code === 0) {
+            if (flag) {
+                console.log('------->草稿');
+                this.props.navigation.navigate('EditDraft', {"draft": response.data, userType: response.data.userType})
+            } else {
+                console.log('------->首次');
+                this.props.navigation.navigate('PublishActivity', {userType: response.data.userType})
+            }
+        }
+    }
+
+    /**
      * 查询草稿
      */
     queryDraft = async () => {
         const response = await GetRequest('activity/querydraft', {});
-        if (response.data) { //
+        if (response.data) {
             console.log('存在草稿');
-            console.log(response.data);
-            this.props.navigation.navigate('EditDraft', {"draft": response.data})
+            this.getUserInfo(true);
+
         } else { //
             console.log('不存在草稿');
-            this.props.navigation.navigate('PublishActivity')
+            this.getUserInfo(false);
         }
     }
 

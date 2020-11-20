@@ -33,6 +33,9 @@ import FriendsList from "./pages/chat/FriendsList";
 import MyFollow from "./pages/chat/MyFollow";
 import ActivityMsgList from './pages/chat/activity_list'
 import EditDraft from "./pages/publish/editDraft";
+import LocalTickets from "./pages/home/local_tickets";
+import LocalAddTicket from "./pages/home/local_add_ticket";
+import LocalModifyTicket from "./pages/home/local_modify_ticket";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -140,6 +143,15 @@ const RootApp = createStackNavigator({
     },
     EditDraft: {
         screen: EditDraft
+    },
+    LocalTickets: {
+        screen: LocalTickets
+    },
+    LocalAddTicket: {
+        screen: LocalAddTicket
+    },
+    LocalModifyTicket: {
+        screen: LocalModifyTicket
     },
 }, {
     headerMode: 'none',
