@@ -3,9 +3,11 @@ import {StyleSheet, View, ImageBackground} from 'react-native';
 import {scaleSize} from '../../../utils/scaleUtil';
 
 export default props => {
+    const {data} = props;
+    const {picUrl} = {data}
     return (
         <View style={styles.container}>
-            {props.data.map((item, index) => {
+            {picUrl?.split(',')||[].map((item, index) => {
                 return (
                     <ImageBackground
                         key={index}

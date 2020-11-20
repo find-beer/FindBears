@@ -85,17 +85,16 @@ export default class DynamicTab extends Component {
 									?
 									<View>
 										{
-											this.state.activityList.map(item => {
-												return <ActivityItem item={item} key={item.id}  {...this.props}/>
+											this.state.activityList.map((item,index) => {
+												return <ActivityItem item={item} key={`activity${index}`}  {...this.props}/>
 											})
 										}
 									</View>
 									:
 									<View>
 										{
-											this.state.dynamicList.map(item => {
-												return <DynamicItem feed={item} key={item.id} {...this.props}/> 
-											})
+											this.state.dynamicList.map((item,index) => {
+											return <DynamicItem feed={item} key={`dynamic${index}`}{...this.props}/>										})
 										}
 									</View>
                 }

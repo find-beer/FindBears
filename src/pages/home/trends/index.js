@@ -28,9 +28,10 @@ export default class Trends extends React.Component {
 
     getData = async () => {
         const response = await GetRequest('feed/feeds', {
+            random:0,
             limit: 500,
-            feedOffsetId: 0,
-            activityOffsetId:0
+            offsetId: 0,
+            location: '123.18152,41.269402'
         });
         this.setState({
             feedDetailVOList: response.data.feedDetailVOList,

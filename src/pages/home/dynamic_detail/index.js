@@ -33,6 +33,7 @@ export default class Page extends React.Component {
 							this.setState({
 									detail: res.data,
 							});
+							
 					},
 			);
 			GetRequest('comment/query', {
@@ -73,14 +74,14 @@ export default class Page extends React.Component {
 			})
 		}
     render() {
-        const {detail} = this.state;
+				const {detail} = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <Header title="动态详情" left={null} />
                 <View style={styles.main}>
                     <User data={detail} />
                     <Text style={styles.words}>{detail.content}</Text>
-                    <Photo data={[images.photo, images.photo, images.photo]} />
+                    <Photo data={detail} />
                     <Action data={detail} />
 										{
 											this.state.commentList.map(item => {

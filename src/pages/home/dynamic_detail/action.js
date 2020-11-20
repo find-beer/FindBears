@@ -13,30 +13,32 @@ export default class Action extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...this.props.data
+            info:{...this.props.data},
         };
+        
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps){        
         this.setState({
-            likeNum:nextProps.data.likeNum,
-            commentNum:nextProps.data.commentNum
+            info:{
+                ...nextProps.data
+            } 
         })
     }
     giveLike() {
         PostRequest('like/operate', {
-            infoId: this.state.id,
+            infoId: this.state.info.id,
             infoType: 2,
-            state: this.state.like?0:1,
+            state: this.state.info.like?0:1,
         }).then(() => {
             if(this.state.like){
                 this.setState({
                     like:false,
-                    likeNum:this.state.likeNum - 1
+                    likeNum:this.state.info.likeNum - 1
                 })
             }else{
                 this.setState({
                     like:true,
-                    likeNum:this.state.likeNum + 1
+                    likeNum:this.state.info.likeNum + 1
                 })
             }
         });
@@ -44,7 +46,7 @@ export default class Action extends React.Component {
     comment(){}
     share() {}
     render() {
-        const {like, likeNum, commentNum} = this.state;
+        const {like, likeNum, commentNum} = this.state.info;
         const list = [
             {
                 icon: like ? images.likeImage : images.unlikeImage,

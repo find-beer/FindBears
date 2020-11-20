@@ -19,9 +19,12 @@ export default class ActivityItem extends Component {
         this.state = {
             item:{...this.props.item}
         }
-    }
+		}
+		componentDidMount(){
+			console.log(this.props)
+		}
     handleViewDetail(){
-      this.props.navigation.navigate('ActivityDetail',{id:item.id})
+      this.props.navigation.navigate('ActivityDetail',{id:this.state.item.id})
 		}
 		handleLike(){
 			PostRequest('like/operate', {
@@ -49,7 +52,8 @@ export default class ActivityItem extends Component {
 			})
 		}
     render() {
-        const item = this.state.item;
+				const item = this.state.item;
+				console.log(item)
         const cardConfig = [
             {
                 title: '活动主题',
@@ -128,7 +132,7 @@ export default class ActivityItem extends Component {
                             source={imageUrl.join}
                             style={styles.operationIcon}
                         />
-                        <Text style={styles.operationText}>已加入{item.ticketVoList.assembleMemberCount || 0}人</Text>
+                        <Text style={styles.operationText}>已加入{item.ticketVoList?.assembleMemberCount || 0}人</Text>
                     </View>
                     <View style={styles.oerationItem}>
                         <Image
