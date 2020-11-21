@@ -20,15 +20,20 @@ export default class TicketSelect extends React.Component {
         this.state = {
             tickets: props.navigation.state.params.data.ticketVoList,
             data: props.navigation.state.params.data,
+            publishTime: props.navigation.state.params.data.publishTime,
             isVisible: false,
             currentIndex: 0,
-            time:'请选择'
+            time: ''
         };
     }
 
     confirmInfo = () => {
-        const {currentIndex,tickets,time} = this.state;
-        this.props.navigation.navigate('Pay', {data: this.state.data,ticket:tickets[currentIndex],time})
+        const {currentIndex, tickets, time, publishTime} = this.state;
+        if (time === '请选择' && !publishTime) {
+            alert('请选择活动时间')
+            return
+        }
+        this.props.navigation.navigate('Pay', {data: this.state.data, ticket: tickets[currentIndex], time})
     }
 
     renderItem = (rowData) => {
@@ -39,13 +44,12 @@ export default class TicketSelect extends React.Component {
             <TouchableOpacity onPress={() => this.setState({currentIndex: index})}>
                 <View style={styles.card}>
                     <View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Text style={styles.ticketName}>{item.ticketName}</Text>
-                            <Text style={styles.price}>￥{item.price}</Text>
+                        <View style={{flexDirection: 'row', marginTop: 20}}>
+                            <Text style={styles.ticketName}>{item.ticketName} ￥{item.price}</Text>
                         </View>
+                        <View style={{flex: 1}}/>
                         <View style={styles.shuo}>
-                            <Text>说明：</Text>
-                            <Text>{item.illustration}</Text>
+                            <Text>说明：{item.illustration}</Text>
                         </View>
                     </View>
                     <View style={{flex: 1}}/>
@@ -73,12 +77,22 @@ export default class TicketSelect extends React.Component {
     }
 
     componentDidMount() {
-        console.log('数据', this.state.data)
-        console.log('票种', this.state.tickets)
+        console.log('数据', this.state.data);
+        console.log('票种', this.state.tickets);
+        const {publishTime} = this.state;
+        if (publishTime) {
+            this.setState({
+                time: publishTime
+            })
+        } else {
+            this.setState({
+                time: '请选择'
+            })
+        }
     }
 
     render() {
-        const {tickets, time, isVisible} = this.state;
+        const {tickets, time, isVisible, publishTime} = this.state;
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'选择票种'}/>
@@ -86,7 +100,7 @@ export default class TicketSelect extends React.Component {
                 <TouchableOpacity onPress={() => this.showTime()}>
                     <View style={styles.header}>
                         <Text>
-                            选择时间
+                            {publishTime ? '活动时间' : "选择时间"}
                         </Text>
                         <Text>
                             {time}
@@ -199,6 +213,6 @@ const styles = StyleSheet.create({
     msg: {
         margin: 4
     },
-    shuo: {flexDirection: 'row', marginTop: 12, alignItems: 'center'},
+    shuo: {flexDirection: 'row', marginBottom: 10, alignItems: 'center'},
 
 });

@@ -264,7 +264,7 @@ export default class PublishActivity extends React.Component {
                              }}
                 />
                 <SettingItem title={'活动时间'}
-                             sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '不选时间默认为长期活动'}
+                             sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : (userType === 0 ? '选择活动时间' : '不选时间默认为长期活动')}
                              onRightPress={this.showActivityTime}/>
                 <SettingItem title={'活动人数'} subType={'number'} inputHint={'请填写人数'}
                              reflectNumText={(num) => {
@@ -274,7 +274,7 @@ export default class PublishActivity extends React.Component {
                              }}
                 />
                 <SettingItem title={'报名截止时间'}
-                             sub={enrollEndTime !== '' ? moment(enrollEndTime).format("YYYY-MM-DD HH:mm") : '(默认活动开始前12小时)'}
+                             sub={enrollEndTime !== '' ? moment(enrollEndTime).format("YYYY-MM-DD HH:mm") : (userType === 0 ? '选择截止时间' : '(默认活动开始前12小时)')}
                              onRightPress={this.showEndTime}
                 />
                 <SettingItem title={'活动位置'} subType={'input'}
@@ -312,20 +312,6 @@ export default class PublishActivity extends React.Component {
                     editorInitializedCallback={() => this.onEditorInitialized()}
                 />
 
-                <RichToolbar
-                    onPressAddImage={this.onPressAddImage}
-                    style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
-                    getEditor={() => this.richText}
-                    actions={[
-                        actions.setBold,
-                        actions.setItalic,
-                        actions.insertBulletsList,
-                        actions.insertOrderedList,
-                        actions.insertImage,
-                        // actions.insertLink,
-                    ]}
-                    iconMap={{}}
-                />
             </KeyboardAwareScrollView>
 
             <DateTimePickerModal
@@ -349,18 +335,34 @@ export default class PublishActivity extends React.Component {
                 onConfirm={this.handleEndConfirm}
                 onCancel={this.hideEndDatePicker}
             />
+            <View>
+                <RichToolbar
+                    onPressAddImage={this.onPressAddImage}
+                    style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
+                    getEditor={() => this.richText}
+                    actions={[
+                        actions.setBold,
+                        actions.setItalic,
+                        actions.insertBulletsList,
+                        actions.insertOrderedList,
+                        actions.insertImage,
+                        // actions.insertLink,
+                    ]}
+                    iconMap={{}}
+                />
 
-            <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={() => this.saveData('draft')}>
-                    <View style={styles.draft}>
-                        <Text style={styles.txt}>存为草稿</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.saveData('activity')}>
-                    <View style={styles.publish}>
-                        <Text style={styles.txt}>立即发布</Text>
-                    </View>
-                </TouchableOpacity>
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={() => this.saveData('draft')}>
+                        <View style={styles.draft}>
+                            <Text style={styles.txt}>存为草稿</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.saveData('activity')}>
+                        <View style={styles.publish}>
+                            <Text style={styles.txt}>立即发布</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
 
         </Fragment>;

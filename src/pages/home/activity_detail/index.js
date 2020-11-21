@@ -7,7 +7,7 @@
  */
 
 import React, {Fragment} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Header from '../../../components/header/index'
 import {GetRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
@@ -53,7 +53,19 @@ export default class ActivityDetail extends React.Component {
     immeJoin = () => {
         const {data} = this.state;
         if (data.userType === 0) {
-            this.confirmParticipate();
+            Alert.alert("是否要报名？", '', [
+                {
+                    text: "取消",
+                },
+                {
+                    text: "确认",
+                    style: 'destructive',
+                    onPress: () => {
+                        this.confirmParticipate();
+
+                    },
+                },
+            ]);
         } else {
             this.props.navigation.navigate('TicketSelect', {data})
         }

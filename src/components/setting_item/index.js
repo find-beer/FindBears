@@ -48,8 +48,7 @@ export default class SettingItem extends React.Component {
                 style={styles.switch}/>
         } else {
             return <TouchableOpacity onPress={onRightPress}>
-                <Text
-                    style={[styles.txtInput, {marginRight: subType === 'txt' ? 0 : 16}]}>{sub}</Text>
+                <Text style={[styles.txtInput, {marginRight: 16}]}>{sub}</Text>
             </TouchableOpacity>
         }
     }
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         height: 60,
         lineHeight: 60,
-        color: '#cdcdcd',
     },
     img: {width: 20, height: 25, marginRight: 16, tintColor: '#cdcdcd'},
     switch: {
