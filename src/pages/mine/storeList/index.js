@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import { StyleSheet,View, Text, Image,ScrollView,SafeAreaView,TouchableOpacity} from 'react-native';
 import Header from '../../../components/header/index';
 import {Button,Provider,Modal} from '@ant-design/react-native';
@@ -39,7 +39,6 @@ export default class StoreList extends Component {
     refreshPage(){
         const url = this.state.type === 'join'?'order/user/orderlist':'activity/user'
         GetRequest(url,this.state.pageInfo).then(res => {
-          console.log(res)
             this.setState({
                 activityList:res.data || []
             })
@@ -53,83 +52,86 @@ export default class StoreList extends Component {
         const isJoin = this.state.type === 'join';
         return (
             <Provider>
-                <SafeAreaView style={styles.storeListWrap}>
-                <Header title={this.state.type === 'join'?'我参与的':'我发布的'} left={null} />
-                <ScrollView style={styles.activityList}>
-                    {list.map((item, index) => {
-                        return (
-                            <View style={styles.activityItem} key={index}>
-                                <View style={styles.activityTitle}>
-                                    <Text style={styles.titleText}>
-                                        【活动标题】{isJoin?item.activityName:item.activityTitle}
-                                    </Text>
-                                    {
-                                        this.state.type === 'join'
-                                        ? 
-                                        <TouchableOpacity 
-                                            style={styles.complainBtn}
-                                            onPress={() => this.handleComplain()}
-                                        >
-                                            <Image
-                                                source={complainIcon}
-                                                style={styles.complainIcon}
-                                            />
-                                            <Text style={styles.complainText}>
-                                                投诉
+                <Fragment>
+                    <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                    <SafeAreaView style={styles.storeListWrap}>
+                        <Header {...this.props} title={this.state.type === 'join'?'我参与的':'我发布的'} left={null} />
+                        <ScrollView style={styles.activityList}>
+                            {list.map((item, index) => {
+                                return (
+                                    <View style={styles.activityItem} key={index}>
+                                        <View style={styles.activityTitle}>
+                                            <Text style={styles.titleText}>
+                                                【活动标题】{isJoin?item.activityName:item.activityTitle}
                                             </Text>
-                                        </TouchableOpacity>
-                                        :<></>
-                                    }
-                                </View>
-                                <TouchableOpacity onPress={() => this.handleGoActivityDetail()}>
-                                    <Text style={styles.activityItemInner}>
-                                        【活动时间】{new Date(item.activityTime).toLocaleString().split(' ')[0]}
-                                    </Text>
-                                    <Text style={styles.activityItemInner}>
-                                        【活动地点】{isJoin?item.address:item.cityName}
-                                    </Text>
-                                    <Text style={styles.activityItemInner}>
-                                        【活动费用】{isJoin?item.money:item.ticketVoList[0].price}元
-                                    </Text>
-                                    {/* <View style={styles.activityPhoto}>
-                                        <Image style={styles.activityImage} />
-                                        <Image style={styles.activityImage} />
-                                        <Image style={styles.activityImage} />
-                                    </View> */}
-                                </TouchableOpacity>
-                                {
-                                    this.state.type === 'publish'
-                                    ?
-                                    <View style={styles.btnBox}>
-                                        <TouchableOpacity 
-                                            style={styles.operateBtn}
-                                            onPress={() => this.handleCancel(item.id)}>
-                                            <Text style={styles.operateBtnText}>
-                                                停止报名
+                                            {
+                                                isJoin
+                                                ? 
+                                                <TouchableOpacity 
+                                                    style={styles.complainBtn}
+                                                    onPress={() => this.handleComplain()}
+                                                >
+                                                    <Image
+                                                        source={complainIcon}
+                                                        style={styles.complainIcon}
+                                                    />
+                                                    <Text style={styles.complainText}>
+                                                        投诉
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                :<></>
+                                            }
+                                        </View>
+                                        <TouchableOpacity onPress={() => this.handleGoActivityDetail()}>
+                                            <Text style={styles.activityItemInner}>
+                                                【活动时间】{new Date(item.activityTime).toLocaleString().split(' ')[0]}
                                             </Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity 
-                                            style={styles.operateBtn}
-                                            onPress={() => this.handleGoDetail(item.id)}
-                                        >
-                                            <Text style={styles.operateBtnText}>
-                                                报名详情
+                                            <Text style={styles.activityItemInner}>
+                                                【活动地点】{isJoin?item.address:item.cityName}
                                             </Text>
+                                            <Text style={styles.activityItemInner}>
+                                                【活动费用】{isJoin?item.money:(item.ticketVoList?item.ticketVoList[0].price:'')}元
+                                            </Text>
+                                            {/* <View style={styles.activityPhoto}>
+                                                <Image style={styles.activityImage} />
+                                                <Image style={styles.activityImage} />
+                                                <Image style={styles.activityImage} />
+                                            </View> */}
                                         </TouchableOpacity>
+                                        {
+                                            !isJoin
+                                            ?
+                                            <View style={styles.btnBox}>
+                                                <TouchableOpacity 
+                                                    style={styles.operateBtn}
+                                                    onPress={() => this.handleCancel(item.id)}>
+                                                    <Text style={styles.operateBtnText}>
+                                                        停止报名
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity 
+                                                    style={styles.operateBtn}
+                                                    onPress={() => this.handleGoDetail(item.id)}
+                                                >
+                                                    <Text style={styles.operateBtnText}>
+                                                        报名详情
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            :
+                                            <Button 
+                                                style={styles.viewOrderBtn} 
+                                                onPress={() => this.handleGoDetail(item.id)}
+                                            >
+                                                <Text style={styles.viewOrderBtnText}>查看订单</Text>
+                                            </Button>
+                                        }
                                     </View>
-                                    :
-                                    <Button 
-                                        style={styles.viewOrderBtn} 
-                                        onPress={() => this.handleGoDetail(item.id)}
-                                    >
-                                        <Text style={styles.viewOrderBtnText}>查看订单</Text>
-                                    </Button>
-                                }
-                            </View>
-                        );
-                    })}
-                </ScrollView>
-            </SafeAreaView>
+                                );
+                            })}
+                        </ScrollView>
+                    </SafeAreaView>
+                </Fragment>
             </Provider>
         );
     }

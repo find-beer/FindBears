@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Fragment} from 'react';
 import {FlatList, StyleSheet, View, SafeAreaView,Text,Image} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import Header from '../../../components/header/index'
@@ -22,6 +22,11 @@ export default class InteractiveList extends React.Component {
         type:'like',
       }]
     }
+  }
+  componentDidMount(){
+    // GetRequest('',).then(res => {
+    //   console.log(res)
+    // })
   }
   renderItem(data){
     const item = data.item;
@@ -48,14 +53,17 @@ export default class InteractiveList extends React.Component {
   }
   render(){
     return (
-      <SafeAreaView style={styles.container}>
-        <Header title="互动列表" left={null} />
-        <FlatList
-            data={this.state.interactiveList}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => item + index}
-        />
-      </SafeAreaView>
+      <Fragment>
+				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        <SafeAreaView style={styles.container}>
+          <Header {...this.props} title="互动列表" left={null} />
+          <FlatList
+              data={this.state.interactiveList}
+              renderItem={this.renderItem}
+              keyExtractor={(item, index) => item + index}
+          />
+        </SafeAreaView>
+      </Fragment>
     )
   }
 }

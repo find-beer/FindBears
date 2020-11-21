@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Fragment,Component} from 'react'
 import { StyleSheet, View, Image, Text,ImageBackground,SafeAreaView } from 'react-native'
 import Header from '../../../components/header'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
@@ -11,40 +11,50 @@ const imgUrl = {
     downloadIcon:require('../../../assets/mine/download-icon.png'),
     shareIcon: require('../../../assets/mine/share-icon.png')
 }
-export default () => (
-    <SafeAreaView style={styles.pages}>
-        <Header title="我的二维码" />
-        <View style={styles.container}>
-            <View style={styles.qrItemBox} >
-                <View style={styles.qrItem}>
-                    <Image source={imgUrl.scanIcon} style={styles.scanIcon}></Image>
-                    <Text style={styles.scanText}>扫一扫</Text>
-                </View>
-                <View style={styles.qrItem}>
-                    <Image source={imgUrl.arrowIcon} style={styles.arrowIcon}></Image>
-                </View>
-            </View>
-            <View style={styles.qrCodeWrapper}>
-                <ImageBackground source={imgUrl.qrCodeBg} style={styles.qrBg}>
-                    <Image source={imgUrl.avatar} style={styles.avatar}></Image> 
-                    <Text style={styles.userName}>钱罗罗</Text> 
-                    <View style={styles.qrCode}></View> 
-                </ImageBackground> 
-            </View>
-            <View style={styles.operationBox}>
-                <View style={styles.operationItem}>
-                    <Image source={imgUrl.downloadIcon} style={styles.btnIcon}></Image>
-                    <Text style={styles.btnText}>下载</Text>
-                </View> 
-                <View style={styles.operationItem}>
-                    <Image source={imgUrl.shareIcon} style={styles.btnIcon}></Image>
-                    <Text style={styles.btnText}>分享</Text>
-                </View> 
-            </View>
-            <Text style={styles.slogan}>[走，带你去看花花世界]</Text> 
-        </View>
-    </SafeAreaView>
-)
+export default class QrCode extends Component{
+    constructor(props){
+        super(props)
+    }
+    render(){
+        return (
+            <Fragment>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                <SafeAreaView style={styles.pages}>
+                    <Header {...this.props} title="我的二维码" left={null} />
+                    <View style={styles.container}>
+                        <View style={styles.qrItemBox} >
+                            <View style={styles.qrItem}>
+                                <Image source={imgUrl.scanIcon} style={styles.scanIcon}></Image>
+                                <Text style={styles.scanText}>扫一扫</Text>
+                            </View>
+                            <View style={styles.qrItem}>
+                                <Image source={imgUrl.arrowIcon} style={styles.arrowIcon}></Image>
+                            </View>
+                        </View>
+                        <View style={styles.qrCodeWrapper}>
+                            <ImageBackground source={imgUrl.qrCodeBg} style={styles.qrBg}>
+                                <Image source={imgUrl.avatar} style={styles.avatar}></Image> 
+                                <Text style={styles.userName}>钱罗罗</Text> 
+                                <View style={styles.qrCode}></View> 
+                            </ImageBackground> 
+                        </View>
+                        <View style={styles.operationBox}>
+                            <View style={styles.operationItem}>
+                                <Image source={imgUrl.downloadIcon} style={styles.btnIcon}></Image>
+                                <Text style={styles.btnText}>下载</Text>
+                            </View> 
+                            <View style={styles.operationItem}>
+                                <Image source={imgUrl.shareIcon} style={styles.btnIcon}></Image>
+                                <Text style={styles.btnText}>分享</Text>
+                            </View> 
+                        </View>
+                        <Text style={styles.slogan}>[走，带你去看花花世界]</Text> 
+                    </View>
+                </SafeAreaView>
+            </Fragment>
+        )
+    }
+}
 
 
 const styles = StyleSheet.create({

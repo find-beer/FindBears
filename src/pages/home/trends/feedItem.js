@@ -15,12 +15,15 @@ export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
 				this.state = {
-					feed:this.props.feed
+					feed:{...this.props.feed}
 				}
     }
-    handleGoDetail(id){
-			// console.log(id)
-			// this.props.navigation.navigate('DynamicDetail',{id})
+    handleGoDetail(){
+			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
+		}
+		handleGoStrangerPage(){
+			// console.log(this.state.feed)
+			this.props.navigation.navigate('StrangerInfo', {uid: this.state.feed.userVO?.userId || ''})
 		}
 		getDate(date){
 			if(new Date(date).toDateString() === new Date().toDateString()){
@@ -57,14 +60,16 @@ export default class DynamicItem extends Component {
 		}
     render() {
 			const feed = this.state.feed;
-			const picList = feed.picUrl? feed.picUrl.split(',')  : [defaultImg,defaultImg,defaultImg]
+			const picList = feed.picUrl? feed.picUrl.split(',')  : []
 			return (
 					<View style={styles.dynamicItemWrap} >
 							<View style={styles.itemHeader}>
-									<Image
-											source={get(feed.userVO,'pic',defaultImg)}
-											style={styles.avatarInner}
-									/>
+									<TouchableOpacity onPress={() => this.handleGoStrangerPage()}>
+										<Image
+												source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
+												style={styles.avatarInner}
+										/>
+									</TouchableOpacity>
 									<View style={styles.dynamicInfo}>
 											<Text style={styles.name}>
 													{
@@ -79,7 +84,7 @@ export default class DynamicItem extends Component {
 									</View>
 							</View>
 							<View style={styles.dynamicTextBox}>
-									<TouchableOpacity onPress={() => this.handleGoDetail(feed.id)}>
+									<TouchableOpacity onPress={() => this.handleGoDetail()}>
 										<Text style={styles.dynamicText}>
 												{feed.content}
 										</Text>
@@ -108,13 +113,15 @@ export default class DynamicItem extends Component {
 											/>
 											<Text style={styles.operationText}>点赞{feed.likeNum}</Text>
 									</TouchableOpacity>
-									<View style={styles.operationItem2}>
+									<TouchableOpacity 
+										style={styles.operationItem2}
+										onPress={() => this.handleGoDetail()}>
 											<Image
 													source={imageUrl.comment}
 													style={styles.operationIcon}
 											/>
 											<Text style={styles.operationText}>已评论{feed.commentNum}</Text>
-									</View>
+									</TouchableOpacity>
 									<View style={styles.operationItem3}>
 											<Image
 													source={imageUrl.share}

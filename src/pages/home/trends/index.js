@@ -22,15 +22,20 @@ export default class Trends extends React.Component {
 
     renderItem = (rowData) => {
         return (
-            <FeedItem {...this.props} feed={rowData} key={rowData.id}/>
+            <FeedItem 
+            {...this.props} 
+            feed={rowData.item} 
+            key={rowData.item.id}
+            />
         );
     };
 
     getData = async () => {
         const response = await GetRequest('feed/feeds', {
+            random:0,
             limit: 500,
-            feedOffsetId: 0,
-            activityOffsetId:0
+            offsetId: 0,
+            location: '123.18152,41.269402'
         });
         this.setState({
             feedDetailVOList: response.data.feedDetailVOList,

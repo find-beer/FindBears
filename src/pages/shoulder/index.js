@@ -48,7 +48,7 @@ export default class Shoulder extends React.Component {
             activityValid: type === 'shortActivity' ? 1 : 0,
             pageSize: 100,
             pageNum: 1,
-            activityType: 0
+            activityType: -1
         });
         this.setState({
             activityList: response.data
@@ -128,10 +128,7 @@ export default class Shoulder extends React.Component {
                     <View style={styles.tabWrapper}>
                         <View style={styles.tabHeader}>
                             <View
-                                style={styles.tabItem}
-                                onPress={() => {
-                                    this.state.currentTab = 'shortActivity';
-                                }}>
+                                style={styles.tabItem}>
                                 <Text
                                     style={
                                         this.state.currentTab === 'shortActivity'
@@ -146,10 +143,7 @@ export default class Shoulder extends React.Component {
                                 ) : null}
                             </View>
                             <View
-                                style={styles.tabItem}
-                                onPress={() => {
-                                    this.state.currentTab = 'longActivity';
-                                }}>
+                                style={styles.tabItem}>
                                 <Text
                                     style={
                                         this.state.currentTab === 'longActivity'

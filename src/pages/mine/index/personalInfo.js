@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     userSex: {
         width: scaleSize(40),
         height: scaleSize(40),
-        color: '#fff',
     },
     releationNet: {
         color: '#FFF',
@@ -168,7 +167,8 @@ const styles = StyleSheet.create({
         paddingRight: scaleSize(80),
         display:'flex',
         flexDirection:'row',
-        justifyContent:'flex-start'
+        justifyContent:'flex-start',
+        alignItems:'center'
     },
     locationIcon: {
         width: scaleSize(22),

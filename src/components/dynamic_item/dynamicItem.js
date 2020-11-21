@@ -58,6 +58,9 @@ export default class DynamicItem extends Component {
             }
         })
     }
+    handlegoStrangerPage(){
+        this.props.navigation.navigate('StrangerInfo', {id: this.state.feed.uid})
+    }
 
     render() {
         const feed = this.state.feed;
@@ -65,10 +68,12 @@ export default class DynamicItem extends Component {
         return (
             <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
-                    <Image
-                        source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
-                        style={styles.avatarInner}
-                    />
+                    <TouchableOpacity onPress={() =>this.handlegoStrangerPage()}>
+                        <Image
+                            source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
+                            style={styles.avatarInner}
+                        />
+                    </TouchableOpacity>
                     <View style={styles.dynamicInfo}>
                         <Text style={styles.name}>
                             {
@@ -116,13 +121,16 @@ export default class DynamicItem extends Component {
                         />
                         <Text style={styles.operationText}>点赞{feed.likeNum}</Text>
                     </TouchableOpacity>
-                    <View style={styles.operationItem2}>
+                    <TouchableOpacity 
+                        style={styles.operationItem2}
+                        onPress={() => this.handleGoDetail()}
+                    >
                         <Image
                             source={imageUrl.comment}
                             style={styles.operationIcon}
                         />
                         <Text style={styles.operationText}>已评论{feed.commentNum}</Text>
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.operationItem3}>
                         <Image
                             source={imageUrl.share}

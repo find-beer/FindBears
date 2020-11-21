@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Text, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import {scaleSize} from '../../../utils/scaleUtil';
 import {getDate} from '../../../utils/date'
 
@@ -11,7 +11,7 @@ export default props => {
     const {data} = props;
     return (
         <View style={{...styles.isRow, ...styles.container}}>
-            <ImageBackground source={images.headshot} style={styles.headshot} />
+            <Image source={images.headshot} style={styles.headshot} />
             <View>
                 <Text style={styles.name}>{data.nickname || `探熊用户${parseInt(Math.random()*10000)}`}</Text>
                 <Text style={styles.time}>{getDate(data.commentTime)}</Text>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,Fragment } from 'react'
 import { StyleSheet, View,Text,Image,TouchableOpacity,SafeAreaView } from 'react-native'
 import Header from '../../../components/header/index'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
@@ -20,8 +20,10 @@ export default class Store extends Component {
     }
     render (){
         return (
-            <SafeAreaView style={styles.storeWrap}>
-                <Header title="仓库" left={null} />
+            <Fragment>
+				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                <SafeAreaView style={styles.storeWrap}>
+                <Header {...this.props} title="仓库" left={null} />
                 <View style={styles.storeCountWrap}>
                     {/* 圆角盒子 */}
                     <View style={styles.storeCountBox}>
@@ -79,6 +81,7 @@ export default class Store extends Component {
                     <Text style={styles.storeTipsDes}>发布的活动按时举行，则活动费用会在三个工作日内到账</Text>
                 </View>
             </SafeAreaView>
+            </Fragment>
         ) 
     }   
 }

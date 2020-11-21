@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,Fragment } from 'react'
 import { StyleSheet, View, Text, Image,SafeAreaView} from 'react-native'
 import Header from '../../../components/header/index'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
@@ -59,8 +59,10 @@ export default class OrderList extends Component {
   }
   render(){
     return (
-      <SafeAreaView style={styles.orderListWrap}>
-        <Header title="报名详情" left={null} />
+      <Fragment>
+        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        <SafeAreaView style={styles.orderListWrap}>
+        <Header {...this.props} title="报名详情" left={null} />
           <View style={styles.container}>
             {
               this.state.isPublish
@@ -115,6 +117,7 @@ export default class OrderList extends Component {
             }
           </View>
       </SafeAreaView>
+      </Fragment>     
     )
   }
 }

@@ -16,26 +16,26 @@ export default class MyFollow extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			followList:[]
+			fansList:[]
 		}
 	}
 	handleGoNewFriendPage(item){
 		this.props.navigation.navigate('StrangerInfo', {uid: item.userVO?.userId || ''})
 	}
 	componentDidMount(){
-		GetRequest('userRelation/listFollows').then(res => {
+		GetRequest('userRelation/listFans').then(res => {
 			this.setState({
-				followList:res.data
+				fansList:res.data
 			})
 		})
 	}
 	render() {
 			return <Fragment>
 					<SafeAreaView style={{backgroundColor: 'white'}}>
-						<Header {...this.props} title={'我的关注'}/>
+						<Header {...this.props} title={'我的粉丝'}/>
 						<View style={styles.main}>
 							{
-								this.state.followList.map(item => {
+								this.state.fansList.map(item => {
 									return (
 										<TouchableOpacity onPress={() => this.handleGoNewFriendPage(item)}>
 											<View style={styles.friendItem}>

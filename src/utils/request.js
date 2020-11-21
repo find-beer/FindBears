@@ -51,3 +51,8 @@ export function PostRequest(url, par) {
     return instance.post(url, par);
 }
 
+export function PutRequest(url, par) {
+    console.log('接口地址', url);
+    console.log('请求参数', par);
+    return instance.put(url, par);
+}

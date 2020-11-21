@@ -5,22 +5,29 @@ import React, {Component} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {screenW} from '../../utils/screenUtil';
 import {scaleSize} from '../../utils/scaleUtil';
+import {get} from 'lodash'
 
 export default class ActivityItem extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
-
+    handlegoStrangerPage(){
+        this.props.navigation.navigate('StrangerInfo', {uid: this.props.activity?.userVO?.userId || ''})
+    }
     render() {
-        const {activity, navigation, onBtnClick} = this.props;
+        const {activity, onBtnClick} = this.props;
         return (
             <View style={styles.itemContainer}>
                 <View style={styles.cards}>
                     <View style={styles.outs}>
-                        <Image resizeMode='contain'
-                               style={styles.avatar}
-                               source={require('../../assets/mine/avatar.jpeg')}/>
+                        <TouchableOpacity onPress={() =>this.handlegoStrangerPage()}>
+                            <Image
+                                resizeMode='contain'
+                                source={{uri: get(activity.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
+                                style={styles.avatar}
+                            />
+                        </TouchableOpacity>   
                         <View style={{marginLeft: 8}}>
                             <Text style={styles.publisher}>名字</Text>
                             <View style={styles.right}>

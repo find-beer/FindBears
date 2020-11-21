@@ -30,7 +30,10 @@ export default class ActivityDetail extends React.Component {
             },
         };
     }
-
+    componentWillUnmount(){
+        this.props.navigation.state.params.refresh()
+        this.props.navigation.goBack()
+    }
     requireDeviceData = async () => {
         const {id} = this.state;
         const response = await GetRequest('activity/activity/detail', {

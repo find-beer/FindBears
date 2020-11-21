@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,Fragment } from 'react'
 import { SafeAreaView,StyleSheet, View, Text, Image,TouchableOpacity} from 'react-native'
 import Header from '../../../components/header/index'
 const arrow = require('../../../assets/mine/arrow_right.png')
@@ -35,71 +35,74 @@ export default class Config extends Component {
     }
     render (){
         return (
-            <SafeAreaView style={styles.configWrap}>
-                <Header title="设置" left={null} />
-                <View style={styles.configInner}>
-                    {/* <View style={styles.configItem}>
-                        <Text style={styles.configItemText}>探熊介绍及反馈</Text>
-                        <Image source={arrow} style={styles.configItemArrow}/>
-                    </View> */}
-                    {/* <View style={styles.configItem}>
-                        <Text style={styles.configItemText}>账号安全(手机号/密码/找回账号)</Text>
-                        <Image source={arrow} style={styles.configItemArrow} />
-                    </View> */}
-                    {/* <View style={styles.configItem}>
-                        <Text style={styles.configItemText}>隐私保护</Text>
-                        <Image source={arrow} style={styles.configItemArrow} />
-                    </View> */}
-                    <TouchableOpacity 
-                        style={styles.configItem}
-                        onPress={() => this.handleClearCache()}
-                    >
-                        <Text style={styles.configItemText}>清理缓存</Text>
-                        <Image source={arrow} style={styles.configItemArrow} />
-                    </TouchableOpacity>
-                    <Text style={styles.text}>
-                        未打开探熊时
-                    </Text>
-                    <TouchableOpacity 
-                        style={styles.configItem}
-                    >
-                        <Text style={styles.configItemText}>接受通知提醒</Text>
-                        <Switch
-                            checked={this.state.openNotice}
-                            onChange={(val) => this.onSwitchNotice(val)}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.text}>
-                        未打开探熊时
-                    </Text>
-                    <TouchableOpacity 
-                        style={styles.configItem}
-                    >
-                        <Text style={styles.configItemText}>声音</Text>
-                        <Switch
-                            checked={this.state.openSound}
-                            onChange={(val) => this.onSwitchSound(val)}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                        style={styles.configItem}
-                    >
-                        <Text style={styles.configItemText}>震动</Text>
-                        <Switch
-                            checked={this.state.openWeng}
-                            onChange={(val) => this.onSwitchWeng(val)}
-                        />
-                    </TouchableOpacity>
-                    <View style={styles.configItem}>
-                        <Text style={styles.configItemText}>版本号</Text>
-                        <Text style={styles.configItemDes}>V1.0.0</Text>
+            <Fragment>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                <SafeAreaView style={styles.configWrap}>
+                    <Header {...this.props} title="设置" left={null} />
+                    <View style={styles.configInner}>
+                        {/* <View style={styles.configItem}>
+                            <Text style={styles.configItemText}>探熊介绍及反馈</Text>
+                            <Image source={arrow} style={styles.configItemArrow}/>
+                        </View> */}
+                        {/* <View style={styles.configItem}>
+                            <Text style={styles.configItemText}>账号安全(手机号/密码/找回账号)</Text>
+                            <Image source={arrow} style={styles.configItemArrow} />
+                        </View> */}
+                        {/* <View style={styles.configItem}>
+                            <Text style={styles.configItemText}>隐私保护</Text>
+                            <Image source={arrow} style={styles.configItemArrow} />
+                        </View> */}
+                        <TouchableOpacity 
+                            style={styles.configItem}
+                            onPress={() => this.handleClearCache()}
+                        >
+                            <Text style={styles.configItemText}>清理缓存</Text>
+                            <Image source={arrow} style={styles.configItemArrow} />
+                        </TouchableOpacity>
+                        <Text style={styles.text}>
+                            未打开探熊时
+                        </Text>
+                        <TouchableOpacity 
+                            style={styles.configItem}
+                        >
+                            <Text style={styles.configItemText}>接受通知提醒</Text>
+                            <Switch
+                                checked={this.state.openNotice}
+                                onChange={(val) => this.onSwitchNotice(val)}
+                            />
+                        </TouchableOpacity>
+                        <Text style={styles.text}>
+                            未打开探熊时
+                        </Text>
+                        <TouchableOpacity 
+                            style={styles.configItem}
+                        >
+                            <Text style={styles.configItemText}>声音</Text>
+                            <Switch
+                                checked={this.state.openSound}
+                                onChange={(val) => this.onSwitchSound(val)}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.configItem}
+                        >
+                            <Text style={styles.configItemText}>震动</Text>
+                            <Switch
+                                checked={this.state.openWeng}
+                                onChange={(val) => this.onSwitchWeng(val)}
+                            />
+                        </TouchableOpacity>
+                        <View style={styles.configItem}>
+                            <Text style={styles.configItemText}>版本号</Text>
+                            <Text style={styles.configItemDes}>V1.0.0</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => this.handleLogout()}>
+                            <Text style={styles.logoutBtn}>退出登录</Text>
+                        </TouchableOpacity>
+                        
                     </View>
-                    <TouchableOpacity onPress={() => this.handleLogout()}>
-                        <Text style={styles.logoutBtn}>退出登录</Text>
-                    </TouchableOpacity>
-                    
-                </View>
-            </SafeAreaView>
+                </SafeAreaView>
+            </Fragment>
         )
     }
 }

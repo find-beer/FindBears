@@ -2,7 +2,7 @@
  *  动态详情
  */
 
-import React from 'react';
+import React,{Fragment} from 'react';
 import {StyleSheet, Image, View, Text,SafeAreaView,TouchableOpacity,TextInput} from 'react-native';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import Header from '../../../components/header/index';
@@ -33,6 +33,7 @@ export default class Page extends React.Component {
 							this.setState({
 									detail: res.data,
 							});
+							
 					},
 			);
 			GetRequest('comment/query', {
@@ -52,7 +53,8 @@ export default class Page extends React.Component {
 			this.setState({
 				currentComment:item
 			})
-    }
+		}
+
     componentDidMount() {
         this.getDetail();
 		}
@@ -73,14 +75,16 @@ export default class Page extends React.Component {
 			})
 		}
     render() {
-        const {detail} = this.state;
+				const {detail} = this.state;
         return (
+					<Fragment>
+						<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             <SafeAreaView style={styles.container}>
-                <Header title="动态详情" left={null} />
+                <Header {...this.props} title="动态详情" left={null} />
                 <View style={styles.main}>
-                    <User data={detail} />
+                    <User data={detail} {...this.props}/>
                     <Text style={styles.words}>{detail.content}</Text>
-                    <Photo data={[images.photo, images.photo, images.photo]} />
+                    <Photo data={detail} />
                     <Action data={detail} />
 										{
 											this.state.commentList.map(item => {
@@ -109,7 +113,8 @@ export default class Page extends React.Component {
 									</TouchableOpacity>
                 </View>
             </SafeAreaView>
-        );
+						</Fragment>
+				);
     }
 }
 
@@ -165,6 +170,7 @@ const styles = StyleSheet.create({
 		},
 		comment_text:{
 			flex: 1,
+			height:scaleSize(48)
 		},
 		comment_btn:{
 			width:scaleSize(160),

@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image,SafeAreaView} from 'react-native'
+import React, { Component,Fragment } from 'react'
+import { StyleSheet, View} from 'react-native'
+import {SafeAreaView} from 'react-navigation';
 import Header from '../../components/header/index'
 import ActivityItem from './item'
 import {GetRequest} from "../../utils/request";
@@ -18,8 +19,8 @@ export default class ActivityList extends Component {
     this.initData()
   }
   initData(){
-    GetRequest('common/activitytype',{
-      activityValid:0,
+    GetRequest('activity/activities',{
+      activityValid:-1,
 			pageSize:100,
 			pageNum:1,
 			activityType:this.state.type
@@ -31,16 +32,19 @@ export default class ActivityList extends Component {
   }
   render(){
     return (
-      <SafeAreaView style={styles.activity_list_wrapper}>
-        <Header title={this.state.title} left={null} />
-        <View style={styles.list_box}>
-          {
-            this.state.activityList.map(item => {
-              return <ActivityItem item={item} key={item.id}/>
-            })
-          }
-        </View>
-      </SafeAreaView>
+      <Fragment>
+        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        <SafeAreaView style={styles.activity_list_wrapper}>
+          <Header {...this.props} title={this.state.title} left={null} />
+          <View style={styles.list_box}>
+            {
+              this.state.activityList.map(item => {
+                return <ActivityItem item={item} key={item.id}/>
+              })
+            }
+          </View>
+        </SafeAreaView>
+      </Fragment>
     )
   }
 }

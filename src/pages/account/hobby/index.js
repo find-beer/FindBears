@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,Fragment} from 'react';
 import {
     SafeAreaView,
     View,
@@ -8,7 +8,7 @@ import {
     AsyncStorage,
     StyleSheet
 } from 'react-native';
-import {GetRequest} from '../../../utils/request';
+import {PostRequest,GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 export default class Hobby extends Component {
@@ -27,7 +27,7 @@ export default class Hobby extends Component {
       GetRequest('user/listHobbyTagName').then(res => {
             res &&
                 this.setState({
-                    hobbyList: res,
+                    hobbyList: res.data,
                 });
         });
     }
@@ -72,15 +72,15 @@ export default class Hobby extends Component {
         let params = {
             ...this.state.registerForm,
             hobbyTagNameList: checked,
-            birthday: this.format(
-                Date.parse(new Date(this.state.registerForm.birthday)),
+            birthdayTimeStamp: this.format(
+                Date.parse(new Date(this.state.registerForm.birthdayTimeStamp)),
             ).toString(),
         };
-        GetRequest('user/signUp', params).then(res => {
-            this.props.navigation.navigate('Home');
+        PostRequest('user/signUp', params).then(res => {
+            this.props.navigation.navigate('TabContainer');
             AsyncStorage.setItem(
                 'object',
-                JSON.stringify({userToken: res.token}),
+                JSON.stringify({userToken: res.data.token}),
             );
         });
     }
@@ -96,7 +96,9 @@ export default class Hobby extends Component {
     }
     render() {
         return (
-            <SafeAreaView>
+            <Fragment>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                <SafeAreaView>
                 <View style={styles.bgWrapper}>
                     <View style={styles.header}>
                         <Text style={styles.headerText}>点选你喜欢的</Text>
@@ -106,26 +108,29 @@ export default class Hobby extends Component {
                             return (
                                 <TouchableOpacity
                                     key={item}
-                                    style={this.getClass(index)}
                                     onPress={() => this.activeItem(index)}>
-                                    <Text style={this.getTextClass(index)}>
-                                        {item}
-                                    </Text>
+                                    <View style={this.getClass(index)}>
+                                        <Text style={this.getTextClass(index)}>
+                                            {item}
+                                        </Text>
+                                    </View>
                                 </TouchableOpacity>
                             );
                         })}
                     </View>
                     <View style={styles.startBoxWrapper}>
                         <TouchableOpacity
-                            style={styles.startBox}
                             onPress={() => this.register()}>
-                            <Text style={styles.startTbearsBtn}>
-                                开启探熊APP
-                            </Text>
+                            <View style={styles.startBox}>
+                                <Text style={styles.startTbearsBtn}>
+                                    开启探熊APP
+                                </Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
                 </View>
             </SafeAreaView>
+            </Fragment>
         );
     }
 }
@@ -153,6 +158,10 @@ const styles = StyleSheet.create({
       marginBottom: scaleSize(80),
   },
   hobbyItem: {
+      display:'flex',
+      flexDirection:'row',
+      justifyContent:'center',
+      alignItems:'center',
       height: scaleSize(100),
       paddingLeft: scaleSize(50),
       paddingRight: scaleSize(50),
@@ -162,6 +171,10 @@ const styles = StyleSheet.create({
       backgroundColor: '#dddddd',
   },
   hobbyActiveItem: {
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
       height: scaleSize(100),
       paddingLeft: scaleSize(50),
       paddingRight: scaleSize(50),
@@ -191,9 +204,14 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
+      alignItems:'center',
       marginTop: scaleSize(80),
   },
   startBox: {
+      display:'flex',
+      flexDirection:'row',
+      justifyContent:'center',
+      alignItems:'center',
       width: scaleSize(560),
       height: scaleSize(160),
       borderRadius: scaleSize(80),
@@ -202,6 +220,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#ffffff',
   },
   startTbearsBtn: {
+      fontWeight:'bold',
       fontSize: scaleFont(52),
       color: '#333333',
       textAlign: 'center',

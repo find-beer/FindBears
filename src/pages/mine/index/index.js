@@ -10,11 +10,11 @@
  *  我的
  */
 
-import React,{Component} from 'react';
-import {StyleSheet,Image, ImageBackground, Text, View} from 'react-native';
+import React,{Component,Fragment} from 'react';
+import {StyleSheet,Image, ImageBackground, Text, View,TouchableOpacity} from 'react-native';
 import DynamicTab from './dynamicTab';
 import PersonalInfo from './personalInfo';
-import {ScrollView,SafeAreaView} from 'react-navigation';
+import {SafeAreaView} from 'react-navigation';
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
@@ -51,68 +51,75 @@ export default class Mine extends Component{
 		this.props.navigation.navigate('Store')
 	}
 	handleGoEdit(){
-		this.props.navigation.navigate('EditInfo')
+		this.props.navigation.navigate('EditInfo',this.state.personalInfo)
 	}
 	handleGoConfig(){
 		this.props.navigation.navigate('Config')
 	}
 	render(){
 			return (
-				<SafeAreaView>
-					<ScrollView>
-							<View>
-							<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
+				<Fragment>
+					<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+					<SafeAreaView>
+						<View>
+								<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
 									<View style={styles.bgaWrapper}>
 											<PersonalInfo personalInfo={this.state.personalInfo}/>
-											<View style={styles.settingBox}>
-													<Image
-															source={imageUrl.configIcon}
-															style={styles.configIcon}
-													/>
-													<Text 
-														style={styles.configFont}
-														onPress={() => this.handleGoConfig()}
-													>设置</Text>
-											</View>
+											<TouchableOpacity onPress={() => this.handleGoConfig()}>
+												<View style={styles.settingBox}>
+														<Image
+																source={imageUrl.configIcon}
+																style={styles.configIcon}
+														/>
+														<Text 
+															style={styles.configFont}
+														>设置</Text>
+												</View>
+											</TouchableOpacity>
 											<View style={styles.operationBox}>
-													<View style={styles.operationBtn}>
-															<Image
-																	source={imageUrl.QRCodeIcon}
-																	style={styles.btnIcon}
-															/>
-															<Text 
-																style={styles.btnText}
-																onPress={() => this.handleGoCode()}
-															>二维码</Text>
-													</View>
-													<View style={styles.operationBtn}>
-															<Image
-																	source={imageUrl.EditIcon}
-																	style={styles.btnIcon}
-															/>
-															<Text 
-																style={styles.btnText}
-																onPress={() => this.handleGoStore()}
-															>仓库</Text>
-													</View>
-													<View style={styles.operationBtn}>
-															<Image
-																	source={imageUrl.EditIcon}
-																	style={styles.btnIcon}
-															/>
-															<Text 
-																style={styles.btnText}
-																onPress={() => this.handleGoEdit()}
-															>编辑资料</Text>
-													</View>
+													<TouchableOpacity onPress={() => this.handleGoCode()}>
+														<View style={styles.operationBtn}>
+																<Image
+																		source={imageUrl.QRCodeIcon}
+																		style={styles.btnIcon}
+																/>
+																<Text 
+																	style={styles.btnText}
+																>二维码</Text>
+														</View>
+													</TouchableOpacity>
+													<TouchableOpacity onPress={() => this.handleGoStore()}>
+														<View style={styles.operationBtn}>
+																<Image
+																		source={imageUrl.EditIcon}
+																		style={styles.btnIcon}
+																/>
+																<Text 
+																	style={styles.btnText}
+																	
+																>仓库</Text>
+														</View>
+													</TouchableOpacity>
+													<TouchableOpacity onPress={() => this.handleGoEdit()}>
+														<View style={styles.operationBtn}>
+																<Image
+																		source={imageUrl.EditIcon}
+																		style={styles.btnIcon}
+																/>
+																<Text 
+																	style={styles.btnText}
+																	
+																>编辑资料</Text>
+														</View>
+													</TouchableOpacity>
 											</View>
 									</View>
 							</ImageBackground>
 							<View style={styles.lineSpace}/>
 							<DynamicTab personalInfo={this.state.personalInfo} {...this.props}/>
-					</View>
-					</ScrollView>
-				</SafeAreaView>
+						</View>
+					</SafeAreaView>
+				</Fragment>
 			)
 	}
 }

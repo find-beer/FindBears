@@ -11,6 +11,7 @@ export default class DynamicTab extends Component {
 		constructor(props){
 			super(props)
 			this.state= {
+				uid:this.props.uid,
 				currentTab: 'dynamic',
 				activityList:[],
 				dynamicList:[],
@@ -26,7 +27,7 @@ export default class DynamicTab extends Component {
             currentTab:name
         })
 		}
-		componentDidMount(){
+		requestCurrent(){
 			GetRequest('activity/user',this.state.pageInfo).then(res => {
 				this.setState({
 					activityList:res.data || []
@@ -37,6 +38,22 @@ export default class DynamicTab extends Component {
 					dynamicList:res.data || []
 				})
 			})
+		}
+		requestStranger(){
+			GetRequest('user/activityList',{userId:this.state.uid,...this.state.pageInfo}).then(res => {
+				this.setState({
+					activityList:res.data || []
+				})
+			})
+			GetRequest('user/feedList',{userId:this.state.uid,...this.state.pageInfo}).then(res => {
+				this.setState({
+					dynamicList:res.data || []
+				})
+			})
+		}
+		componentDidMount(){
+			this.state.uid?this.requestStranger():this.requestCurrent()
+			
 		}
     render() {
         return (
@@ -83,19 +100,18 @@ export default class DynamicTab extends Component {
                 {
 									this.state.currentTab === 'activity'
 									?
-									<View>
+									<View style={styles.listBg}>
 										{
-											this.state.activityList.map(item => {
-												return <ActivityItem item={item} key={item.id}  {...this.props}/>
+											this.state.activityList.map((item,index) => {
+												return <ActivityItem item={item} key={`activity${index}`}  {...this.props}/>
 											})
 										}
 									</View>
 									:
-									<View>
+									<View style={styles.listBg}>
 										{
-											this.state.dynamicList.map(item => {
-												return <DynamicItem feed={item} key={item.id} {...this.props}/> 
-											})
+											this.state.dynamicList.map((item,index) => {
+											return <DynamicItem feed={item} key={`dynamic${index}`} {...this.props}/>										})
 										}
 									</View>
                 }
@@ -107,11 +123,16 @@ export default class DynamicTab extends Component {
 const styles = StyleSheet.create({
   tabWrapper: {},
   tabHeader: {
-      paddingLeft: scaleSize(357),
-      paddingRight: scaleSize(357),
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+		paddingTop:scaleSize(30),
+		paddingLeft: scaleSize(357),
+		paddingRight: scaleSize(357),
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		backgroundColor:'#fff',
+		borderBottomColor:'#f2f2f2',
+		borderBottomWidth:scaleSize(1),
+		borderStyle:'solid'
   },
   tabItem: {
       display: 'flex',
@@ -134,5 +155,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#564f5f',
       marginTop: scaleSize(10),
       marginLeft: scaleSize(20),
-  },
+	},
+	listBg:{
+		backgroundColor:'#fbfbfb'
+	}
 });

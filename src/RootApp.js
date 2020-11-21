@@ -31,8 +31,11 @@ import InteractiveList from "./pages/chat/interactive";
 import DigFriend from "./pages/chat/dig_friends";
 import FriendsList from "./pages/chat/FriendsList";
 import MyFollow from "./pages/chat/MyFollow";
+import FansList from "./pages/chat/FansList";
 import ActivityMsgList from './pages/chat/activity_list'
 import EditDraft from "./pages/publish/editDraft";
+import StrangerInfo from "./pages/strangerInfo";
+import RelationChain from "./pages/relationChain";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -141,6 +144,15 @@ const RootApp = createStackNavigator({
     EditDraft: {
         screen: EditDraft
     },
+    StrangerInfo:{
+        screen: StrangerInfo
+    },
+    FansList:{
+        screen:FansList
+    },
+    RelationChain:{
+        screen:RelationChain
+    }
 }, {
     headerMode: 'none',
     lazy: true,

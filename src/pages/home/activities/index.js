@@ -28,7 +28,7 @@ export default class Activities extends React.Component {
         if (activity) {
             return (
                 <ActivityItem
-                    onBtnClick={() => navigation.navigate('ActivityDetail', {id: activity.id})} {...this.props}
+                    onBtnClick={() => navigation.navigate('ActivityDetail', {id: activity.id,refresh:() => this.getData()})} {...this.props}
                     activity={activity}/>
             );
         }

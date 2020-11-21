@@ -6,8 +6,8 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React,{Fragment} from 'react';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import {GetRequest} from '../../../utils/request';
 import {Button, Provider, Toast} from '@ant-design/react-native';
 import {scaleFont, scaleSize} from '../../../utils/scaleUtil';
@@ -84,7 +84,7 @@ export default class Login extends React.Component {
             console.log('登录结果',res)
             if (res.code === 0) {
                 AsyncStorage.setItem('session', res.data.token, null);
-                this.props.navigation.navigate('TabContainer');
+                this.props.navigation.navigate('Register');
             } else if(res.code === 10001){
                 this.props.navigation.navigate('Register');
             } else {
@@ -98,7 +98,9 @@ export default class Login extends React.Component {
     render() {
         return (
             <Provider>
-                <View style={styles.bgWrapper}>
+                <Fragment>
+                    <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                    <View style={styles.bgWrapper}>
                     <View style={styles.header}>
                         <Text style={styles.headerText}>登录后更精彩</Text>
                         <Text style={styles.headerText}>
@@ -135,6 +137,7 @@ export default class Login extends React.Component {
                         </Button>
                     </View>
                 </View>
+                </Fragment>
             </Provider>
         );
     }

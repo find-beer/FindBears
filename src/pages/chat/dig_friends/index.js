@@ -1,4 +1,6 @@
-import React from 'react';
+import React,{
+  Fragment
+} from 'react';
 import {StyleSheet, View, SafeAreaView,Text,Image,TextInput,TouchableOpacity} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import Header from '../../../components/header/index'
@@ -26,8 +28,10 @@ export default class DigFriends extends React.Component {
   }
   render(){
     return(
-      <SafeAreaView style={styles.container}>
-          <Header title="挖好友" left={null} />
+      <Fragment>
+				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        <SafeAreaView style={styles.container}>
+          <Header {...this.props} title="挖好友" left={null} />
           <View style={styles.operate_box}>
             <View style={styles.search_wrapper}>
               <View style={styles.search_box}>
@@ -83,6 +87,7 @@ export default class DigFriends extends React.Component {
             }
           </View>
       </SafeAreaView>
+      </Fragment>
     )
   }
 }

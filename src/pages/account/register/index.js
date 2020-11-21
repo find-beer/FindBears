@@ -1,5 +1,13 @@
-import React, {Component} from 'react';
-import {View, Text, TextInput, Image, TouchableOpacity,StyleSheet} from 'react-native';
+import React, {Component,Fragment} from 'react';
+import {
+    View, 
+    Text, 
+    TextInput, 
+    Image, 
+    TouchableOpacity,
+    StyleSheet,
+    PermissionsAndroid
+} from 'react-native';
 const imgUrl = {
     arrowIcon: require('../../../assets/register/arrow_bottom.png'),
     avater: require('../../../assets/register/uploadAvater.png'),
@@ -13,6 +21,13 @@ import {
     DatePicker,
     Toast,
 } from '@ant-design/react-native';
+import {
+    init,
+    Geolocation,
+    addLocationListener,
+    start,
+    stop,
+} from 'react-native-amap-geolocation';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import {apiProd} from "../../../config";
@@ -27,7 +42,7 @@ export default class Register extends Component {
                 lng: '116.462595',
                 lat: '40.005258',
                 locationStr: '北京市朝阳区',
-                birthday: undefined,
+                birthdayTimeStamp: undefined,
                 sex: undefined,
                 introduction: '我是',
                 phoneNumber:
@@ -39,14 +54,37 @@ export default class Register extends Component {
                 headPicUrl: '头像不能为空~',
                 name: '名字不能为空',
                 locationStr: '地址不能为空~',
-                birthday: '生日不能为空~',
+                birthdayTimeStamp: '生日不能为空~',
                 sex: '性别也要加上~',
             },
         };
     }
+    componentDidMount(){
+        this.getLocation();
+    }
+    getLocation = () => {
+        addLocationListener(location => console.log(location));
+        start();
+        stop();
+        init({
+            ios: "dda2ce0ca251baf59404a59c28b4edd5",
+            android: "043b24fe18785f33c491705ffe5b6935"
+        }).then((res) => {
+            Geolocation.getCurrentPosition(({ coords }) => {
+                this.setState({
+                    registerForm:{
+                        ...this.state.registerForm,
+                        lng:coords.longitude,
+                        lat:coords.latitude,
+                        locationStr:`${coords.province}${coords.city}${coords.district}`
+                    }
+                })
+              });
+        })
+    };
     confirmBirthday(value) {
         this.setState({
-            birthday: value,
+            birthdayTimeStamp: value,
         });
     }
     changePosition(val) {
@@ -64,13 +102,17 @@ export default class Register extends Component {
             Toast.fail(this.state.tips[failFlag]);
             return;
         }
-        this.props.navigation.navigate('Hobby', this.state.registerForm);
+        let date = new Date(this.state.registerForm.birthdayTimeStamp)
+        this.props.navigation.navigate('Hobby', {
+            ...this.state.registerForm,
+            birthday:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+        });
     }
     changeDate(val) {
         this.setState({
             registerForm: {
                 ...this.state.registerForm,
-                birthday: val,
+                birthdayTimeStamp: val,
             },
         });
     }
@@ -125,13 +167,11 @@ export default class Register extends Component {
                 let currentHeader;
                 if (Platform.OS === 'ios') {
                     currentHeader = {
-                        'Content-Type': 'multipart/form-data;charset=utf-8',
-                        'token': '1_1604737548947'
+                        'Content-Type': 'multipart/form-data;charset=utf-8'
                     }
                 } else {
                     currentHeader = {
-                        'Accept': 'application/json',
-                        'token': '1_1604737548947'
+                        'Accept': 'application/json'
                     }
                 }
                 fetch(apiProd.host + 'common/uploadImage', {
@@ -143,7 +183,6 @@ export default class Register extends Component {
                         return res.json();
                     })
                     .then(res => {
-                        console.log(res)
                         this.setState({
                             registerForm: {
                                 ...this.state.registerForm,
@@ -160,7 +199,9 @@ export default class Register extends Component {
     render() {
         return (
             <Provider>
-                <View style={styles.bgWrapper}>
+                <Fragment>
+                    <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                    <View style={styles.bgWrapper}>
                     <List style={styles.registerForm}>
                         <TouchableOpacity
                             style={styles.flexImg}
@@ -201,7 +242,7 @@ export default class Register extends Component {
                         </View>
                         <View style={styles.dateBox}>
                             <DatePicker
-                                value={this.state.registerForm.birthday}
+                                value={new Date(this.state.registerForm.birthdayTimeStamp)}
                                 mode="date"
                                 minDate={new Date(1970, 1, 1)}
                                 maxDate={new Date(2020, 1, 1)}
@@ -250,6 +291,7 @@ export default class Register extends Component {
                         </Button>
                     </List>
                 </View>
+                </Fragment>
             </Provider>
         );
     }

@@ -5,24 +5,55 @@ import Card from './card.js';
 const defaultImg = require('../../../assets/mine/avatar.jpeg');
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 const imageUrl = {
-    like: require('../../../assets/home/unlike.png'),
+		like: require('../../../assets/home/like.png'),
+		unlike: require('../../../assets/home/unlike.png'),
     join: require('../../../assets/mine/join.png'),
     share: require('../../../assets/mine/share-icon.png'),
 }
 import {get} from 'lodash'
+import {PostRequest} from "../../../utils/request";
 
 export default class ActivityItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            result:{}
+            item:{...this.props.item}
         }
-    }
+		}
+		componentDidMount(){
+			console.log(this.props)
+		}
     handleViewDetail(){
-      this.props.navigation.navigate('ActivityDetail',{id:item.id})
-    }
+      this.props.navigation.navigate('ActivityDetail',{id:this.state.item.id})
+		}
+		handleLike(){
+			PostRequest('like/operate', {
+				infoId: this.state.item.id,
+				infoType: 2,
+				state: this.state.item.like ? 0 : 1,
+			}).then(() => {
+				if (this.state.item.like) {
+					this.setState({
+						item: {
+							...this.state.item,
+							like: false,
+							likeNum: this.state.item.likeNum - 1
+						}
+					})
+				} else {
+					this.setState({
+						item: {
+							...this.state.item,
+							like: true,
+							likeNum: this.state.item.likeNum + 1
+						}
+					})
+				}
+			})
+		}
     render() {
-        const item = this.props.item;
+				const item = this.state.item;
+				console.log(item)
         const cardConfig = [
             {
                 title: '活动主题',
@@ -64,7 +95,7 @@ export default class ActivityItem extends Component {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity onPress={() => handleViewDetail()}>
+                <TouchableOpacity onPress={() => this.handleViewDetail()}>
                     <Card data={cardConfig}/>
                 </TouchableOpacity>
                 <View style={styles.imgBox}>
@@ -87,19 +118,21 @@ export default class ActivityItem extends Component {
                     <Text style={styles.viewDetailBtnText}>查看活动详情</Text>
                 </Button>
                 <View style={styles.operationBox}>
-                    <View style={styles.oerationItem}>
+										<TouchableOpacity
+											style={styles.oerationItem}
+											onPress={() => this.handleLike()}>
                         <Image
-                            source={imageUrl.like}
+                            source={item.like ? imageUrl.like : imageUrl.unlike}
                             style={styles.operationIcon}
                         />
                         <Text style={styles.operationText}>点赞{item.likeNum || 0}</Text>
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.oerationItem}>
                         <Image
                             source={imageUrl.join}
                             style={styles.operationIcon}
                         />
-                        <Text style={styles.operationText}>已加入{item.ticketVoList.assembleMemberCount || 0}人</Text>
+                        <Text style={styles.operationText}>已加入{item.ticketVoList?.assembleMemberCount || 0}人</Text>
                     </View>
                     <View style={styles.oerationItem}>
                         <Image
