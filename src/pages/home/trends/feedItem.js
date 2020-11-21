@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
 	},
 	dynamicImg: {
 			marginTop: scaleSize(32),
-			width: '100%',
 			height: scaleSize(380),
 			width:scaleSize(280),
 			borderRadius:scaleSize(15)
