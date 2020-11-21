@@ -38,6 +38,7 @@ export default class EditDraft extends React.Component {
             id: props.navigation.state.params.draft.id,
             isStartVisible: false,
             isEndVisible: false,
+            userType: props.navigation.state.params.userType,
         };
     }
 
@@ -88,14 +89,33 @@ export default class EditDraft extends React.Component {
         const {
             id, activityTitle, activityTime, memberCount, enrollEndTime,
             activityAddress, ticketVoList, activityTypeName, activityType,
-            needInfo, content
+            needInfo, content, userType
         } = this.state;
         const {navigation} = this.props;
         console.log("flag===>", flag);
         console.log("id===>", id);
 
-        try {
-            const response = await PostRequest('activity/publish', {
+        let params = null;
+        if (userType === 0) {
+            params = {
+                id,
+                activityTitle,
+                activityTime,
+                memberCount,
+                enrollEndTime,
+                activityAddress,
+                "location": '123.236944,41.267244',
+                // ticketVoList,
+                // activityTypeName,
+                // activityType,
+                // needInfo,
+                content,
+                userType,
+                "activityValid": 1,
+                "state": flag === 'activity' ? 2 : 1
+            }
+        } else {
+            params = {
                 id,
                 activityTitle,
                 activityTime,
@@ -108,10 +128,14 @@ export default class EditDraft extends React.Component {
                 activityType,
                 needInfo,
                 content,
-                "userType": 1,
+                userType,
                 "activityValid": 1,
                 "state": flag === 'activity' ? 2 : 1
-            }, 'POST');
+            }
+        }
+
+        try {
+            const response = await PostRequest('activity/publish', params, 'POST');
 
             console.log('发布活动结果', response);
             if (response.code === 0) {
@@ -243,7 +267,8 @@ export default class EditDraft extends React.Component {
 
         const {
             isStartVisible, activityTime, isEndVisible, activityTitle, activityAddress,
-            activityTypeName, needInfo, memberCount, ticketVoList, content, enrollEndTime
+            activityTypeName, needInfo, memberCount, ticketVoList, content, enrollEndTime,
+            userType
         } = this.state;
 
         return <Fragment>
@@ -281,20 +306,25 @@ export default class EditDraft extends React.Component {
                              }}
                              sub={activityAddress}
                              inputHint={'请填写位置'}/>
-                <SettingItem title={'增加票种'} subType={'txt'} sub={'已设置' + (ticketVoList ? ticketVoList.length : 0) + '个'}
-                             showArrow onRightPress={this.addTicket}/>
-                <SettingItem title={'活动类型'} subType={'txt'} sub={activityTypeName} showArrow
-                             onRightPress={this.selectType}/>
-                <SettingItem title={'是否需要报名人身份证信息'} reflectStatus={(status) => {
-                    this.setState({
-                        needInfo: status
-                    }, () => {
-                        console.log('needInfo', status)
-                    })
-                }}
-                             switchStatus={needInfo === 1}
-                             subType={'switch'} sub={needInfo} onRightPress={this.selectType}/>
-
+                {
+                    userType === 0 ? null :
+                        <View>
+                            <SettingItem title={'增加票种'} subType={'txt'}
+                                         sub={'已设置' + (ticketVoList ? ticketVoList.length : 0) + '个'}
+                                         showArrow onRightPress={this.addTicket}/>
+                            <SettingItem title={'活动类型'} subType={'txt'} sub={activityTypeName} showArrow
+                                         onRightPress={this.selectType}/>
+                            <SettingItem title={'是否需要报名人身份证信息'} reflectStatus={(status) => {
+                                this.setState({
+                                    needInfo: status
+                                }, () => {
+                                    console.log('needInfo', status)
+                                })
+                            }}
+                                         switchStatus={needInfo === 1}
+                                         subType={'switch'} sub={needInfo}/>
+                        </View>
+                }
                 <RichEditor
                     placeholder={'请输入富文本内容'}
                     onChange={this.handleChange}

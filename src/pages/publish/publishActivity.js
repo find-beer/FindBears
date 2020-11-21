@@ -25,25 +25,28 @@ export default class PublishActivity extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            num: '',
-            area: '',
-            type: '周边游',
-            type_id: 1,
-            userStatus: false,
+            activityTitle: '',
+            memberCount: 0,
+            activityAddress: '',
+            activityTypeName: '周边游',
+            activityType: 1,
+            needInfo: 0,
+            activityTime: '',
+            enrollEndTime: '',
+            content: '',
+            ticketVoList: [],
             isStartVisible: false,
             isEndVisible: false,
-            activityTime: '',
-            endTime: '',
-            content: '',
+            userType: props.navigation.state.params.userType,
         };
     }
 
     componentDidMount() {
+        // this.getUserInfo();
         EventBus.on('typeName', (e) => {
             this.setState({
-                type: e.name,
-                type_id: e.id
+                activityTypeName: e.name,
+                activityType: e.id
             })
         })
     }
@@ -54,32 +57,59 @@ export default class PublishActivity extends React.Component {
     saveData = async (flag) => {
         const {navigation} = this.props;
         const {
-            title, num, activityTime, endTime, type_id, type, content, userStatus, area
+            activityTitle, memberCount, activityTime, enrollEndTime, activityType,
+            activityTypeName, content, activityAddress, ticketVoList, needInfo, userType
         } = this.state;
-        console.log(content)
-        const response = await PostRequest('activity/publish', {
-            "activityTitle": title,
-            "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
-            "memberCount": num,
-            "enrollEndTime": endTime !== '' ? moment(endTime).format("YYYY-MM-DD HH:mm") : '',
-            "activityAddress": area,
-            "location": '123.236944,41.267244',
-            "ticketVoList": [
-                {
-                    "id": 1,
-                    "illustration": "探熊小票票说明！",
-                    "price": 0,
-                    "ticketName": "探熊小票票"
-                }
-            ],
-            "activityTypeName": type,
-            "activityType": type_id,
-            "needInfo": userStatus ? 1 : 0,
-            "content": content,
-            "userType": 1,
-            "activityValid": 1,
-            "state": flag === 'activity' ? 2 : 1
-        }, 'POST');
+
+        console.log('activityTitle', activityTitle)
+        console.log('memberCount', memberCount)
+        console.log('activityAddress', activityAddress)
+        console.log('activityTypeName', activityTypeName)
+        console.log('activityType', activityType)
+        console.log('needInfo', needInfo)
+        console.log('activityTime', activityTime)
+        console.log('enrollEndTime', enrollEndTime)
+        console.log('content', content)
+        console.log('ticketVoList', ticketVoList)
+
+        let params = null;
+        if (userType === 0) {
+            params = {
+                activityTitle,
+                "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
+                memberCount,
+                "enrollEndTime": enrollEndTime !== '' ? moment(enrollEndTime).format("YYYY-MM-DD HH:mm") : '',
+                activityAddress,
+                "location": '123.236944,41.267244',
+                // ticketVoList,
+                // activityTypeName,
+                // activityType,
+                // needInfo,
+                content,
+                userType,
+                "activityValid": 1,
+                "state": flag === 'activity' ? 2 : 1
+            }
+        } else {
+            params = {
+                activityTitle,
+                "activityTime": activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '',
+                memberCount,
+                "enrollEndTime": enrollEndTime !== '' ? moment(enrollEndTime).format("YYYY-MM-DD HH:mm") : '',
+                activityAddress,
+                "location": '123.236944,41.267244',
+                ticketVoList,
+                activityTypeName,
+                activityType,
+                needInfo,
+                content,
+                userType,
+                "activityValid": 1,
+                "state": flag === 'activity' ? 2 : 1
+            }
+        }
+
+        const response = await PostRequest('activity/publish', params, 'POST');
 
         console.log('发布活动结果', response);
         if (response.code === 0) {
@@ -101,9 +131,33 @@ export default class PublishActivity extends React.Component {
         this.setState({isEndVisible: true})
     }
 
+    handleConfirm = (date) => {
+        this.setState({activityTime: moment(date).format("YYYY-MM-DD HH:mm")}, () => {
+            console.log('活动时间', this.state.activityTime)
+        })
+        this.hideDatePicker();
+    };
+
+    handleEndConfirm = (date) => {
+        this.setState({
+            enrollEndTime: moment(date).format("YYYY-MM-DD HH:mm"),
+        })
+        this.hideEndDatePicker();
+    };
+
+
     addTicket = () => {
         const {navigation} = this.props;
-        navigation.navigate('Tickets')
+        const {ticketVoList} = this.state;
+        navigation.navigate('LocalTickets', {
+            ticketVoList,
+            onSubmit: (data) => {
+                console.log('需要提交的票种', data)
+                this.setState({
+                    ticketVoList: data
+                })
+            }
+        })
     }
 
     selectType = () => {
@@ -116,16 +170,6 @@ export default class PublishActivity extends React.Component {
 
     hideEndDatePicker = () => {
         this.setState({isEndVisible: false})
-    };
-
-    handleConfirm = (date) => {
-        this.setState({activityTime: date})
-        this.hideDatePicker();
-    };
-
-    handleEndConfirm = (date) => {
-        this.setState({endTime: date})
-        this.hideEndDatePicker();
     };
 
     onEditorInitialized = () => {
@@ -203,7 +247,10 @@ export default class PublishActivity extends React.Component {
 
     render() {
 
-        const {type, isStartVisible, activityTime, isEndVisible, endTime} = this.state;
+        const {
+            type, isStartVisible, activityTime, isEndVisible, enrollEndTime,
+            ticketVoList, needInfo, activityTypeName, userType,
+        } = this.state;
 
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
@@ -212,38 +259,50 @@ export default class PublishActivity extends React.Component {
                 <SettingItem title={'活动标题'} subType={'input'} inputHint={'请填写标题'}
                              reflectText={(title) => {
                                  this.setState({
-                                     title
+                                     activityTitle: title
                                  })
                              }}
                 />
                 <SettingItem title={'活动时间'}
-                             sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '不选时间默认为长期活动'}
+                             sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : (userType === 0 ? '选择活动时间' : '不选时间默认为长期活动')}
                              onRightPress={this.showActivityTime}/>
                 <SettingItem title={'活动人数'} subType={'number'} inputHint={'请填写人数'}
                              reflectNumText={(num) => {
                                  this.setState({
-                                     num
+                                     memberCount: num
                                  })
                              }}
                 />
                 <SettingItem title={'报名截止时间'}
-                             sub={endTime !== '' ? moment(endTime).format("YYYY-MM-DD HH:mm") : '(默认活动开始前12小时)'}
+                             sub={enrollEndTime !== '' ? moment(enrollEndTime).format("YYYY-MM-DD HH:mm") : (userType === 0 ? '选择截止时间' : '(默认活动开始前12小时)')}
                              onRightPress={this.showEndTime}
                 />
                 <SettingItem title={'活动位置'} subType={'input'}
                              reflectText={(area) => {
                                  this.setState({
-                                     area
+                                     activityAddress: area
                                  })
                              }}
                              inputHint={'请填写位置'}/>
-                <SettingItem title={'增加票种'} subType={'txt'} sub={'已设置0个'} showArrow onRightPress={this.addTicket}/>
-                <SettingItem title={'活动类型'} subType={'txt'} sub={type} showArrow onRightPress={this.selectType}/>
-                <SettingItem title={'是否需要报名人身份证信息'} reflectStatus={(status) => {
-                    this.setState({
-                        userStatus: status
-                    })
-                }} subType={'switch'} sub={type} onRightPress={this.selectType}/>
+                {
+                    userType === 0 ? null :
+                        <View>
+                            <SettingItem title={'增加票种'} subType={'txt'} sub={'已设置' + ticketVoList.length + '个'}
+                                         showArrow
+                                         onRightPress={this.addTicket}/>
+                            <SettingItem title={'活动类型'} subType={'txt'} sub={activityTypeName} showArrow
+                                         onRightPress={this.selectType}/>
+                            <SettingItem title={'是否需要报名人身份证信息'} reflectStatus={(status) => {
+                                this.setState({
+                                    needInfo: status
+                                }, () => {
+                                    console.log('needInfo', status)
+                                })
+                            }} subType={'switch'}
+                                         switchStatus={needInfo === 1}
+                                         sub={type}/>
+                        </View>
+                }
 
                 <RichEditor
                     placeholder={'请输入富文本内容'}
@@ -253,20 +312,6 @@ export default class PublishActivity extends React.Component {
                     editorInitializedCallback={() => this.onEditorInitialized()}
                 />
 
-                <RichToolbar
-                    onPressAddImage={this.onPressAddImage}
-                    style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
-                    getEditor={() => this.richText}
-                    actions={[
-                        actions.setBold,
-                        actions.setItalic,
-                        actions.insertBulletsList,
-                        actions.insertOrderedList,
-                        actions.insertImage,
-                        // actions.insertLink,
-                    ]}
-                    iconMap={{}}
-                />
             </KeyboardAwareScrollView>
 
             <DateTimePickerModal
@@ -290,18 +335,34 @@ export default class PublishActivity extends React.Component {
                 onConfirm={this.handleEndConfirm}
                 onCancel={this.hideEndDatePicker}
             />
+            <View>
+                <RichToolbar
+                    onPressAddImage={this.onPressAddImage}
+                    style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
+                    getEditor={() => this.richText}
+                    actions={[
+                        actions.setBold,
+                        actions.setItalic,
+                        actions.insertBulletsList,
+                        actions.insertOrderedList,
+                        actions.insertImage,
+                        // actions.insertLink,
+                    ]}
+                    iconMap={{}}
+                />
 
-            <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity onPress={() => this.saveData('draft')}>
-                    <View style={styles.draft}>
-                        <Text style={styles.txt}>存为草稿</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.saveData('activity')}>
-                    <View style={styles.publish}>
-                        <Text style={styles.txt}>立即发布</Text>
-                    </View>
-                </TouchableOpacity>
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={() => this.saveData('draft')}>
+                        <View style={styles.draft}>
+                            <Text style={styles.txt}>存为草稿</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.saveData('activity')}>
+                        <View style={styles.publish}>
+                            <Text style={styles.txt}>立即发布</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
 
         </Fragment>;

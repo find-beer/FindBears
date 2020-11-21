@@ -36,6 +36,9 @@ import ActivityMsgList from './pages/chat/activity_list'
 import EditDraft from "./pages/publish/editDraft";
 import StrangerInfo from "./pages/strangerInfo";
 import RelationChain from "./pages/relationChain";
+import LocalTickets from "./pages/home/local_tickets";
+import LocalAddTicket from "./pages/home/local_add_ticket";
+import LocalModifyTicket from "./pages/home/local_modify_ticket";
 
 const TransitionConfiguration = () => ({
     screenInterpolator: (sceneProps) => {
@@ -152,7 +155,16 @@ const RootApp = createStackNavigator({
     },
     RelationChain:{
         screen:RelationChain
-    }
+    },
+    LocalTickets: {
+        screen: LocalTickets
+    },
+    LocalAddTicket: {
+        screen: LocalAddTicket
+    },
+    LocalModifyTicket: {
+        screen: LocalModifyTicket
+    },
 }, {
     headerMode: 'none',
     lazy: true,

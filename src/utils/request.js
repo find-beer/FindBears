@@ -18,6 +18,7 @@ instance.interceptors.request.use(
     async function (config) {
         // 添加响应头等等设置
         let result = await AsyncStorage.getItem('session');
+        console.log('token==>', result);
         config.headers.token = result;
         config.headers.session = KV.getSessionId();
         return config;
@@ -38,10 +39,12 @@ instance.interceptors.response.use(
 );
 
 
-export function GetRequest(url, params, payload) {
+export function GetRequest(url, params) {
+    console.log('接口地址', url);
+    console.log('请求参数', params);
     return instance.get(url, {
         params: params,
-        data: payload,
+        // data: payload,
     });
 }
 

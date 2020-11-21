@@ -7,13 +7,12 @@
  */
 
 import React, {Fragment} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Header from '../../../components/header/index'
 import {GetRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
 import moment from "moment";
 import {RichEditor} from "react-native-pell-rich-editor";
-import KV from "../../../utils/KV";
 
 export default class ActivityDetail extends React.Component {
 
@@ -26,7 +25,8 @@ export default class ActivityDetail extends React.Component {
                 activityTime: '',
                 cityName: '',
                 memberCount: 0,
-                content: ''
+                content: '',
+                userType: 0
             },
         };
     }
@@ -48,12 +48,30 @@ export default class ActivityDetail extends React.Component {
     }
 
     joinTalk = () => {
-        alert('joinTalk')
+    }
+
+    confirmParticipate = () => {
     }
 
     immeJoin = () => {
         const {data} = this.state;
-        this.props.navigation.navigate('TicketSelect', {data})
+        if (data.userType === 0) {
+            Alert.alert("是否要报名？", '', [
+                {
+                    text: "取消",
+                },
+                {
+                    text: "确认",
+                    style: 'destructive',
+                    onPress: () => {
+                        this.confirmParticipate();
+
+                    },
+                },
+            ]);
+        } else {
+            this.props.navigation.navigate('TicketSelect', {data})
+        }
     }
 
     render() {
@@ -70,7 +88,11 @@ export default class ActivityDetail extends React.Component {
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.left}>【活动时间】</Text>
-                        <Text style={styles.right}>{moment(activityTime).format("YYYY-MM-DD HH:mm")}</Text>
+                        <Text style={styles.right}>{activityTime ? new Date(activityTime).getFullYear()
+                            + '.' + (new Date(activityTime).getMonth() + 1)
+                            + '.' + (new Date(activityTime).getDate() - 1) + " " +
+                            new Date(activityTime).getHours() + ":" + new Date(activityTime).getMinutes()
+                            : '时间待定'}</Text>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.left}>【活动地点】</Text>
@@ -80,17 +102,13 @@ export default class ActivityDetail extends React.Component {
                         <Text style={styles.left}>【参与人数】</Text>
                         <Text style={styles.right}>{memberCount}</Text>
                     </View>
-                    {/*<View>*/}
-                    {/*    <Text style={styles.left}>活动经费</Text>*/}
-                    {/*    <Text style={styles.right}>{activityTitle}</Text>*/}
-                    {/*</View>*/}
-
                 </View>
                 <RichEditor
                     disabled
                     initialContentHTML={data.content}
                 />
             </View>
+
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.joinTalk}>
                     <View style={styles.draft}>
