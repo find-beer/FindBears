@@ -22,7 +22,7 @@ export default class ActivityItem extends Component {
                                style={styles.avatar}
                                source={require('../../assets/mine/avatar.jpeg')}/>
                         <View style={{marginLeft: 8}}>
-                            <Text style={styles.publisher}>名字</Text>
+                            <Text style={styles.publisher}>{activity.userVO.userName}</Text>
                             <View style={styles.right}>
                                 <Text style={styles.topTxt}>{activity ? activity.cityName : '城市名称'}</Text>
                                 <View style={styles.shu}/>
@@ -39,7 +39,8 @@ export default class ActivityItem extends Component {
                         <Text numberOfLines={1}
                               style={styles.time}>{activity ? new Date(activity.activityTime).getFullYear()
                             + '.' + (new Date(activity.activityTime).getMonth() + 1)
-                            + '.' + new Date(activity.activityTime).getDate()
+                            + '.' + (new Date(activity.activityTime).getDate() - 1) + " " +
+                            new Date(activity.activityTime).getHours() + ":" + new Date(activity.activityTime).getMinutes()
                             : '时间待定'}</Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
