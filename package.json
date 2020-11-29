@@ -29,6 +29,7 @@
     "react-native": "0.63.2",
     "react-native-amap-geolocation": "^1.1.2",
     "react-native-flexi-radio-button": "^0.2.2",
+    "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-image-picker": "^2.3.4",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",

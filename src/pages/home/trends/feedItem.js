@@ -36,7 +36,7 @@ export default class DynamicItem extends Component {
 							like:false,
 							likeNum:this.state.feed.likeNum-1
 						}
-						
+
 					})
 				}else{
 					this.setState({
@@ -98,8 +98,8 @@ export default class DynamicItem extends Component {
 									</View>
 							</View>
 							<View style={styles.operationBox}>
-									<TouchableOpacity 
-									style={styles.operationItem1} 
+									<TouchableOpacity
+									style={styles.operationItem1}
 									onPress={() => this.handleLike()}>
 											<Image
 													source={feed.like?imageUrl.like:imageUrl.unlike}
@@ -107,7 +107,7 @@ export default class DynamicItem extends Component {
 											/>
 											<Text style={styles.operationText}>点赞{feed.likeNum}</Text>
 									</TouchableOpacity>
-									<TouchableOpacity 
+									<TouchableOpacity
 										style={styles.operationItem2}
 										onPress={() => this.handleGoDetail()}>
 											<Image
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
 			flex: 1,
 	},
 	avatarInner: {
-		width: 66, 
-		height: 66, 
+		width: 66,
+		height: 66,
 		borderRadius: 33,
 		marginRight: scaleSize(40),
 	},

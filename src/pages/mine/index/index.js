@@ -11,7 +11,7 @@
  */
 
 import React,{Component,Fragment} from 'react';
-import {StyleSheet,Image, ImageBackground, Text, View,TouchableOpacity} from 'react-native';
+import {StyleSheet,Image, ImageBackground, Text, View,TouchableOpacity,ScrollView} from 'react-native';
 import DynamicTab from './dynamicTab';
 import PersonalInfo from './personalInfo';
 import {SafeAreaView} from 'react-navigation';
@@ -60,9 +60,9 @@ export default class Mine extends Component{
 	render(){
 			return (
 				<Fragment>
-					<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-					<SafeAreaView>
-						<View>
+					<SafeAreaView style={{flex: 0, backgroundColor: 'rgba(117,117,115,1)'}}/>
+					<SafeAreaView style={{flex:1}}>
+						<ScrollView>
 								<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
 									<View style={styles.bgaWrapper}>
 										<TouchableOpacity onPress={() => this.handleGoConfig()}>
@@ -84,7 +84,7 @@ export default class Mine extends Component{
 																		source={imageUrl.QRCodeIcon}
 																		style={styles.btnIcon}
 																/>
-																<Text 
+																<Text
 																	style={styles.btnText}
 																>二维码</Text>
 														</View>
@@ -95,9 +95,9 @@ export default class Mine extends Component{
 																		source={imageUrl.EditIcon}
 																		style={styles.btnIcon}
 																/>
-																<Text 
+																<Text
 																	style={styles.btnText}
-																	
+
 																>仓库</Text>
 														</View>
 													</TouchableOpacity>
@@ -107,9 +107,9 @@ export default class Mine extends Component{
 																		source={imageUrl.EditIcon}
 																		style={styles.btnIcon}
 																/>
-																<Text 
+																<Text
 																	style={styles.btnText}
-																	
+
 																>编辑资料</Text>
 														</View>
 													</TouchableOpacity>
@@ -118,7 +118,7 @@ export default class Mine extends Component{
 							</ImageBackground>
 							<View style={styles.lineSpace}/>
 							<DynamicTab personalInfo={this.state.personalInfo} {...this.props}/>
-						</View>
+						</ScrollView>
 					</SafeAreaView>
 				</Fragment>
 			)
