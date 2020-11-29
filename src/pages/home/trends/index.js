@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {FlatList,StyleSheet, View} from 'react-native';
+import {FlatList,StyleSheet, View,RefreshControl} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import FeedItem from "./feedItem.js";
 import EventBus from "../../../utils/EventBus";
@@ -17,6 +17,7 @@ export default class Trends extends React.Component {
         super(props);
         this.state = {
             feedDetailVOList: [],
+            isRefreshing:false
         };
     }
 
@@ -31,12 +32,14 @@ export default class Trends extends React.Component {
     };
 
     getData = async () => {
+        this.setState({isRefreshing: true});
         const response = await GetRequest('feed/feeds', {
             random:0,
             limit: 500,
             offsetId: 0,
             location: '123.18152,41.269402'
         });
+        this.setState({isRefreshing: false});
         this.setState({
             feedDetailVOList: response.data.feedDetailVOList,
         });
@@ -54,12 +57,18 @@ export default class Trends extends React.Component {
         });
     }
     render() {
-        const {feedDetailVOList} = this.state;
+        const {feedDetailVOList,isRefreshing} = this.state;
         return <View style={styles.container}>
             <FlatList
                 data={feedDetailVOList}
                 keyExtractor={(item, index) => item + index}
                 renderItem={this.renderItem}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isRefreshing}
+                        onRefresh={this.getData}
+                    />
+                }
             />
         </View>;
     }
