@@ -6,7 +6,8 @@ import {
     Image, 
     TouchableOpacity,
     StyleSheet,
-    PermissionsAndroid
+    PermissionsAndroid,
+    SafeAreaView
 } from 'react-native';
 const imgUrl = {
     arrowIcon: require('../../../assets/register/arrow_bottom.png'),

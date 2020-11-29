@@ -44,9 +44,14 @@ export default class Trends extends React.Component {
 
     componentDidMount() {
         this.getData();
-        EventBus.on('REFRESH_TREND',()=>{
-            this.getData();
-        })
+        EventBus.on('REFRESH_TREND', () => {
+            this.setState({
+                feedDetailVOList: []
+            }, () => {
+                this.getData();
+            })
+            console.log('------->', '刷新数据...')
+        });
     }
     render() {
         const {feedDetailVOList} = this.state;

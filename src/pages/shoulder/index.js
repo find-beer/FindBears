@@ -163,7 +163,7 @@ export default class Shoulder extends React.Component {
                     <View style={styles.list_wrapper}>
                         {
                             this.state.activityList.map(item => {
-                                return <ActivityItem item={item} key={item.id}/>
+                                return <ActivityItem item={item} key={item.id} {...this.props}/>
                             })
                         }
                     </View>

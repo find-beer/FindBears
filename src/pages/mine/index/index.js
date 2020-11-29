@@ -19,7 +19,7 @@ import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 const imageUrl = {
-    configIcon: require('../../../assets/mine/download-icon.png'),
+    configIcon: require('../../../assets/mine/relation.png'),
     avatarBg: require('../../../assets/mine/avatar-bg.png'),
     avatar: require('../../../assets/mine/avatar.jpeg'),
     sexIcon: require('../../../assets/mine/QR-icon.png'),
@@ -54,6 +54,7 @@ export default class Mine extends Component{
 		this.props.navigation.navigate('EditInfo',this.state.personalInfo)
 	}
 	handleGoConfig(){
+		console.log('handleGoConfig')
 		this.props.navigation.navigate('Config')
 	}
 	render(){
@@ -64,19 +65,19 @@ export default class Mine extends Component{
 						<View>
 								<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
 									<View style={styles.bgaWrapper}>
-											<PersonalInfo personalInfo={this.state.personalInfo}/>
-											<TouchableOpacity onPress={() => this.handleGoConfig()}>
-												<View style={styles.settingBox}>
-														<Image
-																source={imageUrl.configIcon}
-																style={styles.configIcon}
-														/>
-														<Text 
-															style={styles.configFont}
-														>设置</Text>
-												</View>
-											</TouchableOpacity>
-											<View style={styles.operationBox}>
+										<TouchableOpacity onPress={() => this.handleGoConfig()}>
+											<View style={styles.settingBox}>
+												<Image
+													source={imageUrl.configIcon}
+													style={styles.configIcon}
+												/>
+												<Text 
+													style={styles.configFont}
+												>设置</Text>
+											</View>
+										</TouchableOpacity>
+										<PersonalInfo personalInfo={this.state.personalInfo}/>
+										<View style={styles.operationBox}>
 													<TouchableOpacity onPress={() => this.handleGoCode()}>
 														<View style={styles.operationBtn}>
 																<Image
@@ -131,15 +132,14 @@ const styles = StyleSheet.create({
 			height: scaleSize(1157),
 			padding: scaleSize(54),
 			backgroundColor: 'rgba(0,0,0,.5)',
+			position:'relative'
 	},
 	settingBox: {
-			margin: scaleSize(56),
-			height: scaleSize(48),
-			width: scaleSize(140),
-			position: 'absolute',
-			right: 0,
-			display: 'flex',
-			flexDirection: 'row',
+		height: scaleSize(48),
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent:'flex-end',
+		zIndex:100
 	},
 	configIcon: {
 			width: scaleSize(48),

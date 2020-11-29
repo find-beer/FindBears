@@ -5,6 +5,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ImageBackground} from 'react-native';
 import {scaleSize} from '../../../utils/scaleUtil';
+import {getDate} from '../../../utils/date'
 
 export default props => {
     const {data} = props;
@@ -17,7 +18,7 @@ export default props => {
                 <Text style={styles.name}>{userVO?.userName || ''}</Text>
                 <View style={styles.isRow}>
                     <Text style={styles.city}>{cityName} 丨</Text>
-                    <Text style={styles.time}>{publishTime}</Text>
+                    <Text style={styles.time}>{getDate(publishTime)}</Text>
                 </View>
             </View>
         </View>

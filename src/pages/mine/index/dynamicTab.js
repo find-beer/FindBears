@@ -6,6 +6,7 @@ import DynamicItem from '../../home/trends/feedItem'
 import ActivityItem from './activityItem'
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
+import EventBus from '../../../utils/EventBus';
 
 export default class DynamicTab extends Component {
 		constructor(props){
@@ -53,7 +54,9 @@ export default class DynamicTab extends Component {
 		}
 		componentDidMount(){
 			this.state.uid?this.requestStranger():this.requestCurrent()
-			
+			EventBus.on('REFRESH_TREND',()=>{
+				this.state.uid?this.requestStranger():this.requestCurrent()
+			})	
 		}
     render() {
         return (

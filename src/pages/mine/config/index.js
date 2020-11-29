@@ -4,6 +4,7 @@ import Header from '../../../components/header/index'
 const arrow = require('../../../assets/mine/arrow_right.png')
 import {Switch} from '@ant-design/react-native';
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class Config extends Component {
     state = {
@@ -31,7 +32,8 @@ export default class Config extends Component {
 
     }
     handleLogout(){
-        this.props.navigation.navigate('Login',);
+        AsyncStorage.setItem('session', '', null);
+        this.props.navigation.navigate('Login');
     }
     render (){
         return (

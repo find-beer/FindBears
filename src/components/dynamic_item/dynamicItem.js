@@ -3,6 +3,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {get} from 'lodash'
 import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {PostRequest} from "../../utils/request";
+import EventBus from "../../utils/EventBus";
 
 const imageUrl = {
     like: require('../../assets/home/like.png'),
@@ -26,7 +27,7 @@ export default class DynamicItem extends Component {
 
     getDate(date) {
         if (new Date(date).toDateString() === new Date().toDateString()) {
-            return `今天 ${new Date().toLocaleString('chinese', {hour12: false}).replace(/\//g, '-').split(' ')[1].substr(6)}`
+            return `今天 ${new Date().toLocaleString('chinese', {hour12: false}).replace(/\//g, '-').split(' ')[1].substring(0,5)}`
         } else {
             return `${new Date().toLocaleString('chinese', {hour12: false}).replace(/\//g, '-').substr(5, 11)}`
         }
@@ -56,6 +57,7 @@ export default class DynamicItem extends Component {
                     }
                 })
             }
+            EventBus.post('REFRESH_TREND',{})
         })
     }
     handlegoStrangerPage(){
@@ -72,7 +74,7 @@ export default class DynamicItem extends Component {
                         <Image
                             source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
                             style={styles.avatarInner}
-                        />
+                        ></Image>
                     </TouchableOpacity>
                     <View style={styles.dynamicInfo}>
                         <Text style={styles.name}>
@@ -105,7 +107,7 @@ export default class DynamicItem extends Component {
                                         source={{uri: item}}
                                         style={styles.dynamicImg}
                                         key={index + ''}
-                                    />
+                                    ></Image>
                                 )
                             })
                         }

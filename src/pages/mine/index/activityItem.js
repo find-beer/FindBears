@@ -77,7 +77,7 @@ export default class ActivityItem extends Component {
             <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
                     <Image
-                        source={get(item.userVO,'picUrl',defaultImg)}
+                        source={get(item.userVO,'picUrl','')?{uri:get(item.userVO,'picUrl','')}:defaultImg}
                         style={styles.avatarInner}
                     />
                     <View style={styles.dynamicInfo}>
@@ -103,7 +103,7 @@ export default class ActivityItem extends Component {
                         picList.map(item => {
                             return (
                                 <Image
-																		source={item}
+																		source={{uri:item}}
 																		key={item}
                                     style={styles.dynamicImg}
                                 />

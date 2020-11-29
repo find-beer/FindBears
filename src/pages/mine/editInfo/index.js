@@ -18,6 +18,7 @@ import {
 	Button,
 	Provider,
 	List,
+	TextareaItem,
 	DatePicker,
 } from '@ant-design/react-native';
 import {GetRequest,PutRequest, PostRequest} from '../../../utils/request';
@@ -204,7 +205,7 @@ export default class EditInfo extends Component {
                                         style={styles.avatarItemWrap}
                                         onPress={() => this.choosePicture()}>
                                         <Image
-                                            source={{'uri':this.state.editForm.headPicUrl}}
+                                            source={{uri:this.state.editForm.headPicUrl}}
                                             style={styles.avatarItem}
                                         />
                                         <Image source={camera} style={styles.avatarCamera}></Image>
@@ -223,7 +224,7 @@ export default class EditInfo extends Component {
                                             value={this.state.editForm.name}
                                             onChangeText={val =>
                                                 this.setState({
-                                                                                                editForm: {
+                                                      editForm: {
                                                         ...this.state.editForm,
                                                         name: val,
                                                     },
@@ -234,8 +235,9 @@ export default class EditInfo extends Component {
                                     </View>
                                     <View style={styles.infoFormItem}>
                                         <Text style={styles.formItemTitle}>常驻地</Text>
-                                                                                <Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
+                                        <Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
                                     </View>
+																		
                                     <View style={styles.dateItem}>
                                         <DatePicker
                                             value={new Date(this.state.editForm.birthdayTimeStamp)}
@@ -251,6 +253,22 @@ export default class EditInfo extends Component {
                                             </List.Item>
                                         </DatePicker>
                                     </View>
+																		<View>
+																			<TextareaItem
+																				placeholder="描述一下自己吧..."
+																				style={styles.introduction}
+																				rows={4}
+																				value={this.state.editForm.introduction}
+																				onChange={val =>
+																					this.setState({
+																						editForm: {
+																							...this.state.editForm,
+																							introduction: val,
+																						},
+																					})
+																				}
+																		/>
+                                    </View>
                                 </View>
                                 <View style={styles.chatWrap}>
                                     <Image source={tbears} style={styles.tbears}/>
@@ -259,29 +277,29 @@ export default class EditInfo extends Component {
                                     </View>
                                 </View>
                                 <View style={styles.hobbyWrap}>
-                                                                    <View style={styles.hobbyList}>
-                                                                            {
-                                                                                    this.state.hobbyList.map(item => {
-                                                                                            return (
-                                                                                                    <TouchableOpacity
-                                                                                                            key={item}
-                                                                                                            style={this.getClass(item)}
-                                                                                                            onPress={() => this.activeItem(item)}>
-                                                                                                            <Text style={this.getTextClass(item)}>
-                                                                                                                    {item}
-                                                                                                            </Text>
-                                                                                                    </TouchableOpacity>
-                                                                                            );
-                                                                                    })
-                                                                            }
-                                                                    </View>
-                                                                    <Button
-                                                                        style={styles.modifyBtnBox}
-                                                                        onPress={() => this.modify()}>
-                                                                        <Text style={styles.modifyBtnText}>修改</Text>
-                                                                    </Button>
-                                                            </View>
-                                                    </View>
+																	<View style={styles.hobbyList}>
+																			{
+																				this.state.hobbyList.map(item => {
+																					return (
+																						<TouchableOpacity
+																							key={item}
+																							style={this.getClass(item)}
+																							onPress={() => this.activeItem(item)}>
+																							<Text style={this.getTextClass(item)}>
+																											{item}
+																							</Text>
+																						</TouchableOpacity>
+																					);
+																				})
+																			}
+																		</View>
+																		<Button
+																				style={styles.modifyBtnBox}
+																				onPress={() => this.modify()}>
+																				<Text style={styles.modifyBtnText}>修改</Text>
+																		</Button>
+																</View>
+													</View>
                         </List>
                     </SafeAreaView>
                 </Fragment>

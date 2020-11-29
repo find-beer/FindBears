@@ -9,8 +9,7 @@ const imageUrl = {
 import {get} from 'lodash'
 import {scaleSize,scaleFont} from '../../../utils/scaleUtil';
 import {PostRequest} from "../../../utils/request";
-
-const defaultImg = require('../../../assets/mine/avatar.jpeg');
+import {getDate} from '../../../utils/date'
 export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
@@ -22,15 +21,7 @@ export default class DynamicItem extends Component {
 			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
 		}
 		handleGoStrangerPage(){
-			// console.log(this.state.feed)
 			this.props.navigation.navigate('StrangerInfo', {uid: this.state.feed.userVO?.userId || ''})
-		}
-		getDate(date){
-			if(new Date(date).toDateString() === new Date().toDateString()){
-				return `今天 ${new Date().toLocaleString('chinese', { hour12: false }).replace(/\//g,'-').split(' ')[1].substr(6)}`
-			}else{
-				return `${new Date().toLocaleString('chinese', { hour12: false }).replace(/\//g,'-').substr(5,11)}`
-			}
 		}
 		handleLike(){
 			PostRequest('like/operate',{
@@ -56,29 +47,32 @@ export default class DynamicItem extends Component {
 						}
 					})
 				}
+				// EventBus.post('REFRESH_TREND',{})
 			})
 		}
     render() {
 			const feed = this.state.feed;
 			const picList = feed.picUrl? feed.picUrl.split(',')  : []
+			let pic = /https/.test(get(feed.userVO, 'pic', ''))?get(feed.userVO, 'pic', ''):'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg'
 			return (
 					<View style={styles.dynamicItemWrap} >
 							<View style={styles.itemHeader}>
 									<TouchableOpacity onPress={() => this.handleGoStrangerPage()}>
 										<Image
-												source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
+												source={{uri: pic}}
 												style={styles.avatarInner}
 										/>
 									</TouchableOpacity>
 									<View style={styles.dynamicInfo}>
 											<Text style={styles.name}>
+												
 													{
 															get(feed.userVO,'userName','探熊')
 													}
 											</Text>
 											<View style={styles.infoBox}>
 													<Text style={styles.infoTime}>
-															{this.getDate(feed.publishTime)}
+															{getDate(feed.publishTime)}
 													</Text>
 											</View>
 									</View>
@@ -94,7 +88,7 @@ export default class DynamicItem extends Component {
 													picList.map(item => {
 															return(
 																	<Image
-																			source={item}
+																			source={{uri:item}}
 																			style={styles.dynamicImg}
 																			key={item}
 																	/>

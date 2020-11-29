@@ -87,7 +87,7 @@ export default class OrderList extends Component {
                   <View style={styles.listItemBox} key={item.id}>
                     <View style={styles.infoBox}>
                       <View style={styles.avaterBox}>
-                        <Image source={item.avater || defaultImg} style={styles.avater}/>
+                        <Image source={item.avater?{uri:item.avater}:defaultImg} style={styles.avater}/>
                       </View>
                       <View style={styles.textBox}>
                         {

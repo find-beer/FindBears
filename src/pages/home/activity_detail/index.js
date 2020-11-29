@@ -11,7 +11,6 @@ import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'rea
 import Header from '../../../components/header/index'
 import {GetRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
-import moment from "moment";
 import {RichEditor} from "react-native-pell-rich-editor";
 
 export default class ActivityDetail extends React.Component {
@@ -31,7 +30,6 @@ export default class ActivityDetail extends React.Component {
         };
     }
     componentWillUnmount(){
-        this.props.navigation.state.params.refresh()
         this.props.navigation.goBack()
     }
     requireDeviceData = async () => {

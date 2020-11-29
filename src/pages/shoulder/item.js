@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {scaleSize} from '../../utils/scaleUtil';
 const defaultImg = require('../../assets/mine/avatar.jpeg');
+import{get} from 'lodash'
 
 export default class Shoulder extends React.Component {
   constructor(props){
@@ -10,14 +11,20 @@ export default class Shoulder extends React.Component {
   handleJoinTalk(){
     console.log(this.props)
   }
+  handlegoDetail(){
+    this.props.navigation.navigate('ActivityDetail', {id: this.props.item.id})
+  }
   render(){
     const item = this.props.item;
+    let url = item.picUrl?item.picUrl.splice(',')[0]:''
     return (
-      <View style={styles.activity_item}>
-        <Image style={styles.item_image} source={item.picUrl || defaultImg}/>
-        <Text style={styles.item_title}>{item.activityTitle}</Text>
-        <Text style={styles.item_money}>费用：￥{item.price}</Text>
-        <Text style={styles.item_date}>时间：{item.publishTime}</Text>
+      <View style={styles.activity_item} >
+        <TouchableOpacity onPress={() => this.handlegoDetail()}>
+          <Image style={styles.item_image} source={url?{uri:url}:defaultImg}/>
+          <Text style={styles.item_title} numberOfLines={1}>{item.activityTitle}</Text>
+          <Text style={styles.item_money}>费用：￥{item.price}</Text>
+          <Text style={styles.item_date}>时间：{item.publishTime}</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => this.handleJoinTalk()}>
           <View style={styles.join_talk_btn}>
             <Text style={styles.join_talk_txt}>加入群聊</Text>

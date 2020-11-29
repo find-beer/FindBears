@@ -84,8 +84,8 @@ export default class Page extends React.Component {
                 <View style={styles.main}>
                     <User data={detail} {...this.props}/>
                     <Text style={styles.words}>{detail.content}</Text>
-                    <Photo data={detail} />
-                    <Action data={detail} />
+                    <Photo data={detail.picUrl} />
+                    {/* <Action data={detail} /> */}
 										{
 											this.state.commentList.map(item => {
 												return (
@@ -113,14 +113,10 @@ export default class Page extends React.Component {
 									</TouchableOpacity>
                 </View>
             </SafeAreaView>
-						</Fragment>
+					</Fragment>
 				);
     }
 }
-
-const images = {
-    photo: require('../../../assets/relationChain/bg-intro.png'),
-};
 
 const styles = StyleSheet.create({
     container: {
@@ -139,7 +135,7 @@ const styles = StyleSheet.create({
     comment_box:{
 				width:'100%',
 				position:'absolute',
-				bottom:0,
+				bottom:scaleSize(50),
 				left:0,
         display:'flex',
 				flexDirection:'row',

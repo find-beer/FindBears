@@ -39,7 +39,7 @@ export default class ActivityList extends Component {
           <View style={styles.list_box}>
             {
               this.state.activityList.map(item => {
-                return <ActivityItem item={item} key={item.id}/>
+                return <ActivityItem item={item} key={item.id} {...this.props}/>
               })
             }
           </View>
