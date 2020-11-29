@@ -188,7 +188,7 @@ export default class EditInfo extends Component {
 				loginToken:this.state.editForm.token,
 				locationStr:`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`
 			}).then(res => {
-				console.log(res)
+                this.props.navigation.navigate('Mine')
 			})
 		}
     render (){
