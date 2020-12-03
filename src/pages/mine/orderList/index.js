@@ -4,6 +4,7 @@ import Header from '../../../components/header/index'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 import {Button} from '@ant-design/react-native';
 const defaultImg = require('../../../assets/mine/avatar.jpeg');
+import {GetRequest} from '../../../utils/request'
 
 export default class OrderList extends Component {
   constructor(props){
@@ -56,6 +57,15 @@ export default class OrderList extends Component {
   }
   backPay(item){
     console.log(item)
+  }
+  componentDidMount(){
+    GetRequest('/order/biz/orderlist',{
+      activityId:this.props.navigation.state.params.id,
+      pageNum:1,
+      pageSize:500
+    }).then(res => {
+      console.log(res)
+    })
   }
   render(){
     return (

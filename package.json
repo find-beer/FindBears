@@ -21,6 +21,7 @@
     "@react-native-community/slider": "^3.0.3",
     "@react-native-community/viewpager": "^4.1.6",
     "axios": "^0.20.0",
+    "dayjs": "^1.9.6",
     "lodash": "^4.17.20",
     "md5": "^2.3.0",
     "moment": "^2.29.1",

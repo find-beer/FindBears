@@ -4,6 +4,7 @@ import {get} from 'lodash'
 import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {PostRequest} from "../../utils/request";
 import EventBus from "../../utils/EventBus";
+import {getDate} from '../../utils/date'
 
 const imageUrl = {
     like: require('../../assets/home/like.png'),
@@ -23,14 +24,6 @@ export default class DynamicItem extends Component {
 
     handleGoDetail() {
         this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
-    }
-
-    getDate(date) {
-        if (new Date(date).toDateString() === new Date().toDateString()) {
-            return `今天 ${new Date().toLocaleString('chinese', {hour12: false}).replace(/\//g, '-').split(' ')[1].substring(0,5)}`
-        } else {
-            return `${new Date().toLocaleString('chinese', {hour12: false}).replace(/\//g, '-').substr(5, 11)}`
-        }
     }
 
     handleLike() {
@@ -88,7 +81,7 @@ export default class DynamicItem extends Component {
                             </Text>
                             <View style={styles.line}/>
                             <Text style={styles.infoTime}>
-                                {this.getDate(feed.publishTime)}
+                                {getDate(feed.publishTime)}
                             </Text>
                         </View>
                     </View>

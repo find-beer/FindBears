@@ -6,6 +6,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {screenW} from '../../utils/screenUtil';
 import {scaleSize} from '../../utils/scaleUtil';
 import {get} from 'lodash'
+import {getDate} from '../../utils/date'
 
 export default class ActivityItem extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class ActivityItem extends Component {
                             <View style={styles.right}>
                                 <Text style={styles.topTxt}>{activity ? activity.cityName : '城市名称'}</Text>
                                 <View style={styles.shu}/>
-                                <Text style={styles.topTxt}>{activity ? activity.publishTime : '发布时间'}</Text>
+                                <Text style={styles.topTxt}>{activity ? getDate(activity.publishTime) : '发布时间'}</Text>
                                 <View style={styles.shu}/>
                                 <Text style={styles.topTxt}>{activity ? activity.memberCount : '0'}人参与</Text>
                             </View>

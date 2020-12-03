@@ -43,6 +43,12 @@ export default class Mine extends Component{
 				personalInfo:res.data
 			})
 		})
+
+
+		// 测试
+		GetRequest(`/userRelation/addFriend/${12}`).then(res => {
+			console.log(res)
+		})
 	}
 	handleGoCode(){
 		this.props.navigation.navigate('QrCode')
@@ -54,7 +60,6 @@ export default class Mine extends Component{
 		this.props.navigation.navigate('EditInfo',this.state.personalInfo)
 	}
 	handleGoConfig(){
-		console.log('handleGoConfig')
 		this.props.navigation.navigate('Config')
 	}
 	render(){

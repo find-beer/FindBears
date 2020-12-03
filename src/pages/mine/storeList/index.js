@@ -6,6 +6,7 @@ import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
 const complainIcon = require('../../../assets/mine/complain-icon.png');
 import {GetRequest,PostRequest} from '../../../utils/request';
+import {getDayTime} from '../../../utils/date'
 
 export default class StoreList extends Component {
     constructor(props){
@@ -84,7 +85,7 @@ export default class StoreList extends Component {
                                         </View>
                                         <TouchableOpacity onPress={() => this.handleGoActivityDetail()}>
                                             <Text style={styles.activityItemInner}>
-                                                【活动时间】{new Date(item.activityTime).toLocaleString().split(' ')[0]}
+                                                【活动时间】{getDayTime(item.activityTime)}
                                             </Text>
                                             <Text style={styles.activityItemInner}>
                                                 【活动地点】{isJoin?item.address:item.cityName}
@@ -104,14 +105,14 @@ export default class StoreList extends Component {
                                             <View style={styles.btnBox}>
                                                 <TouchableOpacity 
                                                     style={styles.operateBtn}
-                                                    onPress={() => this.handleCancel(item.id)}>
+                                                    onPress={() => this.handleCancel(item.activityId)}>
                                                     <Text style={styles.operateBtnText}>
                                                         停止报名
                                                     </Text>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity 
                                                     style={styles.operateBtn}
-                                                    onPress={() => this.handleGoDetail(item.id)}
+                                                    onPress={() => this.handleGoDetail(item.activityId)}
                                                 >
                                                     <Text style={styles.operateBtnText}>
                                                         报名详情
@@ -121,7 +122,7 @@ export default class StoreList extends Component {
                                             :
                                             <Button 
                                                 style={styles.viewOrderBtn} 
-                                                onPress={() => this.handleGoDetail(item.id)}
+                                                onPress={() => this.handleGoDetail(item.activityId)}
                                             >
                                                 <Text style={styles.viewOrderBtnText}>查看订单</Text>
                                             </Button>

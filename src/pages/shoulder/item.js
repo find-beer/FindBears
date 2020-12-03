@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {scaleSize} from '../../utils/scaleUtil';
 const defaultImg = require('../../assets/mine/avatar.jpeg');
-import{get} from 'lodash'
+import {getDayTime} from '../../utils/date'
 
 export default class Shoulder extends React.Component {
   constructor(props){
@@ -23,7 +23,7 @@ export default class Shoulder extends React.Component {
           <Image style={styles.item_image} source={url?{uri:url}:defaultImg}/>
           <Text style={styles.item_title} numberOfLines={1}>{item.activityTitle}</Text>
           <Text style={styles.item_money}>费用：￥{item.price}</Text>
-          <Text style={styles.item_date}>时间：{item.publishTime}</Text>
+          <Text style={styles.item_date}>时间：{getDayTime(item.activityTime)}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.handleJoinTalk()}>
           <View style={styles.join_talk_btn}>

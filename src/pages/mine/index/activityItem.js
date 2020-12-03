@@ -12,6 +12,7 @@ const imageUrl = {
 }
 import {get} from 'lodash'
 import {PostRequest} from "../../../utils/request";
+import {getDayTime} from '../../../utils/date'
 
 export default class ActivityItem extends Component {
     constructor(props) {
@@ -61,7 +62,7 @@ export default class ActivityItem extends Component {
             },
             {
                 title: '活动时间',
-                content: new Date(item.activityTime).toLocaleString().split(' ')[0],
+                content: getDayTime(item.activityTime),
             },
             {
                 title: '活动地点',
@@ -90,7 +91,7 @@ export default class ActivityItem extends Component {
                             </Text>
                             <View style={styles.line} />
                             <Text style={styles.infoTime}>
-                                {new Date(item.publishTime).toLocaleString()}
+                                {new Date(item.activityTime).toLocaleString()}
                             </Text>
                         </View>
                     </View>
