@@ -105,14 +105,14 @@ export default class StoreList extends Component {
                                             <View style={styles.btnBox}>
                                                 <TouchableOpacity 
                                                     style={styles.operateBtn}
-                                                    onPress={() => this.handleCancel(item.activityId)}>
+                                                    onPress={() => this.handleCancel(item.id)}>
                                                     <Text style={styles.operateBtnText}>
                                                         停止报名
                                                     </Text>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity 
                                                     style={styles.operateBtn}
-                                                    onPress={() => this.handleGoDetail(item.activityId)}
+                                                    onPress={() => this.handleGoDetail(item.id)}
                                                 >
                                                     <Text style={styles.operateBtnText}>
                                                         报名详情

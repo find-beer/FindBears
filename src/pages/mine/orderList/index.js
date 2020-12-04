@@ -5,6 +5,7 @@ import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 import {Button} from '@ant-design/react-native';
 const defaultImg = require('../../../assets/mine/avatar.jpeg');
 import {GetRequest} from '../../../utils/request'
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class OrderList extends Component {
   constructor(props){
@@ -13,58 +14,42 @@ export default class OrderList extends Component {
       isPublish:true,
       personNum:100,
       money:2000,
-      orderList:[
-        {
-          id:1,
-          avater:'',
-          name:'马家兴',
-          phone:'11111111111',
-          idCard:'210181199501111220',
-          date:'2020年6月23日20:30',
-          ticketType:'学生票晚间票',
-          price:80
-        },
-        {
-          id:2,
-          avater:'',
-          name:'马家兴',
-          phone:'11111111111',
-          idCard:'210181199501111220',
-          date:'2020年6月23日20:30',
-          ticketType:'学生票晚间票',
-          price:80
-        }
-      ],
+      orderList:[],
       fields:[
         {
-          key:'name',
+          key:'userName',
           label:'姓名'
         },{
-          key:'phone',
+          key:'phoneNum',
           label:'手机号'
         },{
-          key:'idCard',
+          key:'cardNo',
           label:'身份证号'
         },{
-          key:'date',
+          key:'activityTime',
           label:'活动时间'
         },{
-          key:'ticketType',
+          key:'ticketName',
           label:'所购票种'
         }
-      ]
+      ],
+      userType:0
     }
   }
   backPay(item){
     console.log(item)
   }
   componentDidMount(){
+    console.log(this.props.navigation.state.params.id)
     GetRequest('/order/biz/orderlist',{
-      activityId:this.props.navigation.state.params.id,
+      // activityId:this.props.navigation.state.params.id,
+      activityId:27,
       pageNum:1,
       pageSize:500
     }).then(res => {
-      console.log(res)
+      this.setState({
+        orderList:res.data
+      })
     })
   }
   render(){
@@ -74,7 +59,7 @@ export default class OrderList extends Component {
         <SafeAreaView style={styles.orderListWrap}>
         <Header {...this.props} title="报名详情" left={null} />
           <View style={styles.container}>
-            {
+            {/* {
               this.state.isPublish
               ?
               <View style={styles.totalInfo}>
@@ -90,7 +75,7 @@ export default class OrderList extends Component {
                 </View>
               </View>
               :''
-            }
+            } */}
             {
               this.state.orderList.map(item => {
                 return (
@@ -115,7 +100,7 @@ export default class OrderList extends Component {
                     <View style={styles.operateBox}>
                       <Text style={styles.payText}>
                         已支付：
-                        <Text style={styles.payNum}>{item.price}元</Text>
+                        <Text style={styles.payNum}>{item.payMoney}元</Text>
                       </Text>
                       <Button style={styles.backPay} onPress={() => this.backPay(item)}>
                         <Text style={styles.backPayText}>退款</Text>
@@ -178,7 +163,8 @@ const styles = StyleSheet.create({
     paddingHorizontal:scaleSize(80),
     paddingVertical:scaleSize(45),
     backgroundColor:'#fff',
-    marginBottom:scaleSize(40)
+    marginBottom:scaleSize(40),
+    marginTop:scaleSize(40)
   },
   infoBox:{
     display:'flex',
