@@ -24,19 +24,14 @@ export default class Store extends Component {
 				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                 <SafeAreaView style={styles.storeWrap}>
                 <Header {...this.props} title="仓库" left={null} />
-                <View style={styles.storeCountWrap}>
-                    {/* 圆角盒子 */}
+                {/* <View style={styles.storeCountWrap}>
                     <View style={styles.storeCountBox}>
-                        {/* 上层金额盒子 */}
                         <View style={styles.storeCountNum}>
-                            {/* 左右余额和待入账 */}
                             <View style={styles.storeCountItem}>
-                                {/* 数额 */}
                                 <View style={styles.storeNumber}>
                                     <Text style={styles.storeMoney}>1,200.0</Text>
                                     <Text style={styles.storeYuan}>元</Text>
                                 </View>
-                                {/* 名称 */}
                                 <Text style={styles.storeNumberTitle}>钱庄余额</Text>
                             </View>
                             <View style={styles.storeCountItem}>
@@ -46,14 +41,13 @@ export default class Store extends Component {
                                 </View>
                                 <Text style={styles.storeNumberTitle}>待入账</Text>
                             </View>
-                            {/* </View>、按钮盒子 */}
                         </View>
-                        {/* <View style={styles.storeCountBtnBox}>
+                        <View style={styles.storeCountBtnBox}>
                             <Text style={styles.storeCountBtnItem}>充值</Text>
                             <Text style={styles.storeCountBtnItem}>提现</Text>
-                        </View> */}
+                        </View>
                     </View>
-                </View>
+                </View> */}
                 <View style={styles.storeList}>
                     <TouchableOpacity 
                         style={styles.storeItem}
@@ -93,7 +87,7 @@ export default class Store extends Component {
       display:'flex',
       flexDirection:'row',
       justifyContent:'center',
-      marginBottom:scaleSize(25),
+      
       marginTop:scaleSize(54)
   },
   storeCountBox:{
@@ -181,7 +175,8 @@ export default class Store extends Component {
       justifyContent:'space-around',
       backgroundColor:'#fff',
       alignItems:'center',
-      borderRadius:scaleSize(20)
+      borderRadius:scaleSize(20),
+      marginTop:scaleSize(25),
   },
   storeIconBg:{
       width:scaleSize(150),

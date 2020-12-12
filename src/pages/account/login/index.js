@@ -81,10 +81,10 @@ export default class Login extends React.Component {
             phoneNumber:this.state.userPhone,
             verifyCode:this.state.userCode
         }).then(res => {
-            console.log('登录结果',res)
             if (res.code === 0) {
                 AsyncStorage.setItem('session', res.data.token, null);
                 AsyncStorage.setItem('userType', res.data.userType, null);
+                AsyncStorage.setItem('userInfo', JSON.stringify(res.data), null);
                 this.props.navigation.navigate('TabContainer');
             } else if(res.code === 10001){
                 this.props.navigation.navigate('Register');

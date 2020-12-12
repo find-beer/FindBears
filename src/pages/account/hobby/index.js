@@ -78,10 +78,9 @@ export default class Hobby extends Component {
         };
         PostRequest('user/signUp', params).then(res => {
             this.props.navigation.navigate('TabContainer');
-            AsyncStorage.setItem(
-                'object',
-                JSON.stringify({userToken: res.data.token}),
-            );
+            AsyncStorage.setItem('userInfo', JSON.stringify(res.data), null);
+            AsyncStorage.setItem('session', res.data.token, null);
+            AsyncStorage.setItem('userType', res.data.userType, null);
         });
     }
     getClass(index) {

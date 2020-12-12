@@ -73,12 +73,12 @@ export default class ActivityItem extends Component {
                 content: item.memberCount,
             },
         ];
-        const picList = item.picUrl && item.picUrl.split(',') || [defaultImg,defaultImg,defaultImg]
+        const picList = (item.picUrl && item.picUrl.split(',')) || []
         return (
             <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
                     <Image
-                        source={get(item.userVO,'picUrl','')?{uri:get(item.userVO,'picUrl','')}:defaultImg}
+                        source={{uri:get(item.userVO,'pic','')}}
                         style={styles.avatarInner}
                     />
                     <View style={styles.dynamicInfo}>
@@ -91,7 +91,7 @@ export default class ActivityItem extends Component {
                             </Text>
                             <View style={styles.line} />
                             <Text style={styles.infoTime}>
-                                {new Date(item.activityTime).toLocaleString()}
+                                {getDayTime(item.activityTime)}
                             </Text>
                         </View>
                     </View>

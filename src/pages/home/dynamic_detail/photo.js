@@ -4,20 +4,22 @@ import {scaleSize} from '../../../utils/scaleUtil';
 
 export default props => {
     const {data} = props;
-    const {picUrl} = data
-
-    console.log('图片',picUrl)
+    const picUrl = data
     return (
         <View style={styles.container}>
-             {(picUrl? picUrl.split(','):[]).map((item, index) => {
+            <Image
+                source={{uri:'https://t-bear-test.oss-cn-beijing.aliyuncs.com/images/2020/11/21/1_1605934788229_6478.jpg'}}
+                style={styles.photo}
+            ></Image>
+            {/* {(picUrl? picUrl.split(','):[]).map((item, index) => {
                 return (
                     <Image
                         key={index}
-                        source={{uri:item}}
+                        source={{'uri':'https://t-bear-test.oss-cn-beijing.aliyuncs.com/images/2020/11/21/1_1605934788229_6478.jpg'}}
                         style={styles.photo}
-                    />
+                    ></Image>
                 );
-            })}
+            })} */}
         </View>
     );
 };
