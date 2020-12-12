@@ -31,7 +31,7 @@ export default class Splash extends React.Component {
                 } else {
                     const loginAction = StackActions.reset({
                         index: 0,
-                        actions: [NavigationActions.navigate({routeName: 'Register'})],//登录页
+                        actions: [NavigationActions.navigate({routeName: 'Login'})],//登录页
                     });
                     this.props.navigation.dispatch(loginAction);
                 }

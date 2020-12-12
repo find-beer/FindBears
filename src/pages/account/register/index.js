@@ -45,11 +45,10 @@ export default class Register extends Component {
                 locationStr: '北京市朝阳区',
                 birthdayTimeStamp: undefined,
                 sex: undefined,
-                introduction: '我是',
+                introduction: '',
                 phoneNumber:
-                    (this.props.navigation.state.params &&
-                        this.props.navigation.state.params.tel) ||
-                    '18311434653',
+                    this.props.navigation.state.params &&
+                        this.props.navigation.state.params.tel
             },
             tips: {
                 headPicUrl: '头像不能为空~',
