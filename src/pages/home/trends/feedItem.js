@@ -4,7 +4,8 @@ const imageUrl = {
 		like: require('../../../assets/home/like.png'),
 		unlike: require('../../../assets/home/unlike.png'),
     comment: require('../../../assets/mine/comment.png'),
-    share: require('../../../assets/mine/share-icon.png'),
+		share: require('../../../assets/mine/share-icon.png'),
+		relation: require('../../../assets/home/relationline.png'),
 };
 import {get} from 'lodash'
 import {scaleSize,scaleFont} from '../../../utils/scaleUtil';
@@ -66,7 +67,6 @@ export default class DynamicItem extends Component {
 									</TouchableOpacity>
 									<View style={styles.dynamicInfo}>
 											<Text style={styles.name}>
-												
 													{
 															get(feed.userVO,'userName','探熊')
 													}
@@ -261,5 +261,5 @@ const styles = StyleSheet.create({
 	infoTime:{
 		fontSize: 12,
     color: '#999999',
-	}
+	},
 });

@@ -3,23 +3,32 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {get} from 'lodash'
 import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {PostRequest} from "../../utils/request";
-import EventBus from "../../utils/EventBus";
 import {getDate} from '../../utils/date'
+import AsyncStorage from "@react-native-community/async-storage";
 
 const imageUrl = {
     like: require('../../assets/home/like.png'),
     unlike: require('../../assets/home/unlike.png'),
     comment: require('../../assets/mine/comment.png'),
-    share: require('../../assets/mine/share-icon.png'),
+		share: require('../../assets/mine/share-icon.png'),
+		relation: require('../../assets/home/relationline.png'),
 };
 
-const defaultImg = require('../../assets/mine/avatar.jpeg');
 export default class DynamicItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feed: {...this.props.feed}
+            feed: {...this.props.feed},
+            userId:''
         }
+    }
+    componentWillMount(){
+        AsyncStorage.getItem('userInfo',(err,res) => {
+            res = JSON.parse(res);
+            this.setState({
+                userId:res.userId
+            })
+        })
     }
 
     handleGoDetail() {
@@ -32,26 +41,29 @@ export default class DynamicItem extends Component {
             infoType: 2,
             state: this.state.feed.like ? 0 : 1,
         }).then(res => {
-            if (this.state.feed.like) {
-                this.setState({
-                    feed: {
-                        ...this.state.feed,
-                        like: false,
-                        likeNum: this.state.feed.likeNum - 1
-                    }
-
-                })
-            } else {
-                this.setState({
-                    feed: {
-                        ...this.state.feed,
-                        like: true,
-                        likeNum: this.state.feed.likeNum + 1
-                    }
-                })
-            }
+					if (this.state.feed.like) {
+						this.setState({
+							feed: {
+								...this.state.feed,
+								like: false,
+								likeNum: this.state.feed.likeNum - 1
+							}
+						})
+					} else {
+						this.setState({
+								feed: {
+									...this.state.feed,
+									like: true,
+									likeNum: this.state.feed.likeNum + 1
+								}
+						})
+					}
             // EventBus.post('REFRESH_TREND',{})
         })
+		}
+		// 关系链
+    handleGoLine(){
+			this.props.navigation.navigate('RelationChain',{uid: this.state.feed.uid})
     }
     handlegoStrangerPage(){
         this.props.navigation.navigate('StrangerInfo', {id: this.state.feed.uid})
@@ -85,6 +97,16 @@ export default class DynamicItem extends Component {
                             </Text>
                         </View>
                     </View>
+                    {
+                        this.state.userId !== feed.userVO.userId?
+                            <TouchableOpacity onPress={() => this.handleGoLine()}>
+                                <View style={styles.relationLine}>
+                                    <Image source={imageUrl.relation} style={styles.btn}/>
+                                    <Text style={styles.btnText}>关系链</Text>
+                                </View>
+                            </TouchableOpacity>
+                        :null
+                    } 
                 </View>
                 <View style={styles.dynamicTextBox}>
                     <TouchableOpacity onPress={() => this.handleGoDetail()}>
@@ -150,7 +172,8 @@ const styles = StyleSheet.create({
     },
     itemHeader: {
         display: 'flex',
-        flexDirection: 'row',
+				flexDirection: 'row',
+				justifyContent:'space-between',
         alignItems: 'center',
         marginTop: scaleSize(45),
         marginBottom: scaleSize(10),
@@ -270,5 +293,31 @@ const styles = StyleSheet.create({
     infoTime: {
         fontSize: 12,
         color: '#999999',
-    }
+		},
+		relationLine:{
+			width:scaleSize(222),
+			height:scaleSize(92),
+			position:'relative',
+			textAlign:'center',
+			display:'flex',
+			flexDirection:'row',
+			justifyContent:'center',
+			alignItems:'center'
+		},
+		btn:{
+			width:scaleSize(222),
+			height:scaleSize(92),
+			display:'flex',
+			flexDirection:'row',
+			justifyContent:'center',
+			position:'absolute',
+			top:0,
+			bottom:0,
+			right:0,
+			left:0
+		},
+		btnText:{
+			fontSize:scaleFont(35),
+			color:"#fff"
+		}
 });
