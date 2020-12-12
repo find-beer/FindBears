@@ -53,7 +53,7 @@ export default class Shoulder extends React.Component {
 					activityType: -1
 			}).then(res => {
 				this.setState({
-					shortActivity: res.data || []
+					longActivity: res.data || []
 				})
 			});
 			
@@ -65,7 +65,7 @@ export default class Shoulder extends React.Component {
 					activityType: -1
 			}).then(res => {
 				this.setState({
-					longActivity: res.data || []
+					shortActivity: res.data || []
 				})
 			});
     }

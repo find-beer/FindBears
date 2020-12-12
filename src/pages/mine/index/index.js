@@ -18,6 +18,7 @@ import {SafeAreaView} from 'react-navigation';
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import EventBus from "../../../utils/EventBus";
+import {Provider} from '@ant-design/react-native';
 
 const imageUrl = {
     configIcon: require('../../../assets/mine/relation.png'),
@@ -67,7 +68,8 @@ export default class Mine extends Component{
 	}
 	render(){
 			return (
-				<Fragment>
+				<Provider>
+					<Fragment>
 					<SafeAreaView style={{flex: 0, backgroundColor: 'rgba(117,117,115,1)'}}/>
 					<SafeAreaView style={{flex:1}}>
 						<ScrollView>
@@ -129,6 +131,7 @@ export default class Mine extends Component{
 						</ScrollView>
 					</SafeAreaView>
 				</Fragment>
+				</Provider>
 			)
 	}
 }

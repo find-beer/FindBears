@@ -5,18 +5,21 @@ const imageUrl = {
 		unlike: require('../../../assets/home/unlike.png'),
     comment: require('../../../assets/mine/comment.png'),
 		share: require('../../../assets/mine/share-icon.png'),
+		more: require('../../../assets/mine/more.png'),
 };
+import {Modal,Toast} from '@ant-design/react-native';
 import {get} from 'lodash'
 import {scaleSize,scaleFont} from '../../../utils/scaleUtil';
 import {PostRequest} from "../../../utils/request";
 import {getDate} from '../../../utils/date'
+import EventBus from '../../../utils/EventBus';
 export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
 				this.state = {
-					feed:{...this.props.feed}
+					feed:{...this.props.feed},
+					isMine:this.props.isMine
 				}
-				console.log(this.props.feed)
     }
     handleGoDetail(){
 			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
@@ -51,6 +54,26 @@ export default class DynamicItem extends Component {
 				// EventBus.post('REFRESH_TREND',{})
 			})
 		}
+		handleDelete(){
+			Modal.alert('提示', '确认删除该动态么', [
+        {
+          text: '取消',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        { text: '删除', onPress: this.delete() },
+      ]);
+		}
+		delete(){
+			PostRequest('/feed/delete',{id:this.state.feed.id}).then(res => {
+				if(res.code === 0){
+					Toast.success('删除成功', 2);
+					EventBus.post("REFRESHMINE")
+				}else{
+					Toast.success('删除失败，请重试', 2);
+				}
+			})
+		}
     render() {
 			const feed = this.state.feed;
 			const picList = feed.picUrl? feed.picUrl.split(',')  : []
@@ -76,6 +99,13 @@ export default class DynamicItem extends Component {
 													</Text>
 											</View>
 									</View>
+									{
+										this.state.isMine?
+										<TouchableOpacity onPress={() => this.handleDelete()}>
+											<Image source={imageUrl.more} style={styles.operateBtn}/>
+										</TouchableOpacity>
+										:null
+									}
 							</View>
 							<View style={styles.dynamicTextBox}>
 									<TouchableOpacity onPress={() => this.handleGoDetail()}>
@@ -130,6 +160,11 @@ export default class DynamicItem extends Component {
 }
 
 const styles = StyleSheet.create({
+	operateBtn:{
+		width:scaleSize(100),
+		height:scaleSize(30),
+		backgroundColor:'red'
+	},
 	dynamicItemWrap: {
 			backgroundColor: '#fff',
 			overflow: 'hidden',
@@ -141,6 +176,7 @@ const styles = StyleSheet.create({
 	itemHeader: {
 			display: 'flex',
 			flexDirection: 'row',
+			justifyContent:'space-between',
 			alignItems: 'center',
 			marginTop: scaleSize(45),
 			marginBottom: scaleSize(10),

@@ -113,7 +113,13 @@ export default class DynamicTab extends Component {
 									<View style={styles.listBg}>
 										{
 											this.state.dynamicList.map((item,index) => {
-											return <DynamicItem feed={item} key={`dynamic${index}`} {...this.props}/>										})
+												return <DynamicItem 
+													feed={item} 
+													isMine={true}
+													key={`dynamic${index}`} 
+													{...this.props}
+													/>
+											})
 										}
 									</View>
                 }
