@@ -25,12 +25,18 @@ export default props => (
             <View style={styles.headerTitle}>
                 <Text style={styles.headerTitleText}>{props.title || ''}</Text>
             </View>
+
             <View style={styles.headerRight}>
-                <Text>
-                    {
-                    props.right && props.right
-                    }
-                </Text>
+                <TouchableOpacity
+                    activeOpacity={.6}
+                    onPress={() => props.onRightClick()}>
+                    <Text>
+                        {
+                            props.right && props.right
+                        }
+                    </Text>
+                </TouchableOpacity>
+
             </View>
         </View>
     </View>

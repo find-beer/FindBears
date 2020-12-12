@@ -45,10 +45,11 @@ export default class Register extends Component {
                 locationStr: '北京市朝阳区',
                 birthdayTimeStamp: undefined,
                 sex: undefined,
-                introduction: '',
+                introduction: '我是',
                 phoneNumber:
-                    this.props.navigation.state.params &&
-                        this.props.navigation.state.params.tel
+                    (this.props.navigation.state.params &&
+                        this.props.navigation.state.params.tel) ||
+                    '18311434653',
             },
             tips: {
                 headPicUrl: '头像不能为空~',
@@ -60,7 +61,7 @@ export default class Register extends Component {
         };
     }
     componentDidMount(){
-        // this.getLocation();
+        this.getLocation();
     }
     getLocation = () => {
         addLocationListener(location => console.log(location));
@@ -79,7 +80,7 @@ export default class Register extends Component {
                         locationStr:`${coords.province}${coords.city}${coords.district}`
                     }
                 })
-            });
+              });
         })
     };
     confirmBirthday(value) {
@@ -197,7 +198,6 @@ export default class Register extends Component {
         });
     }
     render() {
-        let data = this.state.registerForm;
         return (
             <Provider>
                 <Fragment>
@@ -208,7 +208,7 @@ export default class Register extends Component {
                             style={styles.flexImg}
                             onPress={() => this.choosePicture()}>
                             <Image
-                                source={data.headPicUrl?{'uri':data.headPicUrl}:imgUrl.avater}
+                                source={this.state.registerForm.headPicUrl?{'uri':this.state.registerForm.headPicUrl}:imgUrl.avater}
                                 style={styles.avaterIcon}
                             />
                             <Text style={styles.label}>上传头像</Text>
@@ -216,11 +216,11 @@ export default class Register extends Component {
                         <View style={styles.flexBox}>
                             <Text style={styles.label}>昵称</Text>
                             <TextInput
-                                value={data.name}
+                                value={this.state.registerForm.name}
                                 onChangeText={val =>
                                     this.setState({
                                         registerForm: {
-                                            ...data,
+                                            ...this.state.registerForm,
                                             name: val,
                                         },
                                     })
@@ -230,9 +230,9 @@ export default class Register extends Component {
                         </View>
                         <View style={styles.flexBox}>
                             <Text style={styles.label}>常驻地</Text>
-                            {data.locationStr ? (
+                            {this.state.registerForm.locationStr ? (
                                 <Text style={styles.formItem}>
-                                    {data.locationStr}
+                                    {this.state.registerForm.locationStr}
                                 </Text>
                             ) : (
                                 <Image
@@ -243,7 +243,7 @@ export default class Register extends Component {
                         </View>
                         <View style={styles.dateBox}>
                             <DatePicker
-                                value={data.birthdayTimeStamp && new Date(data.birthdayTimeStamp)}
+                                value={new Date(this.state.registerForm.birthdayTimeStamp)}
                                 mode="date"
                                 minDate={new Date(1970, 1, 1)}
                                 maxDate={new Date(2020, 1, 1)}
@@ -269,16 +269,16 @@ export default class Register extends Component {
                                 </RadioButton>
                             </RadioGroup>
                         </View>
-                        <View>
+                        <View style={styles.flexBox}>
                             <TextareaItem
                                 placeholder="描述一下自己吧..."
                                 style={styles.introduction}
                                 rows={4}
-                                value={data.introduction}
+                                value={this.state.registerForm.introduction}
                                 onChange={val =>
                                     this.setState({
                                         registerForm: {
-                                            ...data,
+                                            ...this.state.registerForm,
                                             introduction: val,
                                         },
                                     })
@@ -405,8 +405,5 @@ export default class Register extends Component {
       display: 'flex',
       justifyContent: 'space-between',
   },
-  introduction:{
-      width:scaleSize(850)
-  }
 });
 

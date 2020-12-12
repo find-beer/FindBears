@@ -33,7 +33,7 @@ export default class Page extends React.Component {
 							this.setState({
 									detail: res.data,
 							});
-							
+
 					},
 			);
 			GetRequest('comment/query', {
@@ -84,7 +84,9 @@ export default class Page extends React.Component {
                 <View style={styles.main}>
                     <User data={detail} {...this.props}/>
                     <Text style={styles.words}>{detail.content}</Text>
-                    <Photo data={detail.picUrl} />
+					{
+						detail?<Photo data={detail} />:null
+					}
                     {/* <Action data={detail} /> */}
 										{
 											this.state.commentList.map(item => {
@@ -95,13 +97,13 @@ export default class Page extends React.Component {
 												)
 											})
 										}
-                    
+
                 </View>
                 <View style={styles.comment_box}>
                   <Image style={styles.comment_avatar} source={defaultImage}/>
 									<View style={styles.comment_text_box}>
-										<TextInput 
-											style={styles.comment_text} 
+										<TextInput
+											style={styles.comment_text}
 											placeholder={this.state.placeholder}
 											value={this.state.content}
 											onChangeText={(text) => this.setState({comment:text})}></TextInput>

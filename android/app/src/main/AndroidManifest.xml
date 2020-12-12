@@ -24,6 +24,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/bear_icon"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="com.netease.nim.appKey" android:value="67b35e65c41efd1097ef8504d5a88455" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"

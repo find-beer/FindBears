@@ -15,6 +15,7 @@ import {scaleFont, scaleSize} from "../../utils/scaleUtil";
 import {PostRequest} from "../../utils/request";
 import EventBus from "../../utils/EventBus";
 import {apiProd} from "../../config";
+import AsyncStorage from "@react-native-community/async-storage";
 
 let arr = [];
 export default class PublishTrend extends React.Component {
@@ -27,6 +28,7 @@ export default class PublishTrend extends React.Component {
             images: [],
             isPunchCard: false,
             isPermit: true,
+            token: null
         };
     }
 
@@ -37,8 +39,14 @@ export default class PublishTrend extends React.Component {
         })
     }
 
+    componentDidMount() {
+        AsyncStorage.getItem('session', (error, result) => {
+            this.setState({token: result})
+        })
+    }
+
     choosePicture = () => {
-        const {images} = this.state;
+        const {images, token} = this.state;
         const options = {
             title: '选择图片',
             cancelButtonTitle: '取消',
@@ -74,12 +82,12 @@ export default class PublishTrend extends React.Component {
             if (Platform.OS === 'ios') {
                 currentHeader = {
                     'Content-Type': 'multipart/form-data;charset=utf-8',
-                    'token': '1_1604737548947'
+                    token
                 }
             } else {
                 currentHeader = {
                     'Accept': 'application/json',
-                    'token': '1_1604737548947'
+                    token
                 }
             }
             fetch(apiProd.host + 'common/uploadImage', {

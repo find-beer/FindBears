@@ -4,36 +4,17 @@
 import React, {Component} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {screenW} from '../../utils/screenUtil';
-import {scaleSize,scaleFont} from '../../utils/scaleUtil';
+import {scaleSize} from '../../utils/scaleUtil';
 import {get} from 'lodash'
 import {getDate} from '../../utils/date'
-import AsyncStorage from "@react-native-community/async-storage";
-const imageUrl = {
-	relation: require('../../assets/home/relationline.png'),
-};
-
 
 export default class ActivityItem extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            userId:''
-        };
-    }
-    componentWillMount(){
-        AsyncStorage.getItem('userInfo',(err,res) => {
-            res = JSON.parse(res);
-            this.setState({
-                userId:res.userId
-            })
-        })
+        this.state = {};
     }
     handlegoStrangerPage(){
         this.props.navigation.navigate('StrangerInfo', {uid: this.props.activity?.userVO?.userId || ''})
-    }
-    // 关系链
-    handleGoLine(){
-			this.props.navigation.navigate('RelationChain',{uid: this.props.activity?.userVO?.userId || ''})
     }
     render() {
         const {activity, onBtnClick} = this.props;
@@ -47,38 +28,24 @@ export default class ActivityItem extends Component {
                                 source={{uri: get(activity.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
                                 style={styles.avatar}
                             />
-                        </TouchableOpacity>   
+                        </TouchableOpacity>
                         <View style={{marginLeft: 8}}>
                             <Text style={styles.publisher}>{activity.userVO.userName}</Text>
                             <View style={styles.right}>
-                                <Text style={styles.topTxt}>{activity ? activity.cityName : '城市名称'}</Text>
+                                <Text style={styles.topTxt}>{activity ? activity.activityAddress : '未知城市'}</Text>
                                 <View style={styles.shu}/>
-                                <Text style={styles.topTxt}>{activity ? getDate(activity.publishTime) : '发布时间'}</Text>
+                                <Text style={styles.topTxt}>{activity ? getDate(activity.publishTime) : '时间不详'}</Text>
                                 <View style={styles.shu}/>
                                 <Text style={styles.topTxt}>{activity ? activity.memberCount : '0'}人参与</Text>
                             </View>
                         </View>
-                        {
-                            this.state.userId !== activity.userVO.userId?
-                                <TouchableOpacity onPress={() => this.handleGoLine()}>
-                                    <View style={styles.relationLine}>
-                                        <Image source={imageUrl.relation} style={styles.btn}/>
-                                        <Text style={styles.btnText}>关系链</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            :null
-                        }           
                     </View>
                     <Text numberOfLines={1} style={styles.name}>{activity ? activity.activityTitle : '标题暂无'}</Text>
                     <View style={{flexDirection: 'row', marginBottom: 5}}>
                         <View style={styles.tag}/>
                         <Text style={styles.timeLeft}>活动时间：</Text>
                         <Text numberOfLines={1}
-                              style={styles.time}>{activity ? new Date(activity.activityTime).getFullYear()
-                            + '.' + (new Date(activity.activityTime).getMonth() + 1)
-                            + '.' + (new Date(activity.activityTime).getDate() - 1) + " " +
-                            new Date(activity.activityTime).getHours() + ":" + new Date(activity.activityTime).getMinutes()
-                            : '时间待定'}</Text>
+                              style={styles.time}>{activity ? activity.activityTime: '时间待定'}</Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.tag}/>
@@ -116,11 +83,10 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     outs: {
-				flexDirection: 'row',
-				justifyContent:'space-between',
+        flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: 27,
+        paddingRight: 27,
     },
     avatar: {width: 66, height: 66, borderRadius: 33},
     publisher: {fontSize: 18, color: '#564F5F', fontWeight: '400'},
@@ -224,31 +190,5 @@ const styles = StyleSheet.create({
         height: scaleSize(32),
         backgroundColor: '#8E79FE',
         borderRadius: scaleSize(7),
-    },
-    relationLine:{
-        width:scaleSize(222),
-        height:scaleSize(92),
-        position:'relative',
-        textAlign:'center',
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    btn:{
-        width:scaleSize(222),
-        height:scaleSize(92),
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'center',
-        position:'absolute',
-        top:0,
-        bottom:0,
-        right:0,
-        left:0
-    },
-    btnText:{
-        fontSize:scaleFont(35),
-        color:"#fff"
     }
 });

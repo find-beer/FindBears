@@ -13,7 +13,7 @@ import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 const camera = require('../../../assets/mine/camera-icon.png')
 const tbears = require('../../../assets/mine/tbears.png')
 import ImagePicker from 'react-native-image-picker';
-import EventBus from "../../../utils/EventBus";
+import {apiProd} from "../../../config";
 import {
 	Button,
 	Provider,
@@ -22,6 +22,7 @@ import {
 	DatePicker,
 } from '@ant-design/react-native';
 import {GetRequest,PutRequest, PostRequest} from '../../../utils/request';
+const defaultImg = require('../../../assets/mine/avatar.jpeg');
 import {xor} from 'lodash'
 
 export default class EditInfo extends Component {
@@ -187,8 +188,7 @@ export default class EditInfo extends Component {
 				loginToken:this.state.editForm.token,
 				locationStr:`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`
 			}).then(res => {
-					EventBus.post('REFRESHMINE')
-          this.props.navigation.navigate('Mine')
+                this.props.navigation.navigate('Mine')
 			})
 		}
     render (){

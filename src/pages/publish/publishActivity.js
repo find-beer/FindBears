@@ -19,6 +19,7 @@ import ImagePicker from "react-native-image-picker";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {apiProd} from "../../config";
 import {PostRequest} from "../../utils/request";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class PublishActivity extends React.Component {
 
@@ -38,11 +39,15 @@ export default class PublishActivity extends React.Component {
             isStartVisible: false,
             isEndVisible: false,
             userType: props.navigation.state.params.userType,
+            token:null
         };
     }
 
     componentDidMount() {
         // this.getUserInfo();
+        AsyncStorage.getItem('session', (error, result) => {
+            this.setState({token: result})
+        })
         EventBus.on('typeName', (e) => {
             this.setState({
                 activityTypeName: e.name,
@@ -202,6 +207,7 @@ export default class PublishActivity extends React.Component {
 
         ImagePicker.showImagePicker(options, response => {
             console.log('图片 = ', response);
+            const {token}=this.state;
             if (response.didCancel) {
                 console.log('User cancelled photo picker');
             } else if (response.error) {
@@ -219,7 +225,7 @@ export default class PublishActivity extends React.Component {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'multipart/form-data;charset=utf-8',
-                        'token': '1_1604737548947'
+                        token
                     },
                     body: formData,
                 })

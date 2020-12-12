@@ -75,8 +75,10 @@ export default class Pay extends React.Component {
                         if (res.resultStatus === '9000') {
                             alert('订单支付成功');
                             navigation.navigate('Home')
+                        } else if (res.resultStatus === '6001') {
+                            alert('用户中途取消');
                         } else {
-                            alert('支付失败请重试');
+                            alert('支付出错')
                         }
                     })
                 }

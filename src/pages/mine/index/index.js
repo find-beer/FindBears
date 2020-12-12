@@ -17,7 +17,6 @@ import PersonalInfo from './personalInfo';
 import {SafeAreaView} from 'react-navigation';
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
-import EventBus from "../../../utils/EventBus";
 
 const imageUrl = {
     configIcon: require('../../../assets/mine/relation.png'),
@@ -39,18 +38,16 @@ export default class Mine extends Component{
 		personalInfo : {}
 	}
 	componentWillMount(){
-		this.initInfo()
-	}
-	initInfo(){
 		GetRequest('user/detail').then(res => {
 			this.setState({
 				personalInfo:res.data
 			})
 		})
-	}
-	componentDidMount(){
-		EventBus.on('REFRESHMINE',() => {
-			this.initInfo()
+
+
+		// 测试
+		GetRequest(`/userRelation/addFriend/${12}`).then(res => {
+			console.log(res)
 		})
 	}
 	handleGoCode(){

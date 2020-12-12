@@ -7,9 +7,20 @@
  */
 
 import React, {Fragment} from 'react';
-import {FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+    FlatList,
+    Image,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    NativeAppEventEmitter
+} from 'react-native';
 import Header from "../../components/header";
 import {screenW} from "../../constants";
+import {NimSession, NimFriend} from 'react-native-netease-im';
+import md5 from "../../utils/md5";
 
 export default class Chat extends React.Component {
 
@@ -61,10 +72,31 @@ export default class Chat extends React.Component {
         };
     }
 
+    startLogin = async () => {
+        const {navigation} = this.props;
+        NimSession.login('wzy', '123456').then(
+            (res) => {
+                console.log('登录结果', res);
+                NimFriend.startFriendList();
+                NativeAppEventEmitter.addListener(
+                    'observeFriend',
+                    (data) => {
+                        console.log('好友列表信息',data)
+                    },
+                );
+            },
+            (err) => {
+                console.warn(err);
+            },
+        );
+    }
+
     renderItem = (rowData) => {
         const {navigation} = this.props;
         const {item, index} = rowData;
-        return <View>
+        return <TouchableOpacity onPress={() => {
+            this.startLogin()
+        }}>
 
             <View style={styles.talkItem}>
                 <Image source={require('../../assets/tab/publish.png')} style={styles.avatar}/>
@@ -76,8 +108,11 @@ export default class Chat extends React.Component {
                 <Text style={styles.time}>{item.time}</Text>
             </View>
             <View style={styles.line}/>
-        </View>
+        </TouchableOpacity>
     };
+
+    componentDidMount() {
+    }
 
     render() {
 
@@ -183,9 +218,9 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 10
     },
-    line:{
-        width:screenW,
-        height:1,
-        backgroundColor:'#cdcdcd'
+    line: {
+        width: screenW,
+        height: 1,
+        backgroundColor: '#cdcdcd'
     }
 });

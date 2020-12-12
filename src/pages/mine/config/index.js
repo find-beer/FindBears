@@ -32,7 +32,7 @@ export default class Config extends Component {
 
     }
     handleLogout(){
-        AsyncStorage.removeItem('session')
+        AsyncStorage.setItem('session', '', null);
         this.props.navigation.navigate('Login');
     }
     render (){

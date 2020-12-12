@@ -44,6 +44,7 @@ export default class Mine extends Component{
 	}
 	
 	componentWillMount(){
+		console.log(this.props.navigation.state)
 		GetRequest('user/userInfo',{userId:this.state.uid}).then(res => {
 			this.setState({
 				personalInfo:res.data

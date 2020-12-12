@@ -100,51 +100,33 @@ export default class StoreList extends Component {
                                             </View> */}
                                         </TouchableOpacity>
                                         {
-																					!isJoin && item.userType === 1
-																					?
-																					<View style={styles.btnBox}>
-																							<TouchableOpacity 
-																									style={styles.operateBtn}
-																									onPress={() => this.handleCancel(item.id)}>
-																									<Text style={styles.operateBtnText}>
-																											停止报名
-																									</Text>
-																							</TouchableOpacity>
-																							<TouchableOpacity 
-																									style={styles.operateBtn}
-																									onPress={() => this.handleGoDetail(item.id)}
-																							>
-																									<Text style={styles.operateBtnText}>
-																											报名详情
-																									</Text>
-																							</TouchableOpacity>
-																					</View>
-																					:null
+                                            !isJoin
+                                            ?
+                                            <View style={styles.btnBox}>
+                                                <TouchableOpacity 
+                                                    style={styles.operateBtn}
+                                                    onPress={() => this.handleCancel(item.id)}>
+                                                    <Text style={styles.operateBtnText}>
+                                                        停止报名
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity 
+                                                    style={styles.operateBtn}
+                                                    onPress={() => this.handleGoDetail(item.id)}
+                                                >
+                                                    <Text style={styles.operateBtnText}>
+                                                        报名详情
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            :
+                                            <Button 
+                                                style={styles.viewOrderBtn} 
+                                                onPress={() => this.handleGoDetail(item.activityId)}
+                                            >
+                                                <Text style={styles.viewOrderBtnText}>查看订单</Text>
+                                            </Button>
                                         }
-																				{
-																					!isJoin && item.userType === 0
-																					?
-																					<Button 
-																						style={styles.viewOrderBtn}
-																						onPress={() => this.handleCancel(item.id)}>
-																						<Text style={styles.viewOrderBtnText}>
-																								停止报名
-																						</Text>
-																					</Button>
-																					:null
-                                        }
-																				{
-																					// 我参与的商家活动
-																					isJoin && item.userType === 0
-																					?
-																					<Button 
-																						style={styles.viewOrderBtn} 
-																						onPress={() => this.handleGoDetail(item.activityId)}
-																					>
-																						<Text style={styles.viewOrderBtnText}>查看订单</Text>
-																					</Button>
-																					:null
-																				}
                                     </View>
                                 );
                             })}
@@ -241,14 +223,15 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
   },
   viewOrderBtn:{
+      textAlign:'center',
       height:scaleSize(120),
+      lineHeight:scaleSize(120),
       borderRadius:scaleSize(60),
       backgroundColor: '#564F5F',
-			marginTop: scaleSize(54),
+      marginTop: scaleSize(54),
   },
   viewOrderBtnText:{
-		flex: 1,
-		color:'#fff',
-		fontSize:scaleFont(40),
+      color:'#fff',
+      fontSize:scaleFont(40)
   }
 });

@@ -19,6 +19,7 @@ import ImagePicker from "react-native-image-picker";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {apiProd} from "../../config";
 import {GetRequest, PostRequest} from "../../utils/request";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class EditDraft extends React.Component {
 
@@ -39,6 +40,7 @@ export default class EditDraft extends React.Component {
             isStartVisible: false,
             isEndVisible: false,
             userType: props.navigation.state.params.userType,
+            token: null
         };
     }
 
@@ -69,6 +71,11 @@ export default class EditDraft extends React.Component {
     }
 
     componentDidMount() {
+
+        AsyncStorage.getItem('session', (error, result) => {
+            this.setState({token: result})
+        })
+
         EventBus.on('typeName', (e) => {
             this.setState({
                 activityTypeName: e.name,
@@ -153,7 +160,7 @@ export default class EditDraft extends React.Component {
 
     showEndTime = (date) => {
         const {activityTime} = this.state;
-        if (activityTime === '') {
+        if (activityTime === '' || !activityTime) {
             return
         }
         this.setState({
@@ -221,6 +228,8 @@ export default class EditDraft extends React.Component {
             },
         };
 
+        const {token} = this.state;
+
         ImagePicker.showImagePicker(options, response => {
             console.log('图片 = ', response);
             if (response.didCancel) {
@@ -240,7 +249,7 @@ export default class EditDraft extends React.Component {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'multipart/form-data;charset=utf-8',
-                        'token': '1_1604737548947'
+                        token
                     },
                     body: formData,
                 })
@@ -263,6 +272,10 @@ export default class EditDraft extends React.Component {
         })
     }
 
+    clearInfo = () => {
+        this.setState({})
+    }
+
     render() {
 
         const {
@@ -271,9 +284,13 @@ export default class EditDraft extends React.Component {
             userType
         } = this.state;
 
+        console.log('--------->', activityTime)
+
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} title={'发布活动'}/>
+            <Header {...this.props} title={'发布活动'} right={'清空'} onRightClick={() => {
+                this.clearInfo()
+            }}/>
             <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={{flex: 1}}>
                 <SettingItem title={'活动标题'} subType={'input'} inputHint={'请填写标题'}
                              reflectText={(title) => {
@@ -284,7 +301,7 @@ export default class EditDraft extends React.Component {
                              sub={activityTitle}
                 />
                 <SettingItem title={'活动时间'}
-                             sub={activityTime !== '' ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '不选时间默认为长期活动'}
+                             sub={activityTime ? moment(activityTime).format("YYYY-MM-DD HH:mm") : '不选时间默认为长期活动'}
                              onRightPress={this.showActivityTime}/>
                 <SettingItem title={'活动人数'} subType={'number'} inputHint={'请填写人数'}
                              reflectNumText={(num) => {
@@ -295,7 +312,7 @@ export default class EditDraft extends React.Component {
                              sub={memberCount}
                 />
                 <SettingItem title={'报名截止时间'}
-                             sub={enrollEndTime}
+                             sub={enrollEndTime ? enrollEndTime : '默认活动开始前12小时'}
                              onRightPress={this.showEndTime}
                 />
                 <SettingItem title={'活动位置'} subType={'input'}
@@ -332,21 +349,6 @@ export default class EditDraft extends React.Component {
                     initialContentHTML={content}
                     editorInitializedCallback={() => this.onEditorInitialized()}
                 />
-
-                <RichToolbar
-                    onPressAddImage={this.onPressAddImage}
-                    style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
-                    getEditor={() => this.richText}
-                    actions={[
-                        actions.setBold,
-                        actions.setItalic,
-                        actions.insertBulletsList,
-                        actions.insertOrderedList,
-                        actions.insertImage,
-                        // actions.insertLink,
-                    ]}
-                    iconMap={{}}
-                />
             </KeyboardAwareScrollView>
 
             <DateTimePickerModal
@@ -369,6 +371,21 @@ export default class EditDraft extends React.Component {
                 locale={'zh'}
                 onConfirm={this.handleEndConfirm}
                 onCancel={this.hideEndDatePicker}
+            />
+
+            <RichToolbar
+                onPressAddImage={this.onPressAddImage}
+                style={{backgroundColor: '(0,0,0,.8)', alignItems: "flex-start"}}
+                getEditor={() => this.richText}
+                actions={[
+                    actions.setBold,
+                    actions.setItalic,
+                    actions.insertBulletsList,
+                    actions.insertOrderedList,
+                    actions.insertImage,
+                    // actions.insertLink,
+                ]}
+                iconMap={{}}
             />
 
             <View style={{flexDirection: 'row'}}>

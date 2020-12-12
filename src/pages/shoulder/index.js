@@ -18,8 +18,7 @@ export default class Shoulder extends React.Component {
         super(props);
         this.state = {
             currentTab: 'shortActivity',
-            longActivity: [],
-            shortActivity:[],
+            activityList: [],
             titleList: [
                 '周边游',
                 '电影演出',
@@ -34,40 +33,26 @@ export default class Shoulder extends React.Component {
     }
 
     componentDidMount() {
-        this.initData()
+        this.initData(this.state.currentTab)
     }
 
     changeTab(type) {
         this.setState({
             currentTab: type
         })
-
+        this.initData(type)
     }
 
-    initData() {
-			// 短期
-			GetRequest('activity/activities', {
-					activityValid: 0,
-					pageSize: 300,
-					pageNum: 1,
-					activityType: -1
-			}).then(res => {
-				this.setState({
-					shortActivity: res.data || []
-				})
-			});
-			
-			// 长期
-			GetRequest('activity/activities', {
-					activityValid: 1,
-					pageSize: 300,
-					pageNum: 1,
-					activityType: -1
-			}).then(res => {
-				this.setState({
-					longActivity: res.data || []
-				})
-			});
+    initData = async (type) => {
+        const response = await GetRequest('activity/activities', {
+            activityValid: type === 'shortActivity' ? 1 : 0,
+            pageSize: 100,
+            pageNum: 1,
+            activityType: -1
+        });
+        this.setState({
+            activityList: response.data
+        })
     }
 
     goDetail(type) {
@@ -177,7 +162,7 @@ export default class Shoulder extends React.Component {
                     </View>
                     <View style={styles.list_wrapper}>
                         {
-                            this.state[this.state.currentTab].map(item => {
+                            this.state.activityList.map(item => {
                                 return <ActivityItem item={item} key={item.id} {...this.props}/>
                             })
                         }

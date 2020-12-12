@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
+import {FlatList, RefreshControl, StyleSheet, View,Modal} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
