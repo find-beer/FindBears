@@ -22,7 +22,6 @@ export default class DynamicTab extends Component {
 				}
 			}
 		}
-    handleChangeTab() {}
     changeTab(name){
         this.setState({
             currentTab:name

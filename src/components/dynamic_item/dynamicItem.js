@@ -50,7 +50,7 @@ export default class DynamicItem extends Component {
                     }
                 })
             }
-            EventBus.post('REFRESH_TREND',{})
+            // EventBus.post('REFRESH_TREND',{})
         })
     }
     handlegoStrangerPage(){

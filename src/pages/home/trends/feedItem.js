@@ -16,6 +16,7 @@ export default class DynamicItem extends Component {
 				this.state = {
 					feed:{...this.props.feed}
 				}
+				console.log(this.props.feed)
     }
     handleGoDetail(){
 			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
