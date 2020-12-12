@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* TBearTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TBearTests.m */; };
+		01CB7BB87E4643C2B0109868 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E500971472F42AB93FDBD89 /* antoutline.ttf */; };
 		070DF768476A09F1148C39EB /* libPods-TBear-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBC0A3CA0550DBBC9648983 /* libPods-TBear-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -18,9 +19,8 @@
 		3235F25C6AE9008D3B23846E /* libPods-TBear-TBearTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A43E4894600E4FC3F43260 /* libPods-TBear-TBearTests.a */; };
 		4264F4958E1F147A748DFE38 /* libPods-TBear-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F20F82EFA620DBAC3A4507F1 /* libPods-TBear-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9169DADF2534469700992314 /* libPods-TBear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9169DADE2534469700992314 /* libPods-TBear.a */; };
 		8FFB1BD64A3E4A15AAF12CA3 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A64EF48D92034A38AFC79E46 /* antfill.ttf */; };
-		01CB7BB87E4643C2B0109868 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E500971472F42AB93FDBD89 /* antoutline.ttf */; };
+		9169DADF2534469700992314 /* libPods-TBear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9169DADE2534469700992314 /* libPods-TBear.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +57,7 @@
 		2D02E4901E0B4A5D006451C7 /* TBear-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TBear-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		359C2907573026C8E7B34268 /* Pods-TBear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear.debug.xcconfig"; path = "Target Support Files/Pods-TBear/Pods-TBear.debug.xcconfig"; sourceTree = "<group>"; };
 		5DB0A66A1F854A3073FABDDC /* Pods-TBear-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-TBear-tvOS/Pods-TBear-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		5E500971472F42AB93FDBD89 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
 		6FA49D21A1322B444BB1D1B7 /* Pods-TBear-TBearTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-TBearTests.release.xcconfig"; path = "Target Support Files/Pods-TBear-TBearTests/Pods-TBear-TBearTests.release.xcconfig"; sourceTree = "<group>"; };
 		7DBC0A3CA0550DBBC9648983 /* libPods-TBear-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TBear/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -64,14 +65,13 @@
 		8F3189CFB2D156DCE1139E63 /* Pods-TBear-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TBear-tvOSTests/Pods-TBear-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		9169DADE2534469700992314 /* libPods-TBear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TBear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91933BB62539787000C6786D /* libreact-native-amap-geolocation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-amap-geolocation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A64EF48D92034A38AFC79E46 /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		DCB223CA4D4D9B7170A0F6F6 /* libPods-TBear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA9D3F86D8CF0A2CC210A766 /* Pods-TBear-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOS.release.xcconfig"; path = "Target Support Files/Pods-TBear-tvOS/Pods-TBear-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F20F82EFA620DBAC3A4507F1 /* libPods-TBear-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A43E4894600E4FC3F43260 /* libPods-TBear-TBearTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear-TBearTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A64EF48D92034A38AFC79E46 /* antfill.ttf */ = {isa = PBXFileReference; name = "antfill.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5E500971472F42AB93FDBD89 /* antoutline.ttf */ = {isa = PBXFileReference; name = "antoutline.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +156,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		36102ED9C2724F6B8D4F5C63 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A64EF48D92034A38AFC79E46 /* antfill.ttf */,
+				5E500971472F42AB93FDBD89 /* antoutline.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,16 +215,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		36102ED9C2724F6B8D4F5C63 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				A64EF48D92034A38AFC79E46 /* antfill.ttf */,
-				5E500971472F42AB93FDBD89 /* antoutline.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -227,6 +227,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				71BDDBFC3462FF8FB8283C03 /* [CP] Copy Pods Resources */,
+				208C971F7815FA75683D09F2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -249,6 +250,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				76A8E9945DBFB17A214B5CA0 /* [CP] Copy Pods Resources */,
+				A0CFAC4FD6E4030D3EA853A0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -397,6 +399,28 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		208C971F7815FA75683D09F2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TBear-TBearTests/Pods-TBear-TBearTests-frameworks.sh",
+				"${PODS_ROOT}/NIMSDK/NIMSDK/NIMSDK.framework",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/NIMAVChat.framework",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/NMC.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NIMSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NIMAVChat.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMC.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TBear-TBearTests/Pods-TBear-TBearTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -463,11 +487,13 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TBear-TBearTests/Pods-TBear-TBearTests-resources.sh",
 				"${PODS_ROOT}/AlipaySDK-iOS/AlipaySDK.bundle",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/Resources/NMCVideoFilter.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AlipaySDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NMCVideoFilter.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,11 +509,13 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TBear/Pods-TBear-resources.sh",
 				"${PODS_ROOT}/AlipaySDK-iOS/AlipaySDK.bundle",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/Resources/NMCVideoFilter.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AlipaySDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NMCVideoFilter.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,6 +543,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0CFAC4FD6E4030D3EA853A0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TBear/Pods-TBear-frameworks.sh",
+				"${PODS_ROOT}/NIMSDK/NIMSDK/NIMSDK.framework",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/NIMAVChat.framework",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/NMC.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NIMSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NIMAVChat.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMC.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TBear/Pods-TBear-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B389A03C8A81153775F7E6F3 /* [CP] Check Pods Manifest.lock */ = {

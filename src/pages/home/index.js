@@ -77,6 +77,9 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
+        EventBus.on('SESSION_EXPIRED', () => {
+            this.props.navigation.navigate('Login')
+        })
         EventBus.on('GO_ACTIVITY', () => {
             this.queryDraft();
         })

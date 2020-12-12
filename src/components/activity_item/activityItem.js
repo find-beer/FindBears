@@ -37,6 +37,9 @@ export default class ActivityItem extends Component {
     }
     render() {
         const {activity, onBtnClick} = this.props;
+
+        console.log('shshhshs',activity)
+
         return (
             <View style={styles.itemContainer}>
                 <View style={styles.cards}>
@@ -47,11 +50,11 @@ export default class ActivityItem extends Component {
                                 source={{uri: get(activity.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
                                 style={styles.avatar}
                             />
-                        </TouchableOpacity>   
+                        </TouchableOpacity>
                         <View style={{marginLeft: 8}}>
                             <Text style={styles.publisher}>{activity.userVO.userName}</Text>
                             <View style={styles.right}>
-                                <Text style={styles.topTxt}>{activity ? activity.cityName : '城市名称'}</Text>
+                                <Text style={styles.topTxt}>{activity ? activity.activityAddress : '城市名称'}</Text>
                                 <View style={styles.shu}/>
                                 <Text style={styles.topTxt}>{activity ? getDate(activity.publishTime) : '发布时间'}</Text>
                                 <View style={styles.shu}/>
@@ -67,17 +70,14 @@ export default class ActivityItem extends Component {
                                     </View>
                                 </TouchableOpacity>
                             :null
-                        }           
+                        }
                     </View>
                     <Text numberOfLines={1} style={styles.name}>{activity ? activity.activityTitle : '标题暂无'}</Text>
                     <View style={{flexDirection: 'row', marginBottom: 5}}>
                         <View style={styles.tag}/>
                         <Text style={styles.timeLeft}>活动时间：</Text>
                         <Text numberOfLines={1}
-                              style={styles.time}>{activity ? new Date(activity.activityTime).getFullYear()
-                            + '.' + (new Date(activity.activityTime).getMonth() + 1)
-                            + '.' + (new Date(activity.activityTime).getDate() - 1) + " " +
-                            new Date(activity.activityTime).getHours() + ":" + new Date(activity.activityTime).getMinutes()
+                              style={styles.time}>{activity ? activity.activityTime
                             : '时间待定'}</Text>
                     </View>
                     <View style={{flexDirection: 'row'}}>

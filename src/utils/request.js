@@ -2,6 +2,7 @@ import axios from 'axios';
 import {apiProd} from '../config';
 import KV from "./KV";
 import AsyncStorage from "@react-native-community/async-storage";
+import EventBus from "./EventBus";
 
 const instance = axios.create({
     baseURL: apiProd.host,
@@ -31,6 +32,13 @@ instance.interceptors.request.use(
 //返回拦截器
 instance.interceptors.response.use(
     function (response) {
+        if(response.data.code===2000){
+            // AsyncStorage.clear(()=>{
+            // })
+            alert('登录失效')
+            EventBus.post('SESSION_EXPIRED')
+            return true
+        }
         return response.data;
     },
     function (error) {

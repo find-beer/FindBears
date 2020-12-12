@@ -86,10 +86,7 @@ export default class ActivityDetail extends React.Component {
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.left}>【活动时间】</Text>
-                        <Text style={styles.right}>{activityTime ? new Date(activityTime).getFullYear()
-                            + '.' + (new Date(activityTime).getMonth() + 1)
-                            + '.' + (new Date(activityTime).getDate() - 1) + " " +
-                            new Date(activityTime).getHours() + ":" + new Date(activityTime).getMinutes()
+                        <Text style={styles.right}>{activityTime ? activityTime
                             : '时间待定'}</Text>
                     </View>
                     <View style={styles.row}>
