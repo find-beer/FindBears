@@ -18,7 +18,8 @@ export default class DynamicItem extends Component {
 				super(props);
 				this.state = {
 					feed:{...this.props.feed},
-					loginUserId:this.props.loginUserId
+					loginUserId:this.props.loginUserId || '',
+					isMinePage:this.props.isMinePage || false 
 				}
     }
     handleGoDetail(){
@@ -68,7 +69,7 @@ export default class DynamicItem extends Component {
 			PostRequest('/feed/delete',{id:this.state.feed.id}).then(res => {
 				if(res.code === 0){
 					Toast.success('删除成功', 2);
-					EventBus.post("REFRESHMINE")
+					EventBus.post("REFRESH_TREND")
 				}else{
 					Toast.success('删除失败，请重试', 2);
 				}
@@ -100,7 +101,8 @@ export default class DynamicItem extends Component {
 											</View>
 									</View>
 									{
-										this.state.loginUserId !== this.state.feed.userVO.userId?
+										// 个人中心页面，且动态id是本人id,才展示删除纳按钮
+										this.state.isMinePage && (this.state.loginUserId !== get(feed,'userVO.userId',''))?
 										<TouchableOpacity onPress={() => this.handleDelete()}>
 											<Image source={imageUrl.more} style={styles.operateBtn}/>
 										</TouchableOpacity>

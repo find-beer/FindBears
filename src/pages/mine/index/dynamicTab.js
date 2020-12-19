@@ -132,6 +132,7 @@ export default class DynamicTab extends Component {
 													feed={item} 
 													loginUserId={this.state.loginUserId}
 													key={`dynamic${index}`} 
+													isMinePage={true}
 													{...this.props}
 													/>
 											})

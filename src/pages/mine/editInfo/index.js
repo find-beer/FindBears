@@ -6,6 +6,7 @@ import {
 	Image, 
 	SafeAreaView, 
 	TextInput,
+	ScrollView,
 	TouchableOpacity
 } from 'react-native'
 import Header from '../../../components/header/index'
@@ -195,113 +196,115 @@ export default class EditInfo extends Component {
         return (
             <Provider>
                 <Fragment>
-                    <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-                        <SafeAreaView style={styles.editInfoWrap}>
-                        <Header {...this.props} title="编辑资料" left={null} />
-                        <List>
-                            <View style={styles.container}>
-                                <View style={styles.editInfoMain}>
-                                    <TouchableOpacity
-                                        style={styles.avatarItemWrap}
-                                        onPress={() => this.choosePicture()}>
-                                        <Image
-                                            source={{uri:this.state.editForm.headPicUrl}}
-                                            style={styles.avatarItem}
-                                        />
-                                        <Image source={camera} style={styles.avatarCamera}></Image>
-                                        <Text style={styles.label}>编辑头像</Text>
-                                    </TouchableOpacity>
-                                    {/* <View style={styles.avatarCoverWrap}>
-                                        <View style={styles.avatarCoverBtn}>
-                                            <Text style={styles.avatarCover}>更换封面</Text>
-                                        </View>
-                                    </View> */}
-                                </View>
-                                <View style={styles.infoFormWrap}>
-                                    <View style={styles.infoFormItem}>
-                                        <Text style={styles.formItemTitle}>修改昵称</Text>
-                                        <TextInput
-                                            value={this.state.editForm.name}
-                                            onChangeText={val =>
-                                                this.setState({
-                                                      editForm: {
-                                                        ...this.state.editForm,
-                                                        name: val,
-                                                    },
-                                                })
-                                            }
-                                            style={styles.formItem}
-                                        />
-                                    </View>
-                                    <View style={styles.infoFormItem}>
-                                        <Text style={styles.formItemTitle}>常驻地</Text>
-                                        <Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
-                                    </View>
-																		
-                                    <View style={styles.dateItem}>
-                                        <DatePicker
-                                            value={new Date(this.state.editForm.birthdayTimeStamp)}
-                                            mode="date"
-                                            minDate={new Date(1970, 1, 1)}
-                                            maxDate={new Date(2020, 1, 1)}
-                                            onChange={val => this.changeDate(val)}
-                                            format="YYYY-MM-DD">
-                                            <List.Item>
-                                                <Text style={styles.dateLabel}>
-                                                    生日
-                                                </Text>
-                                            </List.Item>
-                                        </DatePicker>
-                                    </View>
-																		<View>
-																			<TextareaItem
-																				placeholder="描述一下自己吧..."
-																				style={styles.introduction}
-																				rows={4}
-																				value={this.state.editForm.introduction}
-																				onChange={val =>
-																					this.setState({
-																						editForm: {
-																							...this.state.editForm,
-																							introduction: val,
-																						},
+									<ScrollView>
+											<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+													<SafeAreaView style={styles.editInfoWrap}>
+													<Header {...this.props} title="编辑资料" left={null} />
+													<List>
+															<View style={styles.container}>
+																	<View style={styles.editInfoMain}>
+																			<TouchableOpacity
+																					style={styles.avatarItemWrap}
+																					onPress={() => this.choosePicture()}>
+																					<Image
+																							source={{uri:this.state.editForm.headPicUrl}}
+																							style={styles.avatarItem}
+																					/>
+																					<Image source={camera} style={styles.avatarCamera}></Image>
+																					<Text style={styles.label}>编辑头像</Text>
+																			</TouchableOpacity>
+																			{/* <View style={styles.avatarCoverWrap}>
+																					<View style={styles.avatarCoverBtn}>
+																							<Text style={styles.avatarCover}>更换封面</Text>
+																					</View>
+																			</View> */}
+																	</View>
+																	<View style={styles.infoFormWrap}>
+																			<View style={styles.infoFormItem}>
+																					<Text style={styles.formItemTitle}>修改昵称</Text>
+																					<TextInput
+																							value={this.state.editForm.name}
+																							onChangeText={val =>
+																									this.setState({
+																												editForm: {
+																													...this.state.editForm,
+																													name: val,
+																											},
+																									})
+																							}
+																							style={styles.formItem}
+																					/>
+																			</View>
+																			<View style={styles.infoFormItem}>
+																					<Text style={styles.formItemTitle}>常驻地</Text>
+																					<Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
+																			</View>
+																			
+																			<View style={styles.dateItem}>
+																					<DatePicker
+																							value={new Date(this.state.editForm.birthdayTimeStamp)}
+																							mode="date"
+																							minDate={new Date(1970, 1, 1)}
+																							maxDate={new Date(2020, 1, 1)}
+																							onChange={val => this.changeDate(val)}
+																							format="YYYY-MM-DD">
+																							<List.Item>
+																									<Text style={styles.dateLabel}>
+																											生日
+																									</Text>
+																							</List.Item>
+																					</DatePicker>
+																			</View>
+																			<View>
+																				<TextareaItem
+																					placeholder="描述一下自己吧..."
+																					style={styles.introduction}
+																					rows={4}
+																					value={this.state.editForm.introduction}
+																					onChange={val =>
+																						this.setState({
+																							editForm: {
+																								...this.state.editForm,
+																								introduction: val,
+																							},
+																						})
+																					}
+																			/>
+																			</View>
+																	</View>
+																	<View style={styles.chatWrap}>
+																			<Image source={tbears} style={styles.tbears}/>
+																			<View style={styles.tbearsChat}>
+																					<Text style={styles.tbearsChatText}>你喜欢什么呢，可以选出来告诉小熊吗？这样方便好友找你组团活动哦</Text>
+																			</View>
+																	</View>
+																	<View style={styles.hobbyWrap}>
+																		<View style={styles.hobbyList}>
+																				{
+																					this.state.hobbyList.map(item => {
+																						return (
+																							<TouchableOpacity
+																								key={item}
+																								style={this.getClass(item)}
+																								onPress={() => this.activeItem(item)}>
+																								<Text style={this.getTextClass(item)}>
+																												{item}
+																								</Text>
+																							</TouchableOpacity>
+																						);
 																					})
 																				}
-																		/>
-                                    </View>
-                                </View>
-                                <View style={styles.chatWrap}>
-                                    <Image source={tbears} style={styles.tbears}/>
-                                    <View style={styles.tbearsChat}>
-                                        <Text style={styles.tbearsChatText}>你喜欢什么呢，可以选出来告诉小熊吗？这样方便好友找你组团活动哦</Text>
-                                    </View>
-                                </View>
-                                <View style={styles.hobbyWrap}>
-																	<View style={styles.hobbyList}>
-																			{
-																				this.state.hobbyList.map(item => {
-																					return (
-																						<TouchableOpacity
-																							key={item}
-																							style={this.getClass(item)}
-																							onPress={() => this.activeItem(item)}>
-																							<Text style={this.getTextClass(item)}>
-																											{item}
-																							</Text>
-																						</TouchableOpacity>
-																					);
-																				})
-																			}
-																		</View>
-																		<Button
-																				style={styles.modifyBtnBox}
-																				onPress={() => this.modify()}>
-																				<Text style={styles.modifyBtnText}>修改</Text>
-																		</Button>
-																</View>
-													</View>
-                        </List>
-                    </SafeAreaView>
+																			</View>
+																			<Button
+																					style={styles.modifyBtnBox}
+																					onPress={() => this.modify()}>
+																					<Text style={styles.modifyBtnText}>修改</Text>
+																			</Button>
+																	</View>
+														</View>
+													</List>
+											</SafeAreaView>
+										</ScrollView>
                 </Fragment>
             </Provider>
         )
@@ -310,7 +313,7 @@ export default class EditInfo extends Component {
 
 const styles = StyleSheet.create({
 container:{
-      backgroundColor:'#fff'
+			backgroundColor:'#fff'
   },
   editInfoMain:{
 		display:'flex',

@@ -4,14 +4,13 @@ import {get} from 'lodash'
 import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {PostRequest} from "../../utils/request";
 import {getDate} from '../../utils/date'
-import AsyncStorage from "@react-native-community/async-storage";
 
 const imageUrl = {
     like: require('../../assets/home/like.png'),
     unlike: require('../../assets/home/unlike.png'),
     comment: require('../../assets/mine/comment.png'),
-		share: require('../../assets/mine/share-icon.png'),
-		relation: require('../../assets/home/relationline.png'),
+    share: require('../../assets/mine/share-icon.png'),
+    relation: require('../../assets/home/relationline.png'),
 };
 
 export default class DynamicItem extends Component {
@@ -23,12 +22,12 @@ export default class DynamicItem extends Component {
         }
     }
     componentWillMount(){
-        AsyncStorage.getItem('userInfo',(err,res) => {
-            res = JSON.parse(res);
-            this.setState({
-                userId:res.userId
-            })
-        })
+        // AsyncStorage.getItem('userInfo',(err,res) => {
+        //     res = JSON.parse(res);
+        //     this.setState({
+        //         userId:res.userId
+        //     })
+        // })
     }
 
     handleGoDetail() {
@@ -98,7 +97,7 @@ export default class DynamicItem extends Component {
                         </View>
                     </View>
                     {
-                        this.state.userId !== feed.userVO.userId?
+                        this.state.userId !== get(feed,'userVO.userId','')?
                             <TouchableOpacity onPress={() => this.handleGoLine()}>
                                 <View style={styles.relationLine}>
                                     <Image source={imageUrl.relation} style={styles.btn}/>
