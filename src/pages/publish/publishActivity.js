@@ -7,7 +7,7 @@
  */
 
 import React, {Fragment} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Header from "../../components/header";
 import {screenW} from "../../constants";
 import SettingItem from "../../components/setting_item";
@@ -39,7 +39,7 @@ export default class PublishActivity extends React.Component {
             isStartVisible: false,
             isEndVisible: false,
             userType: props.navigation.state.params.userType,
-            token:null
+            token: null
         };
     }
 
@@ -182,6 +182,7 @@ export default class PublishActivity extends React.Component {
     }
 
     onPressAddImage = () => {
+        const {token} = this.state;
         const options = {
             title: '选择图片',
             cancelButtonTitle: '取消',
@@ -204,41 +205,43 @@ export default class PublishActivity extends React.Component {
                 path: 'images',
             },
         };
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('图片文件', response);
+            let formData = new FormData();
+            formData.append('imgFile', {
+                uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
+                type: 'multipart/form-data',
+                name: 'trend' + new Date().getTime() + '.jpg',
+            });
 
-        ImagePicker.showImagePicker(options, response => {
-            console.log('图片 = ', response);
-            const {token}=this.state;
-            if (response.didCancel) {
-                console.log('User cancelled photo picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+            let currentHeader;
+            if (Platform.OS === 'ios') {
+                currentHeader = {
+                    'Content-Type': 'multipart/form-data;charset=utf-8',
+                    token
+                }
             } else {
-                let formData = new FormData();
-                formData.append('imgFile', {
-                    uri: 'data:image/jpeg;base64,' + response.data,
-                    type: 'multipart/form-data',
-                    name: 'trend' + new Date().getTime() + '.jpg',
-                });
-                fetch(apiProd.host + 'common/uploadImage', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'multipart/form-data;charset=utf-8',
-                        token
-                    },
-                    body: formData,
-                })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(res => {
-                        console.log('---->', res.data.url);
-                        this.richText.insertImage(res.data.url);
-                        this.richText.blurContentEditor();
-                    });
-                // this.richText.insertImage('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png');
+                currentHeader = {
+                    'Accept': 'application/json',
+                    token
+                }
             }
+            fetch(apiProd.host + 'common/uploadImage', {
+                method: 'POST',
+                headers: currentHeader,
+                body: formData,
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(res => {
+                    console.log('---->', res);
+                    this.richText.insertImage(res.data.url);
+                    this.richText.blurContentEditor();
+                }).catch((e) => {
+                console.log('上传失败:', e)
+            });
+
         });
     }
 

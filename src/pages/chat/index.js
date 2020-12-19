@@ -74,16 +74,9 @@ export default class Chat extends React.Component {
 
     startLogin = async () => {
         const {navigation} = this.props;
-        NimSession.login('wzy', '123456').then(
+        NimSession.login('45', 'e979ba7cca09bf0c93c0a4c166738622"').then(
             (res) => {
                 console.log('登录结果', res);
-                NimFriend.startFriendList();
-                NativeAppEventEmitter.addListener(
-                    'observeFriend',
-                    (data) => {
-                        console.log('好友列表信息',data)
-                    },
-                );
             },
             (err) => {
                 console.warn(err);
@@ -95,7 +88,7 @@ export default class Chat extends React.Component {
         const {navigation} = this.props;
         const {item, index} = rowData;
         return <TouchableOpacity onPress={() => {
-            this.startLogin()
+            // this.startLogin()
         }}>
 
             <View style={styles.talkItem}>
@@ -112,6 +105,7 @@ export default class Chat extends React.Component {
     };
 
     componentDidMount() {
+        // this.startLogin()
     }
 
     render() {
