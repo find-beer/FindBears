@@ -7,6 +7,8 @@ import ActivityItem from './activityItem'
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import EventBus from '../../../utils/EventBus';
+import AsyncStorage from "@react-native-community/async-storage";
+
 
 export default class DynamicTab extends Component {
 		constructor(props){
@@ -16,11 +18,24 @@ export default class DynamicTab extends Component {
 				currentTab: 'dynamic',
 				activityList:[],
 				dynamicList:[],
+				loginUserId:false,
 				pageInfo:{
 					pageSize:500,
 					pageNum:1
 				}
 			}
+		}
+		componentDidMount(){
+			EventBus.on('REFRESHMINE',() => {
+				this.initInfo()
+			})
+			AsyncStorage.getItem('userInfo', (error, result) => {
+				if(!result) return;
+				let res = JSON.parse(result) || {};
+				this.setState({
+					loginUserId:res.userId
+				})
+			})
 		}
     changeTab(name){
         this.setState({
@@ -115,7 +130,7 @@ export default class DynamicTab extends Component {
 											this.state.dynamicList.map((item,index) => {
 												return <DynamicItem 
 													feed={item} 
-													isMine={true}
+													loginUserId={this.state.loginUserId}
 													key={`dynamic${index}`} 
 													{...this.props}
 													/>

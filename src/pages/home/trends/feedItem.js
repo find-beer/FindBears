@@ -18,7 +18,7 @@ export default class DynamicItem extends Component {
 				super(props);
 				this.state = {
 					feed:{...this.props.feed},
-					isMine:this.props.isMine
+					loginUserId:this.props.loginUserId
 				}
     }
     handleGoDetail(){
@@ -61,7 +61,7 @@ export default class DynamicItem extends Component {
           onPress: () => {},
           style: 'cancel',
         },
-        { text: '删除', onPress: this.delete() },
+        { text: '删除', onPress: () => this.delete() },
       ]);
 		}
 		delete(){
@@ -100,7 +100,7 @@ export default class DynamicItem extends Component {
 											</View>
 									</View>
 									{
-										this.state.isMine?
+										this.state.loginUserId !== this.state.feed.userVO.userId?
 										<TouchableOpacity onPress={() => this.handleDelete()}>
 											<Image source={imageUrl.more} style={styles.operateBtn}/>
 										</TouchableOpacity>
@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
 			display:'flex',
 			flexDirection:'row',
 			justifyContent:'space-between',
+			flexWrap:'wrap'
 	},
 	dynamicTextBox: {},
 	dynamicText: {

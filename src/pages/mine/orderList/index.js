@@ -40,7 +40,6 @@ export default class OrderList extends Component {
     console.log(item)
   }
   componentDidMount(){
-    console.log(this.props.navigation.state.params.id)
     GetRequest('/order/biz/orderlist',{
       // activityId:this.props.navigation.state.params.id,
       activityId:27,

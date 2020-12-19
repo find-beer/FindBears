@@ -38,12 +38,23 @@ export default class StoreList extends Component {
           ]);
     }
     refreshPage(){
-        const url = this.state.type === 'join'?'order/user/orderlist':'activity/user'
-        GetRequest(url,this.state.pageInfo).then(res => {
-            this.setState({
-                activityList:res.data || []
-            })
-        })
+			if(this.state.type === 'join'){
+				GetRequest('order/user/orderlist',{
+					limit:500,
+					orderOffsetId:0,
+					enrollOffsetId:0
+				}).then(res => {
+					this.setState({
+							activityList:res.data || []
+					})
+				})
+			}else{
+				GetRequest('activity/user',this.state.pageInfo).then(res => {
+					this.setState({
+							activityList:res.data || []
+					})
+				})
+			}
     }
     componentDidMount(){
         this.refreshPage()
@@ -134,7 +145,7 @@ export default class StoreList extends Component {
 																					:null
                                         }
 																				{
-																					// 我参与的商家活动
+																			// 我参与的商家活动
 																					isJoin && item.userType === 0
 																					?
 																					<Button 
