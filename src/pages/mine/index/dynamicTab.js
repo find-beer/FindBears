@@ -50,7 +50,7 @@ export default class DynamicTab extends Component {
 			})
 			GetRequest('feed/user',this.state.pageInfo).then(res => {
 				this.setState({
-					dynamicList:res.data || []
+					dynamicList:[...res.data] || []
 				})
 			})
 		}
@@ -131,7 +131,7 @@ export default class DynamicTab extends Component {
 												return <DynamicItem 
 													feed={item} 
 													loginUserId={this.state.loginUserId}
-													key={`dynamic${index}`} 
+													key={item.id} 
 													isMinePage={true}
 													{...this.props}
 													/>
