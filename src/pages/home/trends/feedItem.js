@@ -26,7 +26,8 @@ export default class DynamicItem extends Component {
 			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
 		}
 		handleGoStrangerPage(){
-			this.props.navigation.navigate('StrangerInfo', {uid: this.state.feed.userVO?.userId || ''})
+			alert(get(this.state,'feed.userVO.userId',''))
+			this.props.navigation.navigate('StrangerInfo', {uid: get(this.state,'feed.userVO.userId','')})
 		}
 		handleLike(){
 			PostRequest('like/operate',{

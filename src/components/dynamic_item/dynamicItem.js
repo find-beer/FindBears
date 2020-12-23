@@ -62,10 +62,10 @@ export default class DynamicItem extends Component {
 		}
 		// 关系链
     handleGoLine(){
-			this.props.navigation.navigate('RelationChain',{uid: this.state.feed.uid})
+			this.props.navigation.navigate('RelationChain',{uid: get(this.state,'feed.userVO.userId','')})
     }
     handlegoStrangerPage(){
-        this.props.navigation.navigate('StrangerInfo', {id: this.state.feed.uid})
+        this.props.navigation.navigate('StrangerInfo', {id: get(this.state,'feed.userVO.userId','')})
     }
 
     render() {

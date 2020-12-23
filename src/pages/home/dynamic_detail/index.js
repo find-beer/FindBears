@@ -4,6 +4,7 @@
 
 import React,{Fragment} from 'react';
 import {StyleSheet, Image, View, Text,SafeAreaView,TouchableOpacity,TextInput} from 'react-native';
+import {InputItem} from '@ant-design/react-native'
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import Header from '../../../components/header/index';
 import User from './user';
@@ -100,11 +101,11 @@ export default class Page extends React.Component {
                 <View style={styles.comment_box}>
                   <Image style={styles.comment_avatar} source={defaultImage}/>
 									<View style={styles.comment_text_box}>
-										<TextInput 
+										<InputItem 
 											style={styles.comment_text} 
 											placeholder={this.state.placeholder}
-											value={this.state.content}
-											onChangeText={(text) => this.setState({comment:text})}></TextInput>
+											value={this.state.comment}
+											onChange={value => this.setState({comment:value})}></InputItem>
 									</View>
 									<TouchableOpacity onPress={() => this.handlePublish()}>
 										<View style={styles.comment_btn}>
@@ -154,6 +155,7 @@ const styles = StyleSheet.create({
 			borderRadius:scaleSize(44),
 		},
 		comment_text_box:{
+			flex: 1,
 			width:scaleSize(650),
 			height:scaleSize(78),
 			borderRadius:scaleSize(39),
@@ -162,11 +164,13 @@ const styles = StyleSheet.create({
 			borderWidth:scaleSize(2),
 			backgroundColor:'#f2f2f2',
 			display:'flex',
-			paddingHorizontal:scaleSize(30)
+			paddingHorizontal:scaleSize(30),
+			marginHorizontal:scaleSize(20)
 		},
 		comment_text:{
 			flex: 1,
-			height:scaleSize(48)
+			height:scaleSize(48),
+			marginTop:scaleSize(-40)
 		},
 		comment_btn:{
 			width:scaleSize(160),
