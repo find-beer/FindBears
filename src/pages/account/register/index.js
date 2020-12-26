@@ -174,7 +174,7 @@ export default class Register extends Component {
                         'Accept': 'application/json'
                     }
                 }
-                fetch(apiProd.host + 'common/uploadImage', {
+                fetch(apiProd.host + 'common/uploadImageNoAuth', {
                     method: 'POST',
                     headers: currentHeader,
                     body: formData,
@@ -208,7 +208,7 @@ export default class Register extends Component {
                             style={styles.flexImg}
                             onPress={() => this.choosePicture()}>
                             <Image
-                                source={data.headPicUrl?{'uri':data.headPicUrl}:imgUrl.avater}
+                                source={data.headPicUrl?{uri:data.headPicUrl}:imgUrl.avater}
                                 style={styles.avaterIcon}
                             />
                             <Text style={styles.label}>上传头像</Text>
@@ -315,10 +315,10 @@ export default class Register extends Component {
   },
   avaterIcon: {
       alignSelf: 'center',
-      width: scaleSize(278),
-      height: scaleSize(278),
+      width: scaleSize(280),
+      height: scaleSize(280),
       marginBottom: scaleSize(50),
-      borderRadius: scaleSize(139),
+      borderRadius: scaleSize(140),
       backgroundColor:'#000'
   },
   registerForm: {
