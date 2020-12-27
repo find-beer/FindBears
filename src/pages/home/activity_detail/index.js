@@ -22,7 +22,7 @@ export default class ActivityDetail extends React.Component {
             data: {
                 activityTitle: '',
                 activityTime: '',
-                cityName: '',
+                activityAddress: '',
                 memberCount: 0,
                 content: '',
                 userType: 0
@@ -74,7 +74,7 @@ export default class ActivityDetail extends React.Component {
 
     render() {
         const {data} = this.state;
-        const {activityTitle, activityTime, cityName, memberCount} = data;
+        const {activityTitle, activityTime, activityAddress, memberCount} = data;
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'活动详情'}/>
@@ -91,7 +91,7 @@ export default class ActivityDetail extends React.Component {
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.left}>【活动地点】</Text>
-                        <Text style={styles.right}>{cityName}</Text>
+                        <Text style={styles.right}>{activityAddress}</Text>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.left}>【参与人数】</Text>

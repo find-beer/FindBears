@@ -39,7 +39,8 @@ export default class PublishActivity extends React.Component {
             isStartVisible: false,
             isEndVisible: false,
             userType: props.navigation.state.params.userType,
-            token: null
+            token: null,
+            pics: []
         };
     }
 
@@ -62,7 +63,7 @@ export default class PublishActivity extends React.Component {
     saveData = async (flag) => {
         const {navigation} = this.props;
         const {
-            activityTitle, memberCount, activityTime, enrollEndTime, activityType,
+            activityTitle, memberCount, activityTime, enrollEndTime, activityType,pics,
             activityTypeName, content, activityAddress, ticketVoList, needInfo, userType
         } = this.state;
 
@@ -93,7 +94,8 @@ export default class PublishActivity extends React.Component {
                 content,
                 userType,
                 "activityValid": 1,
-                "state": flag === 'activity' ? 2 : 1
+                "state": flag === 'activity' ? 2 : 1,
+                picUrl:pics.join(',')
             }
         } else {
             params = {
@@ -110,7 +112,8 @@ export default class PublishActivity extends React.Component {
                 content,
                 userType,
                 "activityValid": 1,
-                "state": flag === 'activity' ? 2 : 1
+                "state": flag === 'activity' ? 2 : 1,
+                picUrl:pics.join(',')
             }
         }
 
@@ -236,6 +239,9 @@ export default class PublishActivity extends React.Component {
                 })
                 .then(res => {
                     console.log('---->', res);
+                    this.setState({
+                        pics: this.state.pics.concat(res.data.url)
+                    })
                     this.richText.insertImage(res.data.url);
                     this.richText.blurContentEditor();
                 }).catch((e) => {

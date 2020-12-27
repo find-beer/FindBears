@@ -40,7 +40,8 @@ export default class EditDraft extends React.Component {
             isStartVisible: false,
             isEndVisible: false,
             userType: props.navigation.state.params.userType,
-            token: null
+            token: null,
+            pics: []
         };
     }
 
@@ -96,7 +97,7 @@ export default class EditDraft extends React.Component {
         const {
             id, activityTitle, activityTime, memberCount, enrollEndTime,
             activityAddress, ticketVoList, activityTypeName, activityType,
-            needInfo, content, userType
+            needInfo, content, userType,pics
         } = this.state;
         const {navigation} = this.props;
         console.log("flag===>", flag);
@@ -119,7 +120,8 @@ export default class EditDraft extends React.Component {
                 content,
                 userType,
                 "activityValid": 1,
-                "state": flag === 'activity' ? 2 : 1
+                "state": flag === 'activity' ? 2 : 1,
+                picUrl:pics.join(',')
             }
         } else {
             params = {
@@ -137,7 +139,8 @@ export default class EditDraft extends React.Component {
                 content,
                 userType,
                 "activityValid": 1,
-                "state": flag === 'activity' ? 2 : 1
+                "state": flag === 'activity' ? 2 : 1,
+                picUrl:pics.join(',')
             }
         }
 
@@ -259,6 +262,9 @@ export default class EditDraft extends React.Component {
                 })
                 .then(res => {
                     console.log('---->', res);
+                    this.setState({
+                        pics: this.state.pics.concat(res.data.url)
+                    })
                     this.richText.insertImage(res.data.url);
                     this.richText.blurContentEditor();
                 }).catch((e) => {
