@@ -73,10 +73,11 @@ export default class Hobby extends Component {
             ...this.state.registerForm,
             hobbyTagNameList: checked,
         };
+        delete params.birthdayTimeStamp;
         PostRequest('user/signUp', params).then(res => {
-            this.props.navigation.navigate('TabContainer');
-            AsyncStorage.setItem('userInfo', JSON.stringify(res.data), null);
             AsyncStorage.setItem('session', res.data.token, null);
+            AsyncStorage.setItem('userInfo', JSON.stringify(res.data), null);
+            this.props.navigation.navigate('TabContainer');
         });
     }
     getClass(index) {
