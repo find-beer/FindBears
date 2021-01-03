@@ -220,20 +220,20 @@ export default class EditInfo extends Component {
 										</View>
 										<View style={styles.infoFormWrap}>
 											<View style={styles.infoFormItem}>
-																		<Text style={styles.formItemTitle}>修改昵称</Text>
-																		<TextInput
-																						value={this.state.editForm.name}
-																						onChangeText={val =>
-																										this.setState({
-																																editForm: {
-																																		...this.state.editForm,
-																																		name: val,
-																														},
-																										})
-																						}
-																						style={styles.formItem}
-																		/>
-														</View>
+												<Text style={styles.formItemTitle}>修改昵称</Text>
+												<TextInput
+													value={this.state.editForm.name}
+													onChangeText={val =>
+													this.setState({
+														editForm: {
+															...this.state.editForm,
+															name: val,
+														},
+													})
+													}
+													style={styles.formItem}
+												/>
+											</View>
 											<View style={styles.infoFormItem}>
 												<Text style={styles.formItemTitle}>常驻地</Text>
 												<Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>

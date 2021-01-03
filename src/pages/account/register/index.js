@@ -33,6 +33,8 @@ import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import {apiProd} from "../../../config";
 
+import dayjs from 'dayjs'
+
 export default class Register extends Component {
     constructor(props) {
         super(props);
@@ -104,7 +106,7 @@ export default class Register extends Component {
         }
         this.props.navigation.navigate('Hobby', {
             ...this.state.registerForm,
-            birthday:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+            birthday:dayjs(this.state.registerForm.birthdayTimeStamp).format('YYYY-MM-DD')
         });
     }
     changeDate(val) {
