@@ -5,6 +5,8 @@ import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {PostRequest} from "../../utils/request";
 import {getDate} from '../../utils/date'
 
+import ImageViewer from "react-native-image-viewing";
+
 const imageUrl = {
     like: require('../../assets/home/like.png'),
     unlike: require('../../assets/home/unlike.png'),
@@ -18,10 +20,13 @@ export default class DynamicItem extends Component {
         super(props);
         this.state = {
             feed: {...this.props.feed},
-            userId:''
+            userId: '',
+            visible: false,
+            currentIndex: 0
         }
     }
-    componentWillMount(){
+
+    componentWillMount() {
         // AsyncStorage.getItem('userInfo',(err,res) => {
         //     res = JSON.parse(res);
         //     this.setState({
@@ -40,45 +45,53 @@ export default class DynamicItem extends Component {
             infoType: 2,
             state: this.state.feed.like ? 0 : 1,
         }).then(res => {
-					if (this.state.feed.like) {
-						this.setState({
-							feed: {
-								...this.state.feed,
-								like: false,
-								likeNum: this.state.feed.likeNum - 1
-							}
-						})
-					} else {
-						this.setState({
-								feed: {
-									...this.state.feed,
-									like: true,
-									likeNum: this.state.feed.likeNum + 1
-								}
-						})
-					}
+            if (this.state.feed.like) {
+                this.setState({
+                    feed: {
+                        ...this.state.feed,
+                        like: false,
+                        likeNum: this.state.feed.likeNum - 1
+                    }
+                })
+            } else {
+                this.setState({
+                    feed: {
+                        ...this.state.feed,
+                        like: true,
+                        likeNum: this.state.feed.likeNum + 1
+                    }
+                })
+            }
             // EventBus.post('REFRESH_TREND',{})
         })
-		}
-		// 关系链
-    handleGoLine(){
-			this.props.navigation.navigate('RelationChain',{uid: get(this.state,'feed.userVO.userId','')})
     }
-    handlegoStrangerPage(){
-        this.props.navigation.navigate('StrangerInfo', {id: get(this.state,'feed.userVO.userId','')})
+
+    // 关系链
+    handleGoLine() {
+        this.props.navigation.navigate('RelationChain', {uid: get(this.state, 'feed.userVO.userId', '')})
+    }
+
+    handlegoStrangerPage() {
+        this.props.navigation.navigate('StrangerInfo', {id: get(this.state, 'feed.userVO.userId', '')})
     }
 
     render() {
+        const {visible,currentIndex} = this.state;
         const feed = this.state.feed;
         const picList = feed.picUrl ? feed.picUrl.split(',') : [];
+        const images = [];
+        picList.map((dataItem, position) => {
+            let da = {uri: dataItem}
+            images.push(da);
+        })
         return (
             <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
-                    <TouchableOpacity onPress={() =>this.handlegoStrangerPage()}>
+                    <TouchableOpacity onPress={() => this.handlegoStrangerPage()}>
                         <Image
                             source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
                             style={styles.avatarInner}
-                        ></Image>
+                        />
                     </TouchableOpacity>
                     <View style={styles.dynamicInfo}>
                         <Text style={styles.name}>
@@ -97,15 +110,15 @@ export default class DynamicItem extends Component {
                         </View>
                     </View>
                     {
-                        this.state.userId !== get(feed,'userVO.userId','')?
+                        this.state.userId !== get(feed, 'userVO.userId', '') ?
                             <TouchableOpacity onPress={() => this.handleGoLine()}>
                                 <View style={styles.relationLine}>
                                     <Image source={imageUrl.relation} style={styles.btn}/>
                                     <Text style={styles.btnText}>关系链</Text>
                                 </View>
                             </TouchableOpacity>
-                        :null
-                    } 
+                            : null
+                    }
                 </View>
                 <View style={styles.dynamicTextBox}>
                     <TouchableOpacity onPress={() => this.handleGoDetail()}>
@@ -117,11 +130,18 @@ export default class DynamicItem extends Component {
                         {
                             picList.map((item, index) => {
                                 return (
-                                    <Image
-                                        source={{uri: item}}
-                                        style={styles.dynamicImg}
-                                        key={index + ''}
-                                    ></Image>
+                                    <TouchableOpacity onPress={() => {
+                                        this.setState({
+                                            currentIndex: index,
+                                            visible: true
+                                        })
+                                    }}>
+                                        <Image
+                                            source={{uri: item}}
+                                            style={styles.dynamicImg}
+                                            key={index + ''}
+                                        />
+                                    </TouchableOpacity>
                                 )
                             })
                         }
@@ -137,7 +157,7 @@ export default class DynamicItem extends Component {
                         />
                         <Text style={styles.operationText}>点赞{feed.likeNum}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={styles.operationItem2}
                         onPress={() => this.handleGoDetail()}
                     >
@@ -155,6 +175,14 @@ export default class DynamicItem extends Component {
                         <Text style={styles.operationText}>分享</Text>
                     </View>
                 </View>
+                <ImageViewer
+                    images={images}
+                    imageIndex={currentIndex}
+                    visible={visible}
+                    onRequestClose={() => {
+                        this.setState({visible: false})
+                    }}
+                />
             </View>
         );
     }
@@ -171,8 +199,8 @@ const styles = StyleSheet.create({
     },
     itemHeader: {
         display: 'flex',
-				flexDirection: 'row',
-				justifyContent:'space-between',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: scaleSize(45),
         marginBottom: scaleSize(10),
@@ -223,8 +251,6 @@ const styles = StyleSheet.create({
     imgBox: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap'
     },
     dynamicText: {
         fontSize: scaleSize(48),
@@ -234,7 +260,8 @@ const styles = StyleSheet.create({
         marginTop: scaleSize(32),
         height: scaleSize(380),
         width: scaleSize(280),
-        borderRadius: scaleSize(15)
+        borderRadius: scaleSize(15),
+        marginRight: 12
     },
     operationBox: {
         display: 'flex',
@@ -292,31 +319,31 @@ const styles = StyleSheet.create({
     infoTime: {
         fontSize: 12,
         color: '#999999',
-		},
-		relationLine:{
-			width:scaleSize(222),
-			height:scaleSize(92),
-			position:'relative',
-			textAlign:'center',
-			display:'flex',
-			flexDirection:'row',
-			justifyContent:'center',
-			alignItems:'center'
-		},
-		btn:{
-			width:scaleSize(222),
-			height:scaleSize(92),
-			display:'flex',
-			flexDirection:'row',
-			justifyContent:'center',
-			position:'absolute',
-			top:0,
-			bottom:0,
-			right:0,
-			left:0
-		},
-		btnText:{
-			fontSize:scaleFont(35),
-			color:"#fff"
-		}
+    },
+    relationLine: {
+        width: scaleSize(222),
+        height: scaleSize(92),
+        position: 'relative',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    btn: {
+        width: scaleSize(222),
+        height: scaleSize(92),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0
+    },
+    btnText: {
+        fontSize: scaleFont(35),
+        color: "#fff"
+    }
 });
