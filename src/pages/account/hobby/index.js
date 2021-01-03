@@ -72,9 +72,6 @@ export default class Hobby extends Component {
         let params = {
             ...this.state.registerForm,
             hobbyTagNameList: checked,
-            birthdayTimeStamp: this.format(
-                Date.parse(new Date(this.state.registerForm.birthdayTimeStamp)),
-            ).toString(),
         };
         PostRequest('user/signUp', params).then(res => {
             this.props.navigation.navigate('TabContainer');

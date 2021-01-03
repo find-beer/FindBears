@@ -31,7 +31,7 @@ export default class PersonalInfo extends Component {
             <View style={styles.InfoOuter}>
                 <View style={styles.avatarWrapper}>
                     <Image
-                        source={imageUrl.avatar}
+                        source={{uri:info.headPicUrl.replace('https','http')}}
                         style={styles.avatarInner}
                     />
                 </View>

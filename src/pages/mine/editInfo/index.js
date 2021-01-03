@@ -142,9 +142,6 @@ export default class EditInfo extends Component {
                 }
                 PostRequest('common/uploadImage', formData)
                     .then(res => {
-                        return res.json();
-                    })
-                    .then(res => {
                         this.setState({
                             editForm: {
                                 ...this.state.editForm,
@@ -193,121 +190,122 @@ export default class EditInfo extends Component {
 			})
 		}
     render (){
-        return (
-            <Provider>
-                <Fragment>
-									<ScrollView>
-											<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-													<SafeAreaView style={styles.editInfoWrap}>
-													<Header {...this.props} title="编辑资料" left={null} />
-													<List>
-															<View style={styles.container}>
-																	<View style={styles.editInfoMain}>
-																			<TouchableOpacity
-																					style={styles.avatarItemWrap}
-																					onPress={() => this.choosePicture()}>
-																					<Image
-																							source={{uri:this.state.editForm.headPicUrl}}
-																							style={styles.avatarItem}
-																					/>
-																					<Image source={camera} style={styles.avatarCamera}></Image>
-																					<Text style={styles.label}>编辑头像</Text>
-																			</TouchableOpacity>
-																			{/* <View style={styles.avatarCoverWrap}>
-																					<View style={styles.avatarCoverBtn}>
-																							<Text style={styles.avatarCover}>更换封面</Text>
-																					</View>
-																			</View> */}
-																	</View>
-																	<View style={styles.infoFormWrap}>
-																			<View style={styles.infoFormItem}>
-																					<Text style={styles.formItemTitle}>修改昵称</Text>
-																					<TextInput
-																							value={this.state.editForm.name}
-																							onChangeText={val =>
-																									this.setState({
-																												editForm: {
-																													...this.state.editForm,
-																													name: val,
-																											},
-																									})
-																							}
-																							style={styles.formItem}
-																					/>
-																			</View>
-																			<View style={styles.infoFormItem}>
-																					<Text style={styles.formItemTitle}>常驻地</Text>
-																					<Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
-																			</View>
-																			
-																			<View style={styles.dateItem}>
-																					<DatePicker
-																							value={new Date(this.state.editForm.birthdayTimeStamp)}
-																							mode="date"
-																							minDate={new Date(1970, 1, 1)}
-																							maxDate={new Date(2020, 1, 1)}
-																							onChange={val => this.changeDate(val)}
-																							format="YYYY-MM-DD">
-																							<List.Item>
-																									<Text style={styles.dateLabel}>
-																											生日
-																									</Text>
-																							</List.Item>
-																					</DatePicker>
-																			</View>
-																			<View>
-																				<TextareaItem
-																					placeholder="描述一下自己吧..."
-																					style={styles.introduction}
-																					rows={4}
-																					value={this.state.editForm.introduction}
-																					onChange={val =>
-																						this.setState({
-																							editForm: {
-																								...this.state.editForm,
-																								introduction: val,
-																							},
-																						})
-																					}
-																			/>
-																			</View>
-																	</View>
-																	<View style={styles.chatWrap}>
-																			<Image source={tbears} style={styles.tbears}/>
-																			<View style={styles.tbearsChat}>
-																					<Text style={styles.tbearsChatText}>你喜欢什么呢，可以选出来告诉小熊吗？这样方便好友找你组团活动哦</Text>
-																			</View>
-																	</View>
-																	<View style={styles.hobbyWrap}>
-																		<View style={styles.hobbyList}>
-																				{
-																					this.state.hobbyList.map(item => {
-																						return (
-																							<TouchableOpacity
-																								key={item}
-																								style={this.getClass(item)}
-																								onPress={() => this.activeItem(item)}>
-																								<Text style={this.getTextClass(item)}>
-																												{item}
-																								</Text>
-																							</TouchableOpacity>
-																						);
-																					})
-																				}
-																			</View>
-																			<Button
-																					style={styles.modifyBtnBox}
-																					onPress={() => this.modify()}>
-																					<Text style={styles.modifyBtnText}>修改</Text>
-																			</Button>
-																	</View>
+			const form = this.state.editForm
+			console.log(form.headPicUrl);
+			return (
+				<Provider>
+					<Fragment>
+						<ScrollView>
+							<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+								<Header {...this.props} title="编辑资料" left={null} />
+								<List>
+									<View style={styles.container}>
+										<View style={styles.editInfoMain}>
+											<TouchableOpacity
+												style={styles.avatarItemWrap}
+												onPress={() => this.choosePicture()}>
+												{this.state.editForm.headPicUrl &&
+												<Image
+													source={{uri:this.state.editForm.headPicUrl.replace('https','http')}}
+													style={styles.avatarItem}
+												/>}
+												<Image source={camera} style={styles.avatarCamera}></Image>
+												<Text style={styles.label}>编辑头像</Text>
+											</TouchableOpacity>
+											{/* <View style={styles.avatarCoverWrap}>
+													<View style={styles.avatarCoverBtn}>
+														<Text style={styles.avatarCover}>更换封面</Text>
+													</View>
+											</View> */}
+										</View>
+										<View style={styles.infoFormWrap}>
+											<View style={styles.infoFormItem}>
+																		<Text style={styles.formItemTitle}>修改昵称</Text>
+																		<TextInput
+																						value={this.state.editForm.name}
+																						onChangeText={val =>
+																										this.setState({
+																																editForm: {
+																																		...this.state.editForm,
+																																		name: val,
+																														},
+																										})
+																						}
+																						style={styles.formItem}
+																		/>
 														</View>
-													</List>
-											</SafeAreaView>
-										</ScrollView>
-                </Fragment>
-            </Provider>
-        )
+											<View style={styles.infoFormItem}>
+												<Text style={styles.formItemTitle}>常驻地</Text>
+												<Text style={styles.formItem}>{`${this.state.editForm.province}-${this.state.editForm.cityName}-${this.state.editForm.adName}`}</Text>
+											</View>
+														
+											<View style={styles.dateItem}>
+															<DatePicker
+																			value={new Date(this.state.editForm.birthdayTimeStamp)}
+																			mode="date"
+																			minDate={new Date(1970, 1, 1)}
+																			maxDate={new Date(2020, 1, 1)}
+																			onChange={val => this.changeDate(val)}
+																			format="YYYY-MM-DD">
+																			<List.Item>
+																							<Text style={styles.dateLabel}>
+																											生日
+																							</Text>
+																			</List.Item>
+															</DatePicker>
+											</View>
+											<View>
+												<TextareaItem
+													placeholder="描述一下自己吧..."
+													style={styles.introduction}
+													rows={4}
+													value={this.state.editForm.introduction}
+													onChange={val =>
+														this.setState({
+																editForm: {
+																		...this.state.editForm,
+																		introduction: val,
+																},
+														})
+													}
+												/>
+											</View>
+										</View>
+										<View style={styles.chatWrap}>
+														<Image source={tbears} style={styles.tbears}/>
+														<View style={styles.tbearsChat}>
+																		<Text style={styles.tbearsChatText}>你喜欢什么呢，可以选出来告诉小熊吗？这样方便好友找你组团活动哦</Text>
+														</View>
+										</View>
+										<View style={styles.hobbyWrap}>
+																		<View style={styles.hobbyList}>
+																						{
+																								this.state.hobbyList.map(item => {
+																										return (
+																												<TouchableOpacity
+																														key={item}
+																														style={this.getClass(item)}
+																														onPress={() => this.activeItem(item)}>
+																														<Text style={this.getTextClass(item)}>
+																																						{item}
+																														</Text>
+																												</TouchableOpacity>
+																										);
+																								})
+																						}
+																				</View>
+																				<TouchableOpacity onPress={() => this.modify()}>
+																						<View style={styles.modifyBtnBox}>
+																								<Text style={styles.modifyBtnText}>修改</Text>
+																						</View>
+																				</TouchableOpacity>
+																</View>
+									</View>
+								</List>
+						</ScrollView>
+					</Fragment>
+				</Provider>
+			)
     }
 }
 
@@ -502,9 +500,14 @@ hobbyActiveItem: {
 		width: '100%',
 		height: scaleSize(120),
 		borderRadius: scaleSize(40),
-		backgroundColor: '#8A8DF9',
+        backgroundColor: '#8A8DF9',
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
 	},
 	modifyBtnText: {
-			color: '#fff',
+        color: '#fff',
+        fontSize:scaleFont(40)
 	},
 })

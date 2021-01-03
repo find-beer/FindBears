@@ -37,7 +37,9 @@ const imageUrl = {
 
 export default class Mine extends Component{
 	state = {
-		personalInfo : {}
+		personalInfo : {
+			headPicUrl:''
+		}
 	}
 	componentWillMount(){
 		this.initInfo()
@@ -73,7 +75,10 @@ export default class Mine extends Component{
 					<SafeAreaView style={{flex: 0, backgroundColor: 'rgba(117,117,115,1)'}}/>
 					<SafeAreaView style={{flex:1}}>
 						<ScrollView>
-								<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
+								<ImageBackground 
+								style={styles.persionalTab} 
+								source={{uri:this.state.personalInfo.headPicUrl.replace('https','http')}}
+								>
 									<View style={styles.bgaWrapper}>
 										<TouchableOpacity onPress={() => this.handleGoConfig()}>
 											<View style={styles.settingBox}>

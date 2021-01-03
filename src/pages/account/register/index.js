@@ -48,7 +48,7 @@ export default class Register extends Component {
                 introduction: '',
                 phoneNumber:
                     this.props.navigation.state.params &&
-                        this.props.navigation.state.params.tel
+                        this.props.navigation.state.params.tel || '18311434622'
             },
             tips: {
                 headPicUrl: '头像不能为空~',
@@ -97,12 +97,11 @@ export default class Register extends Component {
                 failFlag = key;
                 break;
             }
-        }
+				}
         if (failFlag) {
             Toast.fail(this.state.tips[failFlag]);
             return;
         }
-        let date = new Date(this.state.registerForm.birthdayTimeStamp)
         this.props.navigation.navigate('Hobby', {
             ...this.state.registerForm,
             birthday:`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
@@ -208,7 +207,7 @@ export default class Register extends Component {
                             style={styles.flexImg}
                             onPress={() => this.choosePicture()}>
                             <Image
-                                source={data.headPicUrl?{uri:data.headPicUrl}:imgUrl.avater}
+                                source={data.headPicUrl?{uri:data.headPicUrl.replace('https','http')}:imgUrl.avater}
                                 style={styles.avaterIcon}
                             />
                             <Text style={styles.label}>上传头像</Text>
