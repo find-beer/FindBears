@@ -7,7 +7,7 @@
  */
 
 import React, {Fragment} from 'react';
-import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import Header from '../../../components/header/index'
 import {GetRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
@@ -29,9 +29,11 @@ export default class ActivityDetail extends React.Component {
             },
         };
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         this.props.navigation.goBack()
     }
+
     requireDeviceData = async () => {
         const {id} = this.state;
         const response = await GetRequest('activity/activity/detail', {
@@ -78,31 +80,33 @@ export default class ActivityDetail extends React.Component {
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
             <Header {...this.props} title={'活动详情'}/>
-            <View style={{flex: 1}}>
-                <View style={styles.card}>
-                    <View style={styles.row}>
-                        <Text style={styles.left}>【活动名称】</Text>
-                        <Text style={styles.right}>{activityTitle}</Text>
+            <ScrollView>
+                <View style={{flex: 1}}>
+                    <View style={styles.card}>
+                        <View style={styles.row}>
+                            <Text style={styles.left}>【活动名称】</Text>
+                            <Text style={styles.right}>{activityTitle}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.left}>【活动时间】</Text>
+                            <Text style={styles.right}>{activityTime ? activityTime
+                                : '时间待定'}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.left}>【活动地点】</Text>
+                            <Text style={styles.right}>{activityAddress}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.left}>【参与人数】</Text>
+                            <Text style={styles.right}>{memberCount}</Text>
+                        </View>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.left}>【活动时间】</Text>
-                        <Text style={styles.right}>{activityTime ? activityTime
-                            : '时间待定'}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.left}>【活动地点】</Text>
-                        <Text style={styles.right}>{activityAddress}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text style={styles.left}>【参与人数】</Text>
-                        <Text style={styles.right}>{memberCount}</Text>
-                    </View>
+                    <RichEditor
+                        disabled
+                        initialContentHTML={data.content}
+                    />
                 </View>
-                <RichEditor
-                    disabled
-                    initialContentHTML={data.content}
-                />
-            </View>
+            </ScrollView>
 
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity onPress={this.joinTalk}>
