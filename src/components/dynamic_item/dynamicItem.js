@@ -7,6 +7,7 @@ import {getDate} from '../../utils/date'
 
 import ImageViewer from "react-native-image-viewing";
 
+
 const imageUrl = {
     like: require('../../assets/home/like.png'),
     unlike: require('../../assets/home/unlike.png'),
@@ -20,20 +21,12 @@ export default class DynamicItem extends Component {
         super(props);
         this.state = {
             feed: {...this.props.feed},
-            userId: '',
             visible: false,
             currentIndex: 0
         }
     }
 
-    componentWillMount() {
-        // AsyncStorage.getItem('userInfo',(err,res) => {
-        //     res = JSON.parse(res);
-        //     this.setState({
-        //         userId:res.userId
-        //     })
-        // })
-    }
+    
 
     handleGoDetail() {
         this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
@@ -89,7 +82,7 @@ export default class DynamicItem extends Component {
                 <View style={styles.itemHeader}>
                     <TouchableOpacity onPress={() => this.handlegoStrangerPage()}>
                         <Image
-                            source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
+                            source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg').replace('https','http')}}
                             style={styles.avatarInner}
                         />
                     </TouchableOpacity>
@@ -110,7 +103,7 @@ export default class DynamicItem extends Component {
                         </View>
                     </View>
                     {
-                        this.state.userId !== get(feed, 'userVO.userId', '') ?
+                        this.props.userId !== get(feed, 'userVO.userId', '') ?
                             <TouchableOpacity onPress={() => this.handleGoLine()}>
                                 <View style={styles.relationLine}>
                                     <Image source={imageUrl.relation} style={styles.btn}/>
@@ -137,7 +130,7 @@ export default class DynamicItem extends Component {
                                         })
                                     }}>
                                         <Image
-                                            source={{uri: item}}
+                                            source={{uri: item.replace('https','http')}}
                                             style={styles.dynamicImg}
                                             key={index + ''}
                                         />

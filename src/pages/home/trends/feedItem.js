@@ -18,7 +18,7 @@ export default class DynamicItem extends Component {
 				super(props);
 				this.state = {
 					feed:{...this.props.feed},
-					loginUserId:this.props.loginUserId || '',
+					loginUid:this.props.loginUid || '',
 					isMinePage:this.props.isMinePage || false 
 				}
     }
@@ -26,7 +26,6 @@ export default class DynamicItem extends Component {
 			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
 		}
 		handleGoStrangerPage(){
-			alert(get(this.state,'feed.userVO.userId',''))
 			this.props.navigation.navigate('StrangerInfo', {uid: get(this.state,'feed.userVO.userId','')})
 		}
 		handleLike(){
@@ -85,7 +84,7 @@ export default class DynamicItem extends Component {
 							<View style={styles.itemHeader}>
 									<TouchableOpacity onPress={() => this.handleGoStrangerPage()}>
 										<Image
-												source={{uri: pic}}
+												source={{uri: pic.replace('https',"http")}}
 												style={styles.avatarInner}
 										/>
 									</TouchableOpacity>
@@ -102,8 +101,8 @@ export default class DynamicItem extends Component {
 											</View>
 									</View>
 									{
-										// 个人中心页面，且动态id是本人id,才展示删除纳按钮
-										this.state.isMinePage && (this.state.loginUserId !== get(feed,'userVO.userId',''))?
+										// 个人中心页面，且动态id是本人id,才展示删除按钮
+										this.state.isMinePage && (this.state.loginUid !== get(feed,'userVO.userId',''))?
 										<TouchableOpacity onPress={() => this.handleDelete()}>
 											<Image source={imageUrl.more} style={styles.operateBtn}/>
 										</TouchableOpacity>
@@ -121,7 +120,7 @@ export default class DynamicItem extends Component {
 													picList.map(item => {
 															return(
 																	<Image
-																			source={{uri:item}}
+																			source={{uri:item.replace('https','http')}}
 																			style={styles.dynamicImg}
 																			key={item}
 																	/>

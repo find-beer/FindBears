@@ -41,8 +41,7 @@ export default class OrderList extends Component {
   }
   componentDidMount(){
     GetRequest('/order/biz/orderlist',{
-      // activityId:this.props.navigation.state.params.id,
-      activityId:27,
+      activityId:this.props.navigation.state.params.id,
       pageNum:1,
       pageSize:500
     }).then(res => {

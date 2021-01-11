@@ -11,13 +11,15 @@ import {FlatList,StyleSheet, View,RefreshControl} from 'react-native';
 import {GetRequest} from "../../../utils/request";
 import FeedItem from "./feedItem.js";
 import EventBus from "../../../utils/EventBus";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class Trends extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             feedDetailVOList: [],
-            isRefreshing:false
+            isRefreshing:false,
+            loginUid:''
         };
     }
 
@@ -25,6 +27,7 @@ export default class Trends extends React.Component {
         return (
             <FeedItem 
             {...this.props} 
+            loginUid={this.state.loginUid}
             feed={rowData.item} 
             key={rowData.item.id}
             />
@@ -54,6 +57,15 @@ export default class Trends extends React.Component {
                 this.getData();
             })
             console.log('------->', '刷新数据...')
+        });
+        let that = this;
+        AsyncStorage.getItem('userInfo', (error, result) => {
+            console.log(JSON.parse(result))
+            if (result) {
+                this.setState({
+                    loginUid:JSON.parse(result).uid
+                })
+            }
         });
     }
     render() {

@@ -3,7 +3,7 @@
  */
 
 import React,{Fragment} from 'react';
-import {StyleSheet, Image, View, Text,SafeAreaView,TouchableOpacity,TextInput} from 'react-native';
+import {StyleSheet, Image, View, Text,SafeAreaView,TouchableOpacity,ScrollView} from 'react-native';
 import {InputItem} from '@ant-design/react-native'
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import Header from '../../../components/header/index';
@@ -13,6 +13,7 @@ import Action from './action';
 import Comment from './comment';
 import {GetRequest,PostRequest} from "../../../utils/request";
 const defaultImage = require('../../../assets/mine/avatar.jpeg')
+import EventBus from '../../../utils/EventBus';
 
 
 export default class Page extends React.Component {
@@ -68,6 +69,7 @@ export default class Page extends React.Component {
 				userId: 12342
 			}).then(() => {
 				this.getDetail();
+				EventBus.post('REFRESH_TREND')
 				this.setState({
 					comment:'',
 					currentComment:{},
@@ -87,6 +89,7 @@ export default class Page extends React.Component {
                     <Text style={styles.words}>{detail.content}</Text>
                     <Photo data={detail.picUrl} />
                     {/* <Action data={detail} /> */}
+										<ScrollView>
 										{
 											this.state.commentList.map(item => {
 												return (
@@ -96,6 +99,7 @@ export default class Page extends React.Component {
 												)
 											})
 										}
+										</ScrollView>
                     
                 </View>
                 <View style={styles.comment_box}>
@@ -123,10 +127,12 @@ const styles = StyleSheet.create({
     container: {
 				backgroundColor:'#fff',
 				position:'relative',
-        height:'100%'
-    },
+				height:'100%',
+				paddingBottom:scaleSize(200)
+		},
     main:{
-        paddingHorizontal:scaleSize(54)
+				paddingHorizontal:scaleSize(54),
+				paddingBottom:scaleSize(200),
     },
     words: {
         fontSize: scaleSize(48),

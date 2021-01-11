@@ -12,6 +12,7 @@ import {GetRequest} from "../../../utils/request";
 import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
 import EventBus from "../../../utils/EventBus";
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 export default class Activities extends React.Component {
@@ -19,8 +20,17 @@ export default class Activities extends React.Component {
         super(props);
         this.state = {
             relationDetailList: [],
-            isRefreshing: false
+            isRefreshing: false,
+            userId:''
         };
+    }
+
+    componentWillMount() {
+        AsyncStorage.getItem('userInfo',(err,res) => {
+            this.setState({
+                userId:JSON.parse(res).uid
+            })
+        })
     }
 
     renderItem = (rowData) => {
@@ -31,12 +41,13 @@ export default class Activities extends React.Component {
             return (
                 <ActivityItem
                     onBtnClick={() => navigation.navigate('ActivityDetail', {id: activity.id,refresh:() => this.getData()})} {...this.props}
-                    activity={activity}/>
+                    activity={activity}
+                    userId={this.state.userId}/>
             );
         }
         if (feed) {
             return (
-                <DynamicItem  {...this.props} feed={feed}/>
+                <DynamicItem  {...this.props} feed={feed} userId={this.state.userId}/>
             );
         }
     };

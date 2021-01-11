@@ -16,7 +16,7 @@ export default class Shoulder extends React.Component {
   }
   render(){
     const item = this.props.item;
-    let url = item.picUrl?item.picUrl.splice(',')[0]:''
+    let url = item.picUrl || ''
     return (
       <View style={styles.activity_item} >
         <TouchableOpacity onPress={() => this.handlegoDetail()}>

@@ -62,7 +62,7 @@ export default class ActivityItem extends Component {
                             </View>
                         </View>
                         {
-                            this.state.userId !== activity.userVO.userId?
+                            this.props.userId !== activity.userVO.userId?
                                 <TouchableOpacity onPress={() => this.handleGoLine()}>
                                     <View style={styles.relationLine}>
                                         <Image source={imageUrl.relation} style={styles.btn}/>
@@ -116,8 +116,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     outs: {
-				flexDirection: 'row',
-				justifyContent:'space-between',
+        flexDirection: 'row',
         alignItems: 'center',
         paddingLeft: 15,
         paddingRight: 15,

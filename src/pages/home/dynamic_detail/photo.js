@@ -11,7 +11,7 @@ export default props => {
                 return (
                     <Image
                         key={index}
-                        source={{uri:item}}
+                        source={{uri:item.replace('https','http')}}
                         style={styles.photo}
                     ></Image>
                 );
