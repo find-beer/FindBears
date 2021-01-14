@@ -86,7 +86,7 @@ export default class Login extends React.Component {
                 AsyncStorage.setItem('session', res.data.token, null);
                 AsyncStorage.setItem('userInfo', JSON.stringify(res.data), '');
             } else if(res.code === 10001){
-                this.props.navigation.navigate('Register');
+                this.props.navigation.navigate('Register',{tel:this.state.userPhone});
             } else {
                 Toast.fail(res.msg || '登录失败，请稍后重试');
             }

@@ -12,6 +12,7 @@ import {screenW} from "../../constants";
 import ActivityItem from './item.js'
 import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {GetRequest} from "../../utils/request";
+import EventBus from '../../utils/EventBus';
 
 export default class Shoulder extends React.Component {
     constructor(props) {
@@ -35,8 +36,8 @@ export default class Shoulder extends React.Component {
 
     componentDidMount() {
         this.initData()
+        EventBus.on('REFRESH_SHOULDER',this.initData())
     }
-
     changeTab(type) {
         this.setState({
             currentTab: type

@@ -71,6 +71,7 @@ export default class ModifyTicket extends React.Component {
             }, 'POST');
             if (response.code === 0) {
                 EventBus.post('REFRESH_TICKETS', {});
+                EventBus.post('REFRESH_SHOULDER',{})
                 navigation.goBack();
             }
         } catch (e) {

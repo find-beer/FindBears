@@ -57,6 +57,5 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     flexWrap:'wrap',
     paddingHorizontal:scaleSize(55),
-		justifyContent:'space-around'
   }
 });

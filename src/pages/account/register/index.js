@@ -50,7 +50,7 @@ export default class Register extends Component {
                 introduction: '',
                 phoneNumber:
                     this.props.navigation.state.params &&
-                        this.props.navigation.state.params.tel || '15210586470'
+                        this.props.navigation.state.params.tel
             },
             tips: {
                 headPicUrl: '头像不能为空~',

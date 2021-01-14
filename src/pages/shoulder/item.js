@@ -16,11 +16,12 @@ export default class Shoulder extends React.Component {
   }
   render(){
     const item = this.props.item;
-    let url = item.picUrl || ''
+    let url = item.picUrl?.split(',')[0];
+    console.log(url)
     return (
       <View style={styles.activity_item} >
         <TouchableOpacity onPress={() => this.handlegoDetail()}>
-          <Image style={styles.item_image} source={url?{uri:url}:defaultImg}/>
+          <Image style={styles.item_image} source={{uri:url.replace('https','http')}}/>
           <Text style={styles.item_title} numberOfLines={1}>{item.activityTitle}</Text>
           <Text style={styles.item_money}>费用：￥{item.price}</Text>
           <Text style={styles.item_date}>时间：{item.activityTime}</Text>
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
     width:scaleSize(460),
     height:scaleSize(420),
     borderRadius:scaleSize(12),
-    backgroundColor: '#43B4FC',
     marginBottom:scaleSize(30)
   },
   item_title:{

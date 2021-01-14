@@ -30,27 +30,26 @@ export default class Page extends React.Component {
             comment: ''
         };
     }
-
-    getDetail() {
+    getDetail = () => {
         GetRequest('feed/detail', {id: this.state.id}).then(
-            res => {
-                this.setState({
-                    detail: res.data,
-                });
-
-            },
+					res => {
+						console.log(res.data)
+						this.setState({
+							detail: res.data,
+						});
+					},
         );
         GetRequest('comment/query', {
-            infoId: this.state.id,
-            infoType: 2,
-            limit: 500,
-            page: 1
+					infoId: this.state.id,
+					infoType: 2,
+					limit: 500,
+					page: 1
         }).then(
-            res => {
-                this.setState({
-                    commentList: res.data
-                })
-            },
+					res => {
+						this.setState({
+							commentList: res.data
+						})
+					},
         );
     }
 
@@ -72,7 +71,7 @@ export default class Page extends React.Component {
 				userId: 12342
 			}).then(() => {
 				this.getDetail();
-				EventBus.post('REFRESH_TREND')
+                EventBus.post('REFRESH_TREND')
 				this.setState({
 					comment:'',
 					currentComment:{},
