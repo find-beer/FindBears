@@ -9,7 +9,7 @@
 import React from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {GetRequest} from "../../../utils/request";
-import ActivityItem from "../../mine/index/activityItem";
+import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
 import EventBus from "../../../utils/EventBus";
 import AsyncStorage from "@react-native-community/async-storage";
