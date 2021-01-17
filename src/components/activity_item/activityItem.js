@@ -54,7 +54,7 @@ export default class ActivityItem extends Component {
                         <View style={{marginLeft: 8}}>
                             <Text style={styles.publisher}>{activity.userVO.userName}</Text>
                             <View style={styles.right}>
-                                <Text style={styles.topTxt}>{activity ? activity.activityAddress : '城市名称'}</Text>
+                                <Text style={styles.topTxt}>{activity ? activity.cityName : '城市名称'}</Text>
                                 <View style={styles.shu}/>
                                 <Text style={styles.topTxt}>{activity ? getDate(activity.publishTime) : '发布时间'}</Text>
                                 <View style={styles.shu}/>
@@ -83,7 +83,7 @@ export default class ActivityItem extends Component {
                     <View style={{flexDirection: 'row'}}>
                         <View style={styles.tag}/>
                         <Text style={styles.cityLeft}>活动地点：</Text>
-                        <Text numberOfLines={1} style={styles.city}>{activity ? activity.cityName : '地点暂无'}</Text>
+                        <Text numberOfLines={1} style={styles.city}>{activity ? activity.activityAddress : '地点暂无'}</Text>
                     </View>
                     <TouchableOpacity onPress={onBtnClick}>
                         <View style={styles.goToDetail}>

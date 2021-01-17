@@ -54,7 +54,6 @@ export default class ActivityItem extends Component {
 		}
     render() {
 				const item = this.state.item;
-				console.log(item)
         const cardConfig = [
             {
                 title: '活动主题',
