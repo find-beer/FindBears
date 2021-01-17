@@ -75,7 +75,7 @@ export default class Hobby extends Component {
         };
         delete params.birthdayTimeStamp;
         PostRequest('user/signUp', params).then(res => {
-            AsyncStorage.setItem('session', res.data.token,this.props.navigation.navigate('TabContainer'));
+            AsyncStorage.setItem('session', res.data.iminfo.token,() => this.props.navigation.navigate('TabContainer'));
             AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
             // this.props.navigation.navigate('TabContainer');
         });

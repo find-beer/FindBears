@@ -8,6 +8,7 @@ const complainIcon = require('../../../assets/mine/complain-icon.png');
 import {GetRequest,PostRequest} from '../../../utils/request';
 import {getDayTime} from '../../../utils/date'
 import AsyncStorage from "@react-native-community/async-storage";
+import EventBus from '../../../utils/EventBus';
 
 export default class StoreList extends Component {
     constructor(props){
@@ -24,6 +25,7 @@ export default class StoreList extends Component {
 		}
 		componentDidMount(){
 			this.refreshPage()
+			EventBus.on('REFRESH_ORDERLIST')
 			AsyncStorage.getItem('userInfo', (error, result) => {
 				if (result) {
 						this.setState({
@@ -123,7 +125,7 @@ export default class StoreList extends Component {
 											</TouchableOpacity>
 											{
 												// 我参与的普通用户发布的
-												(isJoin && item.joinType === 1)?
+												(isJoin && item.joinType === 2)?
 													<Button 
 															style={styles.viewOrderBtn} 
 															onPress={() => this.handleGoDetail(item.activityId)}

@@ -9,9 +9,10 @@
 import React, {Fragment} from 'react';
 import {Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import Header from '../../../components/header/index'
-import {GetRequest} from "../../../utils/request";
+import {GetRequest,PostRequest} from "../../../utils/request";
 import {screenW} from "../../../constants";
 import {RichEditor} from "react-native-pell-rich-editor";
+import EventBus from '../../../utils/EventBus';
 
 export default class ActivityDetail extends React.Component {
 
@@ -48,9 +49,15 @@ export default class ActivityDetail extends React.Component {
     }
 
     joinTalk = () => {
+        
     }
 
-    confirmParticipate = () => {
+    confirmParticipate = async () => {
+        const {id} = this.state;
+        const response = await PostRequest('enroll/publish', {
+            activityId:id
+        });
+        EventBus.post('REFRESH_ORDERLIST')
     }
 
     immeJoin = () => {

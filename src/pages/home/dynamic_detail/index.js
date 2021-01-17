@@ -60,25 +60,28 @@ export default class Page extends React.Component {
     }
 
     componentDidMount() {
-        this.getDetail();
-		}
-		handlePublish(){
-			PostRequest('comment/publish',{
-				content: this.state.comment,
-				infoId: this.state.id,
-				infoType : 2,
-				toUserId: this.state.currentComment.userId||null,
-				userId: 12342
-			}).then(() => {
-				this.getDetail();
-                EventBus.post('REFRESH_TREND')
-				this.setState({
-					comment:'',
-					currentComment:{},
-					placeholder:'请发表评论'
-				})
-			})
-		}
+    this.getDetail();
+    }
+    handlePublish(){
+        if(!this.state.comment.trim()){
+            return;
+        }
+        PostRequest('comment/publish',{
+            content: this.state.comment,
+            infoId: this.state.id,
+            infoType : 2,
+            toUserId: this.state.currentComment.userId||null,
+            userId: 12342
+        }).then(() => {
+            this.getDetail();
+            EventBus.post('REFRESH_TREND')
+            this.setState({
+                comment:'',
+                currentComment:{},
+                placeholder:'请发表评论'
+            })
+        })
+    }
     render() {
         const {visible,currentIndex,detail} = this.state;
         const picList = detail.picUrl ? detail.picUrl.split(',') : [];

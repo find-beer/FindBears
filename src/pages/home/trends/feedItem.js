@@ -78,7 +78,7 @@ export default class DynamicItem extends Component {
     render() {
 			const feed = this.state.feed;
 			const picList = feed.picUrl? feed.picUrl.split(',')  : []
-			let pic = /https/.test(get(feed.userVO, 'pic', ''))?get(feed.userVO, 'pic', ''):'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg'
+			let pic = get(feed.userVO, 'pic', '')
 			return (
 					<View style={styles.dynamicItemWrap} >
 							<View style={styles.itemHeader}>

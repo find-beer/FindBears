@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: '#fff',
+        height: '100%'
     },
     qrItemBox: {
         borderTopWidth: scaleSize(2),
