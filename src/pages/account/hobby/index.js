@@ -4,10 +4,10 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Toast,
-    AsyncStorage,
     StyleSheet
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
+import {Toast} from '@ant-design/react-native';
 import {PostRequest,GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 
@@ -61,24 +61,29 @@ export default class Hobby extends Component {
         let d = time.getDate();
         return `${y}-${this.add0(m)}-${this.add0(d)}`;
     }
-    register() {
-        if (this.state.checkedHobby.length < 1) {
-            Toast.fail('兴趣爱好至少选择一个~');
-        }
-        let checked = [];
-        for (let i = 0; i < this.state.checkedHobby.length; i++) {
-            checked.push(this.state.hobbyList[i]);
-        }
-        let params = {
-            ...this.state.registerForm,
-            hobbyTagNameList: checked,
-        };
-        delete params.birthdayTimeStamp;
-        PostRequest('user/signUp', params).then(res => {
-            AsyncStorage.setItem('session', res.data.token,this.props.navigation.navigate('TabContainer'));
+    async register() {
+        try {
+            if (this.state.checkedHobby.length < 1) {
+                Toast.fail('兴趣爱好至少选择一个~');
+            }
+            let checked = [];
+            for (let i = 0; i < this.state.checkedHobby.length; i++) {
+                checked.push(this.state.hobbyList[i]);
+            }
+            let params = {
+                ...this.state.registerForm,
+                hobbyTagNameList: checked,
+            };
+            delete params.birthdayTimeStamp;
+            const res = await PostRequest('user/signUp', params)
+            console.log('result', res)
+            AsyncStorage.setItem('session', res.data.token,() => {
+                this.props.navigation.navigate('TabContainer')
+            });
             AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
-            // this.props.navigation.navigate('TabContainer');
-        });
+        } catch(e) {
+            console.log('e ------> ', e)
+        }
     }
     getClass(index) {
         return this.state.checkedHobby.includes(index)

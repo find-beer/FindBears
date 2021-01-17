@@ -32,6 +32,7 @@ instance.interceptors.request.use(
 //返回拦截器
 instance.interceptors.response.use(
     function (response) {
+        console.log('response', response);
         if(response.data.code===2000){
             // AsyncStorage.clear(()=>{
             // })
