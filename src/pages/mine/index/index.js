@@ -19,7 +19,8 @@ import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
 import EventBus from "../../../utils/EventBus";
 import {Provider} from '@ant-design/react-native';
-
+import { bindActions, bindState, connect } from './../../../redux'
+import user from '../../home/dynamic_detail/user';
 const imageUrl = {
     configIcon: require('../../../assets/mine/relation.png'),
     avatarBg: require('../../../assets/mine/avatar-bg.png'),
@@ -35,15 +36,28 @@ const imageUrl = {
     unDone: require('../../../assets/mine/undone-icon.png'),
 };
 
-export default class Mine extends Component{
-	state = {
-		personalInfo : {
-			headPicUrl:''
+class Mine extends Component{
+	constructor(props) {
+		super(props) 
+		this.state = {
+			personalInfo : {
+				headPicUrl:''
+			}
 		}
 	}
 	componentWillMount(){
-		this.initInfo()
+		const { userInfo, navigation } = this.props
+		if (!userInfo.userId) {
+			navigation.navigate('Login')
+		} 
+		console.log('userInfo', userInfo)
+		// this.initInfo()
 	}
+
+	componentDidMount() {
+
+	}
+
 	initInfo(){
 		GetRequest('user/detail').then(res => {
 			this.setState({
@@ -140,7 +154,7 @@ export default class Mine extends Component{
 			)
 	}
 }
-
+export default connect(bindState, bindActions)(Mine)
 const styles = StyleSheet.create({
 	persionalTab: {},
 	bgaWrapper: {

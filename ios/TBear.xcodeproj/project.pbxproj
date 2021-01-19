@@ -57,7 +57,7 @@
 		2D02E4901E0B4A5D006451C7 /* TBear-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TBear-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		359C2907573026C8E7B34268 /* Pods-TBear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear.debug.xcconfig"; path = "Target Support Files/Pods-TBear/Pods-TBear.debug.xcconfig"; sourceTree = "<group>"; };
 		5DB0A66A1F854A3073FABDDC /* Pods-TBear-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-TBear-tvOS/Pods-TBear-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		5E500971472F42AB93FDBD89 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
+		5E500971472F42AB93FDBD89 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
 		6FA49D21A1322B444BB1D1B7 /* Pods-TBear-TBearTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-TBearTests.release.xcconfig"; path = "Target Support Files/Pods-TBear-TBearTests/Pods-TBear-TBearTests.release.xcconfig"; sourceTree = "<group>"; };
 		7DBC0A3CA0550DBBC9648983 /* libPods-TBear-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TBear/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		8F3189CFB2D156DCE1139E63 /* Pods-TBear-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TBear-tvOSTests/Pods-TBear-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		9169DADE2534469700992314 /* libPods-TBear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TBear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91933BB62539787000C6786D /* libreact-native-amap-geolocation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-amap-geolocation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A64EF48D92034A38AFC79E46 /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
+		A64EF48D92034A38AFC79E46 /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
 		DCB223CA4D4D9B7170A0F6F6 /* libPods-TBear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TBear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA9D3F86D8CF0A2CC210A766 /* Pods-TBear-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBear-tvOS.release.xcconfig"; path = "Target Support Files/Pods-TBear-tvOS/Pods-TBear-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -163,7 +163,6 @@
 				5E500971472F42AB93FDBD89 /* antoutline.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -310,11 +309,13 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						ProvisioningStyle = Manual;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 3768N57L6C;
+						DevelopmentTeam = QKBU9EDBHK;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -684,6 +685,8 @@
 			baseConfigurationReference = 01D895D3309083DF3F08C065 /* Pods-TBear-TBearTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -698,6 +701,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TBear.app/TBear";
 			};
 			name = Debug;
@@ -707,7 +712,9 @@
 			baseConfigurationReference = 6FA49D21A1322B444BB1D1B7 /* Pods-TBear-TBearTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TBearTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -718,6 +725,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TBear.app/TBear";
 			};
 			name = Release;
@@ -728,8 +737,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3768N57L6C;
+				DEVELOPMENT_TEAM = QKBU9EDBHK;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TBear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -739,8 +750,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sixdegrees.tbears;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sixdegrees.tbear;
 				PRODUCT_NAME = TBear;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -753,8 +765,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3768N57L6C;
+				DEVELOPMENT_TEAM = QKBU9EDBHK;
 				INFOPLIST_FILE = TBear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -763,8 +777,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sixdegrees.tbears;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sixdegrees.tbear;
 				PRODUCT_NAME = TBear;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -13,8 +13,8 @@ import ActivityItem from './item.js'
 import {scaleFont, scaleSize} from '../../utils/scaleUtil';
 import {GetRequest} from "../../utils/request";
 import EventBus from '../../utils/EventBus';
-
-export default class Shoulder extends React.Component {
+import { bindActions, bindState, connect } from './../../redux'
+class Shoulder extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -188,6 +188,8 @@ export default class Shoulder extends React.Component {
         </Fragment>;
     }
 }
+
+export default connect(bindState, bindActions)(Shoulder)
 
 const styles = StyleSheet.create({
     container: {

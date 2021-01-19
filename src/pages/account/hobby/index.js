@@ -4,13 +4,12 @@ import {
     View,
     Text,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage'
-import {Toast} from '@ant-design/react-native';
-import {PostRequest,GetRequest} from '../../../utils/request';
-import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
-
+import { Toast } from '@ant-design/react-native';
+import { PostRequest,GetRequest } from '../../../utils/request';
+import { scaleSize, scaleFont } from '../../../utils/scaleUtil';
 export default class Hobby extends Component {
     constructor(props) {
         super(props);
@@ -64,7 +63,7 @@ export default class Hobby extends Component {
     async register() {
         try {
             if (this.state.checkedHobby.length < 1) {
-                Toast.fail('兴趣爱好至少选择一个~');
+                Toast.show('兴趣爱好至少选择一个~');
             }
             let checked = [];
             for (let i = 0; i < this.state.checkedHobby.length; i++) {
@@ -76,13 +75,16 @@ export default class Hobby extends Component {
             };
             delete params.birthdayTimeStamp;
             const res = await PostRequest('user/signUp', params)
-            console.log('result', res)
-            AsyncStorage.setItem('session', res.data.token,() => {
-                this.props.navigation.navigate('TabContainer')
-            });
-            AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
+            const { success } = res
+            if (success) {
+                AsyncStorage.setItem('session', res.data.token,() => {
+                    this.props.navigation.navigate('TabContainer')
+                });
+                AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
+            } else {
+            }
         } catch(e) {
-            console.log('e ------> ', e)
+            Toast.loading('注册失败，请重试')
         }
     }
     getClass(index) {

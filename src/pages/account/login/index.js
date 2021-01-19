@@ -7,7 +7,7 @@
  */
 
 import React,{Fragment} from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView} from 'react-native';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView, Image} from 'react-native';
 import {GetRequest} from '../../../utils/request';
 import {Button, Provider, Toast} from '@ant-design/react-native';
 import {scaleFont, scaleSize} from '../../../utils/scaleUtil';
@@ -95,48 +95,58 @@ export default class Login extends React.Component {
 
     }
 
+    toBack = () => {
+        const {  navigation } = this.props
+        navigation.navigate('Stack')
+    }
+
     render() {
         return (
             <Provider>
                 <Fragment>
                     <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                     <View style={styles.bgWrapper}>
-                    <View style={styles.header}>
-                        <Text style={styles.headerText}>登录后更精彩</Text>
-                        <Text style={styles.headerText}>
-                            {this.state.result}
-                        </Text>
-                    </View>
-                    <View style={styles.loginForm}>
-                        <View style={styles.flexBox}>
-                            <TextInput
-                                value={this.state.userPhone}
-                                onChangeText={val => this.changePhone(val)}
-                                style={styles.formItem}
-                                placeholder="输入手机号"
-                            />
-                        </View>
-                        <View style={styles.flexBox}>
-                            <TextInput
-                                value={this.state.userCode}
-                                onChangeText={val => this.changeCode(val)}
-                                style={styles.formItem}
-                                placeholder="输入验证码"
-                            />
-                            <TouchableOpacity onPress={() => this.getSmsCode()}>
-                                <Text
-                                    style={styles.getSmsCodeBtn}>
-                                    {this.state.btnText}
-                                </Text>
+                        <View style={styles.topBar}>
+                            <TouchableOpacity style={styles.backButton} onPress={this.toBack}>
+
                             </TouchableOpacity>
                         </View>
-                        <Button
-                            style={styles.loginBtnBox}
-                            onPress={() => this.login()}>
-                            <Text style={styles.loginBtnText}>登录</Text>
-                        </Button>
+                        <View style={styles.header}>
+                            <Text style={styles.headerText}>登录后更精彩</Text>
+                            <Text style={styles.headerText}>
+                                {this.state.result}
+                            </Text>
+                        </View>
+                        <View style={styles.loginForm}>
+                            <View style={styles.flexBox}>
+                                <TextInput
+                                    value={this.state.userPhone}
+                                    onChangeText={val => this.changePhone(val)}
+                                    style={styles.formItem}
+                                    placeholder="输入手机号"
+                                />
+                            </View>
+                            <View style={styles.flexBox}>
+                                <TextInput
+                                    value={this.state.userCode}
+                                    onChangeText={val => this.changeCode(val)}
+                                    style={styles.formItem}
+                                    placeholder="输入验证码"
+                                />
+                                <TouchableOpacity onPress={() => this.getSmsCode()}>
+                                    <Text
+                                        style={styles.getSmsCodeBtn}>
+                                        {this.state.btnText}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <Button
+                                style={styles.loginBtnBox}
+                                onPress={() => this.login()}>
+                                <Text style={styles.loginBtnText}>登录</Text>
+                            </Button>
+                        </View>
                     </View>
-                </View>
                 </Fragment>
             </Provider>
         );
@@ -192,4 +202,12 @@ const styles = StyleSheet.create({
     loginBtnText: {
         color: '#fff',
     },
+    topBar: {
+        height: 40,
+    },
+    backButton: {
+        height: 30,
+        width: 50,
+        backgroundColor: 'red'
+    }
 });

@@ -34,9 +34,6 @@ instance.interceptors.response.use(
     function (response) {
         console.log('response', response);
         if(response.data.code===2000){
-            // AsyncStorage.clear(()=>{
-            // })
-            alert('登录失效')
             EventBus.post('SESSION_EXPIRED')
             return true
         }

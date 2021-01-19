@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:57:04
+ * @LastEditTime : 2021-01-17 22:41:06
+ * @FilePath     : /src/pages/home/activities/index.js
+ */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -8,29 +15,30 @@
 
 import React from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
-import {GetRequest} from "../../../utils/request";
 import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
-import EventBus from "../../../utils/EventBus";
-import AsyncStorage from "@react-native-community/async-storage";
+import { bindActions, bindState, connect } from './../../../redux';
+import Toast from 'react-native-root-toast'
 
-
-export default class Activities extends React.Component {
+class Activities extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             relationDetailList: [],
             isRefreshing: false,
-            userId:''
+            userInfo: props.userInfo
         };
     }
 
-    componentWillMount() {
-        AsyncStorage.getItem('userInfo',(err,res) => {
-            this.setState({
-                userId:JSON.parse(res).uid
-            })
-        })
+    static getDerivedStateFromProps(nextProps) {
+        const { userInfo } = nextProps
+        return {
+            userInfo
+        }
+    }
+
+    componentDidMount() {
+        this.getData();
     }
 
     renderItem = (rowData) => {
@@ -52,57 +60,45 @@ export default class Activities extends React.Component {
         }
     };
 
-    getData = () => {
-        this.setState({isRefreshing: true});
-        GetRequest('user/relationfeed', {
+    getData = async () => {
+        const { success, data } = await this.props.get('/user/relationfeed',  {
             limit: 500,
             feedOffsetId: 0,
             activityOffsetId: 0
-        }).then((res, err) => {
-            this.setState({isRefreshing: false});
-            console.log('===>', res)
-            this.setState({
-                relationDetailList: res.data.relationDetailList
+        })
+        if (success) {
+            return this.setState({
+                relationDetailList: data.relationDetailList
             })
-        }).catch((e) => {
-            console.log('报错', e)
-            this.setState({isRefreshing: false});
-        });
-
-    }
-
-    componentDidMount() {
-        this.getData();
-        EventBus.on('REFRESH_TREND', () => {
-            this.setState({
-                relationDetailList: []
-            }, () => {
-                this.getData();
-            })
-            console.log('------->', '刷新数据...')
-        });
+        }
+        Toast.show('查询失败，请重试', { position: Toast.positions.CENTER })
     }
 
     render() {
-        const {relationDetailList, isRefreshing} = this.state;
-        return <View style={styles.container}>
-            <FlatList
-                data={relationDetailList}
-                renderItem={this.renderItem}
-                keyExtractor={(item, index) => item + index}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={isRefreshing}
-                        onRefresh={this.getData}
-                    />
-                }
-            />
-        </View>;
+        const { relationDetailList, isRefreshing, userInfo } = this.state;
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    data={relationDetailList}
+                    renderItem={this.renderItem}
+                    keyExtractor={(item, index) => item + index}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isRefreshing}
+                            onRefresh={this.getData}
+                        />
+                    }
+                />
+            </View>
+        );
     }
 }
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
 });
+
+export default connect(bindState, bindActions)(Activities)
