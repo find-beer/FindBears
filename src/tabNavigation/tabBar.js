@@ -2,12 +2,18 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-20 00:04:33
- * @LastEditTime : 2021-01-20 00:17:06
+ * @LastEditTime : 2021-01-21 00:45:41
  * @FilePath     : /src/tabNavigation/tabBar.js
  */
-import React from "react";
-import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
+import React, { useState, useEffect }from "react";
+import { 
+  Text,
+  View,
+  StyleSheet,
+  TouchableNativeFeedback,
+} from "react-native";
 import posed from "react-native-pose"; // react-native 动画库
+import { bindActions, bindState, connect } from './../redux/index'
 
 const Scaler = posed.View({
   // 定义点击缩放
@@ -23,25 +29,36 @@ const TabBar = (props) => {
     descriptors,
     state,
   } = props;
-  console.log("props", props);
   const { routes } = state;
+  const [userInfo, setUserInfo ] = useState({})
+
+  useEffect(() => {
+    console.log('props', props)
+    setUserInfo(props.userInfo)
+  }, [props.userInfo])
+
   return (
     <Scaler style={Styles.container}>
-      {routes.map((route, routeIndex) => {
-        const { options } = descriptors[route.key];
-        const focused = state.index === routeIndex;
-        const tintColor = focused ? activeTintColor : inactiveTintColor;
-        const isPublish = route.name === "Publish";
-        const onPress = () => {
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
-          if (!focused && !event.defaultPrevented && !isPublish ) {
-            navigation.navigate(route.name);
-          }
-        };
+      {
+        routes.map((route, routeIndex) => {
+          const { options } = descriptors[route.key];
+          const focused = state.index === routeIndex;
+          const tintColor = focused ? activeTintColor : inactiveTintColor;
+          const isPublish = route.name === "Publish";
+          const onPress = () => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
+            if (!focused && !event.defaultPrevented && !isPublish ) {
+              if (route.name === 'Mine' && !userInfo.userId) {
+                navigation.navigate('Login');
+              } else {
+                navigation.navigate(route.name);
+              }
+            }
+          };
 
         return (
           <TouchableNativeFeedback key={route.key} onPress={onPress} style={Styles.tabButton}>
@@ -106,4 +123,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default TabBar;
+export default connect(bindState, bindActions)(TabBar);
