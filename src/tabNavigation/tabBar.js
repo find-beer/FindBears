@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-20 00:04:33
- * @LastEditTime : 2021-01-21 00:45:41
+ * @LastEditTime : 2021-01-22 00:43:42
  * @FilePath     : /src/tabNavigation/tabBar.js
  */
 import React, { useState, useEffect }from "react";
@@ -57,6 +57,8 @@ const TabBar = (props) => {
               } else {
                 navigation.navigate(route.name);
               }
+            } else if (isPublish) {
+              props.setShowPublish(true)
             }
           };
 
@@ -66,7 +68,7 @@ const TabBar = (props) => {
               { options.tabBarIcon({ focused, tintColor, route }) }
               {
                 isPublish
-                ? <View style={{ height: 28 }} /> 
+                ? <View style={{ height: 20 }} /> 
                 : <Text style={focused ? Styles.iconText : Styles.iconTextGray}> {options.tabBarLabel}</Text>
               }
             </Scaler>
@@ -80,7 +82,8 @@ const TabBar = (props) => {
 const Styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    height: 70,
+    height: 90,
+    paddingBottom: 22,
     borderWidth: 1,
     borderRadius: 1,
     borderColor: "#EEEEEE",
@@ -90,17 +93,6 @@ const Styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  spotLight: {
-    // width: scw,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  spotLightInner: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
   },
   scaler: {
     flex: 1,

@@ -106,11 +106,6 @@ export default class Login extends React.Component {
                 <Fragment>
                     <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                     <View style={styles.bgWrapper}>
-                        <View style={styles.topBar}>
-                            <TouchableOpacity style={styles.backButton} onPress={this.toBack}>
-
-                            </TouchableOpacity>
-                        </View>
                         <View style={styles.header}>
                             <Text style={styles.headerText}>登录后更精彩</Text>
                             <Text style={styles.headerText}>

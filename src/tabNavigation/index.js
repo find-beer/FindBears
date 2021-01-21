@@ -2,14 +2,15 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-20 00:04:29
- * @LastEditTime : 2021-01-21 00:31:00
+ * @LastEditTime : 2021-01-22 00:41:54
  * @FilePath     : /src/tabNavigation/index.js
  */
 import React  from 'react';
 import {
   Image,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal
 } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -22,6 +23,13 @@ import TabBar from "./tabBar";
 
 
 const Tab = createBottomTabNavigator();
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    width: 26,
+    height: 26
+  }
+})
 
 const HomeTabOptions = {
   tabBarLabel: '首页',
@@ -40,9 +48,7 @@ const ShoulderTabOptions = {
 const PublishTabOptions = {
   tabBarLabel: '发布',
   tabBarIcon: () => (
-    <TouchableOpacity onPress={() => global.publishDialog.show(() => {}, {})}>
-      <Image style={{ width: 70, height: 70 }} source={TabIcon.publish} />
-    </TouchableOpacity>
+    <Image style={{ width: 80, height: 80 }} source={TabIcon.publish} />
   )
 }
 
@@ -60,22 +66,18 @@ const MineTabOptions = {
   )
 }
 
+
 const tabBarOptions =  {
   allowFontScaling: false,
   activeTintColor: '#2961FD', // 选中项的颜色
   inactiveTintColor: '#808080', // 未选中项的颜色
-  header: 'none'
+  header: 'none',
+  showLabel: false,
 }
-
-const styles = StyleSheet.create({
-  tabIcon: {
-    width: 26,
-    height: 26
-  }
-})
 
 const TabStack = () => (
   <Tab.Navigator 
+    lazy={true}
     tabBarOptions={tabBarOptions} 
     tabBar={(props) => <TabBar {...props}/>}
     initialRouteName='Home'
