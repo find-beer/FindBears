@@ -124,8 +124,8 @@ export default class StoreList extends Component {
 													</View> */}
 											</TouchableOpacity>
 											{
-												// 我参与的普通用户发布的
-												(isJoin && item.joinType === 2)?
+												// 我参与的商家发布的
+												(isJoin && item.joinType === 1)?
 													<Button 
 															style={styles.viewOrderBtn} 
 															onPress={() => this.handleGoDetail(item.activityId)}

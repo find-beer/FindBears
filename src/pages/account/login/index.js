@@ -82,9 +82,10 @@ export default class Login extends React.Component {
             verifyCode:this.state.userCode
         }).then(res => {
             if (res.code === 0) {
-                this.props.navigation.navigate('TabContainer');
-                AsyncStorage.setItem('session', res.data.iminfo.token, null);
-                AsyncStorage.setItem('userInfo', JSON.stringify(res.data), '');
+							AsyncStorage.setItem('session', res.data.token).then(() => {
+								this.props.navigation.navigate('TabContainer');
+							});
+							AsyncStorage.setItem('userInfo', JSON.stringify(res.data), '');
             } else if(res.code === 10001){
                 this.props.navigation.navigate('Register',{tel:this.state.userPhone});
             } else {

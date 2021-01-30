@@ -191,7 +191,6 @@ export default class EditInfo extends Component {
 		}
     render (){
 			const form = this.state.editForm
-			console.log(form.headPicUrl);
 			return (
 				<Provider>
 					<Fragment>
@@ -204,7 +203,7 @@ export default class EditInfo extends Component {
 											<TouchableOpacity
 												style={styles.avatarItemWrap}
 												onPress={() => this.choosePicture()}>
-												{this.state.editForm.headPicUrl &&
+												{this.state.editForm?.headPicUrl &&
 												<Image
 													source={{uri:this.state.editForm.headPicUrl.replace('https','http')}}
 													style={styles.avatarItem}

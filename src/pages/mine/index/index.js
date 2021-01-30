@@ -77,7 +77,7 @@ export default class Mine extends Component{
 						<ScrollView>
 								<ImageBackground 
 								style={styles.persionalTab} 
-								source={{uri:this.state.personalInfo.headPicUrl.replace('https','http')}}
+								source={{uri:this.state.personalInfo.headPicUrl?.replace('https','http')}}
 								>
 									<View style={styles.bgaWrapper}>
 										<TouchableOpacity onPress={() => this.handleGoConfig()}>
