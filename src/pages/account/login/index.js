@@ -81,17 +81,17 @@ export default class Login extends React.Component {
             phoneNumber:this.state.userPhone,
             verifyCode:this.state.userCode
         }).then(res => {
-            if (res.code === 0) {
-							AsyncStorage.setItem('session', res.data.token).then(() => {
-								this.props.navigation.navigate('TabContainer');
-							});
-							AsyncStorage.setItem('userInfo', JSON.stringify(res.data), '');
-            } else if(res.code === 10001){
-                this.props.navigation.navigate('Register',{tel:this.state.userPhone});
-            } else {
-                Toast.fail(res.msg || '登录失败，请稍后重试');
-            }
-
+					if (res.code === 0) {
+						AsyncStorage.setItem('session', res.data.token).then(() => {
+							this.props.navigation.navigate('TabContainer');
+						});
+						AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
+						AsyncStorage.setItem('yunxin', JSON.stringify(res.data.iminfo));
+					} else if(res.code === 10001){
+							this.props.navigation.navigate('Register',{tel:this.state.userPhone});
+					} else {
+							Toast.fail(res.msg || '登录失败，请稍后重试');
+					}
         });
 
     }

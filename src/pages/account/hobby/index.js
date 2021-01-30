@@ -78,6 +78,7 @@ export default class Hobby extends Component {
             AsyncStorage.setItem('session', res.data.token,() => {
                 this.props.navigation.navigate('TabContainer')
             });
+            AsyncStorage.setItem('yunxin', JSON.stringify(res.data.iminfo));
             AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
         });
     }

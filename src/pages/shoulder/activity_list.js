@@ -34,9 +34,9 @@ export default class ActivityList extends Component {
     return (
       <Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        <Header {...this.props} title={this.state.title} left={null} />
         <ScrollView>
           <SafeAreaView style={styles.activity_list_wrapper}>
-            <Header {...this.props} title={this.state.title} left={null} />
             <View style={styles.list_box}>
               {
                 this.state.activityList.map(item => {
