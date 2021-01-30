@@ -2,16 +2,32 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 21:38:18
- * @LastEditTime : 2021-01-17 21:51:33
- * @FilePath     : /src/redux/middleware/index.js
+ * @LastEditTime : 2021-01-24 23:13:59
+ * @FilePath     : /src/redux/middlewares/axios.js
  */
 import Axios from 'axios';
 
 export default function(options) {
   const axios = Axios.create(options);
-  return () => {
+  axios.interceptors.request.use((config) => {
+    console.log('request config', config.headers)
+    return config
+  })
+  axios.interceptors.response.use((data) => {
+    console.log('reponse data', data)
+    return data
+  })
+
+  return ({ getState, dispatch }) => {
+    const { userInfo } = getState()
+    const requestHeaderConfig = {}
+    const { token } = userInfo
+    if (token) {
+      requestHeaderConfig.token = token
+    }
     return next => action => {
       const { type, request } = action;
+
       if (!request) {
         return next(action);
       }
@@ -26,7 +42,7 @@ export default function(options) {
         return Promise.reject(error);
       };
 
-      return request(axios).then(successCallback).catch(failCallback);
+      return request(axios, requestHeaderConfig).then(successCallback).catch(failCallback);
     };
   };
 }

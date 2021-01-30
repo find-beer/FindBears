@@ -13,6 +13,7 @@ import {scaleSize,scaleFont} from '../../../utils/scaleUtil';
 import {PostRequest} from "../../../utils/request";
 import {getDate} from '../../../utils/date'
 import EventBus from '../../../utils/EventBus';
+import Button from './../../../components/button'
 export default class DynamicItem extends Component {
     constructor(props) {
 				super(props);
@@ -76,6 +77,7 @@ export default class DynamicItem extends Component {
 			})
 		}
     render() {
+			const { navigation } = this.props
 			const feed = this.state.feed;
 			const picList = feed.picUrl? feed.picUrl.split(',')  : []
 			let pic = /https/.test(get(feed.userVO, 'pic', ''))?get(feed.userVO, 'pic', ''):'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg'
@@ -116,44 +118,31 @@ export default class DynamicItem extends Component {
 										</Text>
 									</TouchableOpacity>
 									<View style={styles.imgBox}>
-											{
-													picList.map(item => {
-															return(
-																	<Image
-																			source={{uri:item.replace('https','http')}}
-																			style={styles.dynamicImg}
-																			key={item}
-																	/>
-															)
-													})
-											}
+										{
+											picList.map(item => {
+												return(
+													<Image
+														source={{uri:item.replace('https','http')}}
+														style={styles.dynamicImg}
+														key={item}
+													/>
+												)
+											})
+										}
 									</View>
 							</View>
 							<View style={styles.operationBox}>
-									<TouchableOpacity
-									style={styles.operationItem1}
-									onPress={() => this.handleLike()}>
-											<Image
-													source={feed.like?imageUrl.like:imageUrl.unlike}
-													style={styles.operationIcon}
-											/>
-											<Text style={styles.operationText}>点赞{feed.likeNum}</Text>
-									</TouchableOpacity>
-									<TouchableOpacity
-										style={styles.operationItem2}
-										onPress={() => this.handleGoDetail()}>
-											<Image
-													source={imageUrl.comment}
-													style={styles.operationIcon}
-											/>
-											<Text style={styles.operationText}>已评论{feed.commentNum}</Text>
-									</TouchableOpacity>
+									<Button style={styles.operationItem1} onPress={() => this.handleLike()}>
+										<Image source={feed.like?imageUrl.like:imageUrl.unlike} style={styles.operationIcon}/>
+										<Text style={styles.operationText}>点赞{feed.likeNum}</Text>
+									</Button>
+									<Button style={styles.operationItem2} onPress={() => this.handleGoDetail()}>
+										<Image source={imageUrl.comment} style={styles.operationIcon} />
+										<Text style={styles.operationText}>已评论{feed.commentNum}</Text>
+									</Button>
 									<View style={styles.operationItem3}>
-											<Image
-													source={imageUrl.share}
-													style={styles.operationIcon}
-											/>
-											<Text style={styles.operationText}>分享</Text>
+										<Image source={imageUrl.share} style={styles.operationIcon} />
+										<Text style={styles.operationText}>分享</Text>
 									</View>
 							</View>
 					</View>
@@ -171,9 +160,13 @@ const styles = StyleSheet.create({
 			backgroundColor: '#fff',
 			overflow: 'hidden',
 			paddingHorizontal:30,
-			borderBottomColor:'#F2F2F2',
-			borderBottomWidth:scaleSize(1),
-			borderStyle:'solid'
+			// borderBottomColor:'#F2F2F2',
+			// borderBottomWidth:scaleSize(1),
+			borderStyle:'solid',
+			marginTop: 10,
+			marginLeft: 15,
+			marginRight: 15,
+			borderRadius: 10
 	},
 	itemHeader: {
 			display: 'flex',

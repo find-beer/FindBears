@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:54:57
+ * @LastEditTime : 2021-01-23 13:03:19
+ * @FilePath     : /src/App.js
+ */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -31,9 +38,6 @@ export default class App extends React.Component {
     });
   };
 
-  componentDidMount() {
-    // this.getUserInfo();
-  }
 
   render() {
     return (

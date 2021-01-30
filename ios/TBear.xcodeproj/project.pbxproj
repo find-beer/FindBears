@@ -313,7 +313,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = QKBU9EDBHK;
+						DevelopmentTeam = 3768N57L6C;
 						LastSwiftMigration = 1120;
 						ProvisioningStyle = Automatic;
 					};
@@ -740,7 +740,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QKBU9EDBHK;
+				DEVELOPMENT_TEAM = 3768N57L6C;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TBear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -768,7 +768,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QKBU9EDBHK;
+				DEVELOPMENT_TEAM = 3768N57L6C;
 				INFOPLIST_FILE = TBear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

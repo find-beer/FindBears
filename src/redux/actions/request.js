@@ -2,23 +2,29 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 21:33:27
- * @LastEditTime : 2021-01-17 22:25:06
+ * @LastEditTime : 2021-01-24 23:47:07
  * @FilePath     : /src/redux/actions/request.js
  */
-export function get(url, payload, config) {
-  return {
-    type: 'GET',
-    request(axios) {
-      return axios.get(url, { params: payload, ...config });
-    },
-  };
-}
+export const get = (url, payload, config) => ({
+  type: 'GET',
+  request(axios, headers) {
+    return axios.get(url, { 
+      params: payload,
+      headers: { 
+        ...headers,
+        ...config
+      }});
+  },
+})
 
-export function post(url, payload, config) {
-  return {
-    type: 'POST',
-    request(axios) {
-      return axios.post(url, payload, config);
-    },
-  };
-}
+export const post = (url, payload, config) => ({
+  type: 'POST',
+  request(axios, headers) {
+    return axios.post(url, payload, { 
+      headers: {
+        ...headers,
+        ...config
+      }
+    });
+  },
+})

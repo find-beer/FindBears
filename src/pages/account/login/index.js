@@ -1,208 +1,286 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-23 13:39:21
+ * @LastEditTime : 2021-01-30 14:33:20
+ * @FilePath     : /src/pages/account/login/index.js
  */
+import React, { Component } from 'react'
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  PixelRatio,
+  Platform,
+  Keyboard,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from 'react-native'
+import { scaleFont } from '../../../utils/scaleUtil';
+import * as Toast from './../../../utils/toast'
+import { bindActions, bindState, connect } from './../../../redux';
 
-import React,{Fragment} from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView, Image} from 'react-native';
-import {GetRequest} from '../../../utils/request';
-import {Button, Provider, Toast} from '@ant-design/react-native';
-import {scaleFont, scaleSize} from '../../../utils/scaleUtil';
-import AsyncStorage from "@react-native-community/async-storage";
+const dp2px = dp => PixelRatio.getPixelSizeForLayoutSize(dp);
+const px2dp = px => PixelRatio.roundToNearestPixel(px);
 
-export default class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userPhone: '',
-            userCode: '',
-            btnText: '获取验证码',
-            count: 60,
-            result: '',
-        };
+
+class Login extends Component{
+  constructor(props) {
+    super(props)
+    this.state = {
+      time: 60,
+      buttonDisabled: false,
+      phoneNumber: '',
+      verifyCode: ''
     }
+    this.intervalId = null
+  }
 
-    changePhone(phone) {
-        this.setState({
-            userPhone: phone,
-        });
-    }
+  /**
+   * 设置表单数据
+   * @param {String} key 
+   * @param {String} value 
+   */
+  setFormData = (key, value) => {
+    const options = {}
+    options[key] = value
+    this.setState(options)
+  }
 
-    changeCode(code) {
-        this.setState({
-            userCode: code,
-        });
-    }
-
-    getSmsCode() {
-        if (this.state.count !== 60) {
-            return;
-        }
-        let validePhone = /^1\d{10}$/.test(this.state.userPhone);
-        if (validePhone) {
-            this.getSmsCodeRequest();
-        }
-    }
-
-    getSmsCodeRequest() {
-        GetRequest(`user/getVerifyCode/${this.state.userPhone}`).then(res => {
-            console.log('获取验证码结果',res)
-            if (res.code === 0) {
-                this.startCountDown();
-            } else {
-                Toast.fail(res.msg || '发送失败，请稍后重试');
-            }
-        });
-    }
-
-    startCountDown() {
-        const {count} = this.state;
-        if (count === 1) {
-            this.setState({
-                count: 60,
-                liked: true,
-                btnText: '重新发送',
-            });
+  /**
+   * 倒计时
+   */
+  getDownTime = () => {
+    if (!this.intervalId) {
+      this.intervalId = setInterval(() => {
+        const { time } = this.state
+        const options = {}
+        if (time > 1) {
+          options.buttonDisabled = true
+          options.time = time - 1
         } else {
-            this.setState({
-                count: count - 1,
-                liked: false,
-                btnText: `${this.state.count}s`,
-            });
-            setTimeout(this.startCountDown.bind(this), 1000);
+          options.buttonDisabled = false
+          options.time = 60
+          clearInterval(this.intervalId)
+          this.intervalId = null
         }
+        this.setState(options)
+      }, 1000)
     }
+  }
 
-    login ()  {
-        GetRequest(`user/login`,{
-            phoneNumber:this.state.userPhone,
-            verifyCode:this.state.userCode
-        }).then(res => {
-            if (res.code === 0) {
-                this.props.navigation.navigate('TabContainer');
-                AsyncStorage.setItem('session', res.data.token, null);
-                AsyncStorage.setItem('userInfo', JSON.stringify(res.data), '');
-            } else if(res.code === 10001){
-                this.props.navigation.navigate('Register',{tel:this.state.userPhone});
-            } else {
-                Toast.fail(res.msg || '登录失败，请稍后重试');
-            }
-
-        });
-
+  /**
+   * 校验表单数据
+   */
+  verifyForm = () => {
+    const { phoneNumber, verifyCode } = this.state
+    return {
+      phoneNumberVaild: /^1[3456789]\d{9}$/.test(phoneNumber),
+      verifyCodeVaild: /^[0-9]\d{5}$/.test(verifyCode)
     }
+  }
 
-    toBack = () => {
-        const {  navigation } = this.props
-        navigation.navigate('Stack')
+  /**
+   * 获取验证码
+   */
+  getVerifyCode = async () => {
+    try {
+      const { phoneNumberVaild } = this.verifyForm()
+      const { phoneNumber } = this.state
+      if (!phoneNumberVaild) {
+        return Toast.toast('请输入正确手机号')
+      }
+      const { success, data, msg } = await this.props.get(`/user/getVerifyCode/${phoneNumber}`)
+      console.log('getVerifyCode success: %s; code: %s;msg: %s', success, data, msg)
+      if (success) {
+        Toast.toast('获取验证码成功')
+        this.getDownTime()
+      } else {
+        Toast.toast(msg)
+      }
+    } catch(error) {
+      Toast.toast('获取验证码失败，请重试')
     }
+  }
 
-    render() {
-        return (
-            <Provider>
-                <Fragment>
-                    <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-                    <View style={styles.bgWrapper}>
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>登录后更精彩</Text>
-                            <Text style={styles.headerText}>
-                                {this.state.result}
-                            </Text>
-                        </View>
-                        <View style={styles.loginForm}>
-                            <View style={styles.flexBox}>
-                                <TextInput
-                                    value={this.state.userPhone}
-                                    onChangeText={val => this.changePhone(val)}
-                                    style={styles.formItem}
-                                    placeholder="输入手机号"
-                                />
-                            </View>
-                            <View style={styles.flexBox}>
-                                <TextInput
-                                    value={this.state.userCode}
-                                    onChangeText={val => this.changeCode(val)}
-                                    style={styles.formItem}
-                                    placeholder="输入验证码"
-                                />
-                                <TouchableOpacity onPress={() => this.getSmsCode()}>
-                                    <Text
-                                        style={styles.getSmsCodeBtn}>
-                                        {this.state.btnText}
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <Button
-                                style={styles.loginBtnBox}
-                                onPress={() => this.login()}>
-                                <Text style={styles.loginBtnText}>登录</Text>
-                            </Button>
-                        </View>
-                    </View>
-                </Fragment>
-            </Provider>
-        );
+  /**
+   * 登录
+   */
+  toLogin = async () => {
+    try {
+      const { phoneNumberVaild, verifyCodeVaild } = this.verifyForm()
+      if (!phoneNumberVaild) {
+        return Toast.toast('请输入正确手机号')
+      }
+      if (!verifyCodeVaild) {
+        return Toast.toast('请输入正确验证码')
+      }
+      this.props.setModalLoading(true, '登录中')
+      const { phoneNumber, verifyCode } = this.state
+      const payload = { phoneNumber, verifyCode }
+      const { success, data, msg, code } = await this.props.get('/user/login', payload)
+
+      this.props.setModalLoading(false)
+      if (success) {
+         this.props.setUserInfo(data)
+         this.props.navigation.goBack()
+      } else {
+        if (code === 10001) {
+          this.props.navigation.navigate('Register', {
+            phoneNumber,
+          })
+        } else {
+          Toast.toast(msg)
+        }
+      }
+    } catch(error) {
+      console.log('error', error)
+      this.props.setModalLoading(false)
+      Toast.toast('登录失败，请重试')
     }
+  }
+
+  /**
+   * 渲染获取验证码按钮
+   */
+  renderVerifyCodeButton = () => {
+    const { buttonDisabled, time } = this.state
+    return (
+      <TouchableOpacity activeOpacity={0.7} style={styles.signButton} disabled={buttonDisabled} onPress={this.getVerifyCode}>
+        <Text style={[styles.buttonText, buttonDisabled ? styles.buttonDisable : null ]}>{buttonDisabled ? `${time}s后获取` : '获取验证码'}</Text>
+      </TouchableOpacity>
+    )
+  }
+  
+  /**
+   * 组件卸载时清除计时器
+   */
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+    this.intervalId = null
+  }
+
+  toHome = () => {
+    this.props.navigation.navigate('Main')
+  }
+
+  render() {
+    return (
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.loginContainer} >
+        <TouchableOpacity activeOpacity={1} style={styles.loginContainer} onPress={Keyboard.dismiss}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>登录后更精彩</Text>
+          </View>
+          <View style={styles.infoContainer}>
+            <View style={styles.formItem}>
+              <TextInput
+                clearButtonMode='while-editing'
+                style={styles.input}
+                keyboardType='number-pad'
+                placeholder='输入手机号'
+                maxLength={11}
+                onChangeText={v => this.setFormData('phoneNumber', v)}
+              />
+            </View>
+            <View style={styles.formItem}>
+              <TextInput
+                clearButtonMode='while-editing'
+                style={styles.input}
+                keyboardType='number-pad'
+                placeholder='输入验证码'
+                maxLength={6}
+                onChangeText={v => this.setFormData('verifyCode', v)}
+              />
+              { this.renderVerifyCodeButton() }
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.loginButton} onPress={this.toLogin}>
+              <Text style={styles.loginButtonText}>登录</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.toHomeContainer} onPress={this.toHome}>
+            <Text style={styles.toHomeText}>{`先逛逛>>`}</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
-    bgWrapper: {
-        backgroundColor: '#fff',
-        height: '100%',
-    },
-    header: {
-        marginTop: scaleSize(235),
-        marginBottom: scaleSize(170),
-    },
-    headerText: {
-        fontSize: scaleFont(52),
-        color: '#564F5F',
-        textAlign: 'center',
-    },
-    flexBox: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomWidth: scaleSize(1),
-        borderBottomColor: '#f2f2f2',
-        marginBottom: scaleSize(87),
-    },
-    loginForm: {
-        paddingLeft: scaleSize(110),
-        paddingRight: scaleSize(110),
-    },
-    getSmsCodeBtn: {
-        width: scaleSize(250),
-        color: '#564F5F',
-    },
-    formItem: {
-        flex: 1,
-        paddingTop: scaleSize(36),
-        paddingBottom: scaleSize(36),
-        fontSize: scaleFont(42),
-        margin: 0,
-        padding: 0,
-        color: '#999999',
-    },
-    loginBtnBox: {
-        width: '100%',
-        height: scaleSize(120),
-        borderRadius: scaleSize(40),
-        backgroundColor: '#8A8DF9',
-    },
-    loginBtnText: {
-        color: '#fff',
-    },
-    topBar: {
-        height: 40,
-    },
-    backButton: {
-        height: 30,
-        width: 50,
-        backgroundColor: 'red'
-    }
-});
+  loginContainer: {
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  titleContainer: {
+    height: 50,
+    marginTop: 117.5,
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  title: {
+    fontSize: scaleFont(56),
+    color: '#564F5F',
+  },
+  infoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    
+  },
+  formItem: {
+    height: 40,
+    width: 350,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F2F2F2',
+    marginBottom: 40,
+    flexDirection: 'row'
+  },
+  input: {
+    flex: 1,
+    fontSize: scaleFont(42),
+  },
+  signButton: {
+    height: 40,
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    fontSize: scaleFont(36),
+    color: '#564F5F'
+  },
+  buttonDisable: {
+    color: '#888889'
+  },
+  loginButton: {
+    height: 40,
+    width: 350,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#8A8DF9',
+    borderRadius: 20,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: scaleFont(56),
+  },
+  toHomeContainer: {
+    height: 40,
+    width: 80,
+    marginTop: 10,
+    marginLeft: 30,
+    justifyContent: 'center',
+  },
+  toHomeText: {
+    height: 30,
+    lineHeight: 30,
+    fontSize: scaleFont(32),
+    color: '#888889'
+  }
+})
+export default connect(bindState, bindActions)(Login)

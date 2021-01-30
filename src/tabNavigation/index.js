@@ -2,15 +2,14 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-20 00:04:29
- * @LastEditTime : 2021-01-22 00:41:54
+ * @LastEditTime : 2021-01-23 22:12:27
  * @FilePath     : /src/tabNavigation/index.js
  */
 import React  from 'react';
 import {
   Image,
   StyleSheet,
-  TouchableOpacity,
-  Modal
+  
 } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -66,19 +65,9 @@ const MineTabOptions = {
   )
 }
 
-
-const tabBarOptions =  {
-  allowFontScaling: false,
-  activeTintColor: '#2961FD', // 选中项的颜色
-  inactiveTintColor: '#808080', // 未选中项的颜色
-  header: 'none',
-  showLabel: false,
-}
-
 const TabStack = () => (
   <Tab.Navigator 
     lazy={true}
-    tabBarOptions={tabBarOptions} 
     tabBar={(props) => <TabBar {...props}/>}
     initialRouteName='Home'
   > 
