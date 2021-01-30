@@ -27,16 +27,17 @@ export default props => (
             </View>
 
             <View style={styles.headerRight}>
-                <TouchableOpacity
-                    activeOpacity={.6}
-                    onPress={() => props.onRightClick()}>
-                    <Text>
-                        {
-                            props.right && props.right
-                        }
-                    </Text>
-                </TouchableOpacity>
-
+                {props.right && 
+									<TouchableOpacity
+											activeOpacity={.6}
+											onPress={() => props.onRightClick()}>
+											<Text>
+												{
+													props.right && props.right
+												}
+											</Text>
+									</TouchableOpacity>
+                }
             </View>
         </View>
     </View>
