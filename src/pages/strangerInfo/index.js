@@ -84,7 +84,7 @@ export default class Mine extends Component{
 					<SafeAreaView>
 					<ScrollView>
 							<View>
-							<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
+							<ImageBackground style={styles.persionalTab} source={{uri:this.state.personalInfo?.headPicUrl?.replace('https','http')}}>
 									<View style={styles.bgaWrapper}>
 											<PersonalInfo personalInfo={this.state.personalInfo}/>
 									</View>
