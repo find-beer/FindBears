@@ -25,9 +25,6 @@ export default props => {
     );
 };
 
-const images = {
-    headshot: require('../../../assets/punchList/headshot.png'),
-};
 
 const styles = StyleSheet.create({
     isRow: {

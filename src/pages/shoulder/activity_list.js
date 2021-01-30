@@ -52,10 +52,15 @@ export default class ActivityList extends Component {
 }
 
 const styles = StyleSheet.create({
+  activity_list_wrapper: {
+    backgroundColor:'#fff',
+    height: '100%'
+  },
   list_box:{
     display:'flex',
     flexDirection:'row',
     flexWrap:'wrap',
     paddingHorizontal:scaleSize(55),
-  }
+    paddingVertical: scaleSize(30),
+  },
 });

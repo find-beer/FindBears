@@ -60,7 +60,7 @@ export default class Page extends React.Component {
     }
 
     componentDidMount() {
-    this.getDetail();
+        this.getDetail();
     }
     handlePublish(){
         if(!this.state.comment.trim()){

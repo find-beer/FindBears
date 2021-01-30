@@ -65,7 +65,7 @@ export default class DynamicItem extends Component {
     }
 
     handlegoStrangerPage() {
-        this.props.navigation.navigate('StrangerInfo', {id: get(this.state, 'feed.userVO.userId', '')})
+        this.props.navigation.navigate('StrangerInfo', {uid: get(this.state, 'feed.userVO.userId', '')})
     }
 
     render() {
