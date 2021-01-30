@@ -19,7 +19,7 @@ export default class Trends extends React.Component {
         this.state = {
             feedDetailVOList: [],
             isRefreshing:false,
-            loginUid:''
+            userId:''
         };
     }
 
@@ -27,7 +27,7 @@ export default class Trends extends React.Component {
         return (
             <FeedItem 
             {...this.props} 
-            loginUid={this.state.loginUid}
+            userId={this.state.userId}
             feed={rowData.item} 
             key={rowData.item.id}
             />
@@ -63,7 +63,7 @@ export default class Trends extends React.Component {
             console.log(JSON.parse(result))
             if (result) {
                 this.setState({
-                    loginUid:JSON.parse(result).uid
+                    userId:JSON.parse(result).uid
                 })
             }
         });

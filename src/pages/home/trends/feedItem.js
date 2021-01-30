@@ -18,7 +18,7 @@ export default class DynamicItem extends Component {
 				super(props);
 				this.state = {
 					feed:{...this.props.feed},
-					loginUid:this.props.loginUid || '',
+					userId:this.props.userId || '',
 					isMinePage:this.props.isMinePage || false 
 				}
     }
@@ -26,7 +26,11 @@ export default class DynamicItem extends Component {
 			this.props.navigation.navigate('DynamicDetail', {id: this.state.feed.id})
 		}
 		handleGoStrangerPage(){
-			console.log(get(this.state,'feed.userVO.userId',''))
+			// 如果是自己，就去个人中心
+			if(this.state.userId === get(this.state,'feed.userVO.userId','')){
+				this.props.navigation.navigate('Mine')
+				return;
+			}
 			this.props.navigation.navigate('StrangerInfo', {uid: get(this.state,'feed.userVO.userId','')})
 		}
 		handleLike(){

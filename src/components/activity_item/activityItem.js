@@ -17,7 +17,7 @@ export default class ActivityItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId:''
+            userId:props.userId
         };
     }
     componentWillMount(){
@@ -29,6 +29,11 @@ export default class ActivityItem extends Component {
         })
     }
     handlegoStrangerPage(){
+        // 如果是自己，就去个人中心
+        if(this.state.userId === get(this.state,'activity.userVO.userId','')){
+            this.props.navigation.navigate('Mine')
+            return;
+        }
         this.props.navigation.navigate('StrangerInfo', {uid: this.props.activity?.userVO?.userId || ''})
     }
     // 关系链
