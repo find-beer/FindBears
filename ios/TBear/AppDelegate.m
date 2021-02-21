@@ -64,6 +64,13 @@ static void InitializeFlipper(UIApplication *application) {
   //注册自定义消息的解析器
   [NIMCustomObject registerCustomDecoder:[DWCustomAttachmentDecoder new]];
   [self registerAPNs];
+  
+  
+  if (@available(iOS 14, *)) {
+    UIDatePicker *picker = [UIDatePicker appearance];
+    picker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+  }
+  
   return YES;
 }
 

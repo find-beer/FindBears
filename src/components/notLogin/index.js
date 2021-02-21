@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-23 21:28:43
- * @LastEditTime : 2021-01-30 14:28:10
+ * @LastEditTime : 2021-02-21 19:52:43
  * @FilePath     : /src/components/notLogin/index.js
  */
 import React, { Component } from 'react'
@@ -31,12 +31,6 @@ class NotLogin extends Component {
         '+爬山当',
         '+滑板',
       ]
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    return {
-      
     }
   }
 

@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 21:38:18
- * @LastEditTime : 2021-01-24 23:13:59
+ * @LastEditTime : 2021-02-21 22:01:14
  * @FilePath     : /src/redux/middlewares/axios.js
  */
 import Axios from 'axios';
@@ -10,7 +10,7 @@ import Axios from 'axios';
 export default function(options) {
   const axios = Axios.create(options);
   axios.interceptors.request.use((config) => {
-    console.log('request config', config.headers)
+    console.log('request config', config)
     return config
   })
   axios.interceptors.response.use((data) => {
@@ -18,7 +18,7 @@ export default function(options) {
     return data
   })
 
-  return ({ getState, dispatch }) => {
+  return ({ getState }) => {
     const { userInfo } = getState()
     const requestHeaderConfig = {}
     const { token } = userInfo

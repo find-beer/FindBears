@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-23 13:39:21
- * @LastEditTime : 2021-01-30 14:33:20
+ * @LastEditTime : 2021-02-21 21:48:56
  * @FilePath     : /src/pages/account/login/index.js
  */
 import React, { Component } from 'react'
@@ -11,7 +11,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  PixelRatio,
   Platform,
   Keyboard,
   TouchableOpacity,
@@ -20,10 +19,6 @@ import {
 import { scaleFont } from '../../../utils/scaleUtil';
 import * as Toast from './../../../utils/toast'
 import { bindActions, bindState, connect } from './../../../redux';
-
-const dp2px = dp => PixelRatio.getPixelSizeForLayoutSize(dp);
-const px2dp = px => PixelRatio.roundToNearestPixel(px);
-
 
 class Login extends Component{
   constructor(props) {
@@ -120,7 +115,7 @@ class Login extends Component{
       const { phoneNumber, verifyCode } = this.state
       const payload = { phoneNumber, verifyCode }
       const { success, data, msg, code } = await this.props.get('/user/login', payload)
-
+      console.log('data ------> ', data);
       this.props.setModalLoading(false)
       if (success) {
          this.props.setUserInfo(data)
@@ -135,7 +130,6 @@ class Login extends Component{
         }
       }
     } catch(error) {
-      console.log('error', error)
       this.props.setModalLoading(false)
       Toast.toast('登录失败，请重试')
     }

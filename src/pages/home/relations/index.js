@@ -2,8 +2,8 @@
  * @Descripttion :
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:57:04
- * @LastEditTime : 2021-01-30 17:32:32
- * @FilePath     : /src/pages/home/activities/index.js
+ * @LastEditTime : 2021-02-21 12:01:08
+ * @FilePath     : /src/pages/home/relations/index.js
  */
 /**
  * Sample React Native App
@@ -17,11 +17,11 @@ import React from "react";
 import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
-import { bindActions, bindState, connect } from "./../../../redux";
+import { bindActions, bindState, connect } from "../../../redux";
 
-import Toast from "./../../../utils/toast";
+import Toast from "../../../utils/toast";
 
-class Activities extends React.Component {
+class Relations extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default connect(bindState, bindActions)(Activities);
+export default connect(bindState, bindActions)(Relations);

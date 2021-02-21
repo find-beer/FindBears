@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-23 15:13:17
- * @LastEditTime : 2021-01-24 22:55:28
+ * @LastEditTime : 2021-02-21 13:56:58
  * @FilePath     : /src/components/modalLoading/index.js
  */
 import React, { Component } from 'react'
@@ -32,7 +32,7 @@ class ModalLoading extends Component {
     const { visible, title } = this.state
     return (
       <Modal transparent visible={!!visible}>
-       <Loading text={title}/>
+       <Loading title={title}/>
       </Modal>
     )
   }

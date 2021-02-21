@@ -1,112 +1,111 @@
-import React, { Component, Fragment } from "react";
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-24 22:04:22
+ * @LastEditTime : 2021-02-21 22:04:19
+ * @FilePath     : /src/pages/account/register/index.js
+ */
+import React, { Component } from 'react'
 import {
   View,
   Text,
-  TextInput,
   Image,
-  TouchableOpacity,
+  TextInput,
   StyleSheet,
-  SafeAreaView,
-} from "react-native";
-
+  PixelRatio,
+  Platform,
+  Keyboard,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  ImageBackground,
+  SafeAreaView
+} from 'react-native'
 import ImagePicker from "react-native-image-picker";
-import {
-  Provider,
-  List,
-  Button,
-  TextareaItem,
-  DatePicker,
-  Toast,
-} from "@ant-design/react-native";
-import {
-  init,
-  Geolocation,
-  addLocationListener,
-  start,
-  stop,
-} from "react-native-amap-geolocation";
-import dayjs from "dayjs";
-import { apiProd } from "../../../config";
-import { RadioGroup, RadioButton } from "react-native-flexi-radio-button";
-import { scaleSize, scaleFont } from "../../../utils/scaleUtil";
-import { bindActions, bindState, connect } from "./../../../redux";
-const imgUrl = {
-  arrowIcon: require("../../../assets/register/arrow_bottom.png"),
-  avater: require("../../../assets/register/uploadAvater.png"),
-};
-class Register extends Component {
+import DateTimePicker from './../../../components/dateTimePicker';
+import { scaleFont } from '../../../utils/scaleUtil';
+import * as Toast from '../../../utils/toast'
+import CheckBox from './../../../components/checkBox'
+import { bindActions, bindState, connect } from '../../../redux';
+import SelectType from './../../../components/selectType'
+import moment from 'moment'
+import { ScrollView } from 'react-native-gesture-handler';
+
+const isiPhone = Platform.OS === 'ios'
+const genderOptions = [
+  {label: '男', value: 2},
+  {label: '女', value: 1 }
+]
+class Register extends Component{
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      registerForm: {
-        headPicUrl: "",
-        name: "",
-        lng: "116.462595",
-        lat: "40.005258",
-        locationStr: "北京市朝阳区",
-        birthdayTimeStamp: undefined,
-        sex: undefined,
-        introduction: "",
-        phoneNumber: props.route.params && props.route.params.phoneNumber,
-      },
-      tips: {
-        headPicUrl: "头像不能为空~",
-        name: "名字不能为空",
-        locationStr: "地址不能为空~",
-        birthdayTimeStamp: "生日不能为空~",
-        sex: "性别也要加上~",
-      },
-    };
+      avatarUrl: '',
+      name: '',
+      lng: '116.462595',
+      lat: '40.005258',
+      locationStr: '北京市朝阳区',
+      birthdayTimeStamp: +new Date(),
+      sex: genderOptions[0].value,
+      hobbyTagNameList: [],
+      introduction: '',
+      // phoneNumber: props.route.params && props.route.params.phoneNumber,
+      phoneNumber: 15726633677,
+      birthdayDate: moment().format('YYYY-MM-DD'),
+      showDateTimePicker: false,
+      step: 1
+    }
+    this.intervalId = null
+    this.scrollView = React.createRef()
+    props.setModalLoading(false, '上传中')
   }
 
-  confirmBirthday(value) {
-    this.setState({
-      birthdayTimeStamp: value,
-    });
+
+  /**
+   * 设置表单数据
+   * @param {String} key 
+   * @param {String} value 
+   */
+  setFormData = (key, value) => {
+    const options = {}
+    options[key] = value
+    this.setState(options)
   }
 
-  changePosition(val) {
-    console.log(val);
+  /**
+   * 校验表单数据
+   */
+  verifyForm = () => {
+    const { avatarUrl, name, introduction, locationStr } = this.state
+    return {
+      locationStrVaild: !!locationStr,
+      nameVaild: !!name,
+      avatarUrl: !!avatarUrl,
+      introduction: !!introduction,
+    }
   }
 
-  next() {
-    let failFlag = "";
-    for (let key in this.state.registerForm) {
-      if (!this.state.registerForm[key]) {
-        failFlag = key;
-        break;
+
+  uploadImage = async (uri) => {
+    try {
+      const headers = { 'Content-Type': 'multipart/form-data' }
+      const formData = new FormData();
+      formData.append("imgFile", { uri, type: "multipart/form-data", name: `trend${new Date().getTime()}.jpg` });
+      this.props.setModalLoading(true, '上传中')
+      const { success, msg, data } = await this.props.post('/common/uploadImageNoAuth', formData, headers)
+      this.props.setModalLoading(false)
+      if (success) {
+        this.setState({ avatarUrl: data.url })
+      } else {
+        Toast.toast('上传失败，请重试')
       }
+    } catch(e) {
+      console.log('e', e)
+      this.props.setModalLoading(false)
+      Toast.toast('上传失败，请重试')
     }
-    if (failFlag) {
-      Toast.fail(this.state.tips[failFlag]);
-      return;
-    }
-    this.props.navigation.navigate("Hobby", {
-      ...this.state.registerForm,
-      birthday: dayjs(this.state.registerForm.birthdayTimeStamp).format(
-        "YYYY-MM-DD"
-      ),
-    });
   }
 
-  changeDate(val) {
-    this.setState({
-      registerForm: {
-        ...this.state.registerForm,
-        birthdayTimeStamp: val,
-      },
-    });
-  }
-  onSelectSex(value) {
-    this.setState({
-      registerForm: {
-        ...this.state.registerForm,
-        sex: value + 1,
-      },
-    });
-  }
-
-  choosePicture() {
+  chooseImage = async () => {
     this.setState({});
     const options = {
       title: "选择图片",
@@ -132,269 +131,329 @@ class Register extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ");
-      } else {
-        console.log("图片文件", response);
-
-        let formData = new FormData();
-        const uri = Platform.OS === "ios" ? "data:image/jpeg;base64," + response.data : response.uri
-        console.log('uri', uri)
-        formData.append("imgFile", { 
-          uri,
-          type: "multipart/form-data",
-          name: "trend" + new Date().getTime() + ".jpg",
-        });
-
-        let currentHeader;
-        if (Platform.OS === "ios") {
-          currentHeader = {
-            "Content-Type": "multipart/form-data;charset=utf-8",
-          };
+      const { data, uri } = response
+      if (data) {
+        if (isiPhone) {
+          this.uploadImage(`data:image/jpeg;base64,${data}`)
         } else {
-          currentHeader = {
-            Accept: "application/json",
-          };
-        }
-        fetch(apiProd.host + "common/uploadImageNoAuth", {
-          method: "POST",
-          headers: currentHeader,
-          body: formData,
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-              console.log('res', res)
-            this.setState({
-              registerForm: {
-                ...this.state.registerForm,
-                headPicUrl: res.data.url,
-              },
-            });
-          })
-          .catch((e) => {
-            console.log("上传失败:", e);
-          });
+          this.uploadImage(uri)
+        } 
       }
     });
   }
+
+  onComplete = (date) => {
+    this.setState({ 
+      showDateTimePicker: false,
+      birthdayDate: moment(date).format('YYYY-MM-DD')
+    })
+    this.setFormData('birthdayTimeStamp', date)
+  }
+
+  onCheckboxChange = (item) => {
+    const { value } = item
+    this.setFormData('sex', value)
+  }
+
+  toNextStep = () => {
+    const { nameVaild, avatarUrl, locationStrVaild } = this.verifyForm()
+    if (!avatarUrl) {
+      return Toast.toast('请上传头像')
+    }
+    if (!nameVaild) {
+      return Toast.toast('请输入昵称')
+    }
+    if (!locationStrVaild) {
+      return Toast.toast('请输入常住地')
+    }
+    this.setState({
+      step: 2
+    })
+  }
+
+  toRegiste = () => {
+    const payload = {
+      birthday: "string",
+      headPicUrl: "string",
+      hobbyTagNameList: [
+        "string"
+      ],
+      introduction: "string",
+      lat: 0,
+      lng: 0,
+      locationStr: "string",
+      loginToken: "string",
+      name: "string",
+      phoneNumber: "string",
+      sex: "string",
+      uid: 0
+    }
+    console.log('this.staet', this.state)
+  }
+
   render() {
-    let data = this.state.registerForm;
+    const { avatarUrl, step } = this.state
     return (
-      <Provider>
-        <Fragment>
-          <SafeAreaView style={{ flex: 0, backgroundColor: "white" }} />
-          <View style={styles.bgWrapper}>
-            <List style={styles.registerForm}>
-              <TouchableOpacity
-                style={styles.flexImg}
-                onPress={() => this.choosePicture()}
-              >
-                <Image
-                  source={
-                    data.headPicUrl
-                      ? { uri: data.headPicUrl.replace("https", "http") }
-                      : imgUrl.avater
-                  }
-                  style={styles.avaterIcon}
-                />
-                <Text style={styles.label}>上传头像</Text>
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.loginContainer} >
+        <TouchableOpacity activeOpacity={1} style={styles.loginContainer} onPress={Keyboard.dismiss}>
+          <SafeAreaView />
+          {
+          step === 1 
+          ? <ScrollView style={styles.loginContainer} ref={this.scrollView}>
+            <View style={styles.topContainer}>
+              <TouchableOpacity onPress={this.chooseImage}>
+                <ImageBackground style={styles.avatarContainer} source={require("../../../assets/register/uploadAvater.png")}>
+                  { avatarUrl ? <Image style={styles.avatarContainer} source={{ uri: avatarUrl.replace("https", "http") }} /> : null }
+                </ImageBackground>
               </TouchableOpacity>
-              <View style={styles.flexBox}>
-                <Text style={styles.label}>昵称</Text>
+              { !avatarUrl ? <Text style={styles.uploadImageLabel}>上传头像</Text> : null }
+            </View>
+            <View style={styles.infoContainer}>
+              <View style={styles.formItem}>
+                <Text style={styles.formLabel}>昵称：</Text>
                 <TextInput
-                  value={data.name}
-                  onChangeText={(val) =>
-                    this.setState({
-                      registerForm: {
-                        ...data,
-                        name: val,
-                      },
-                    })
-                  }
-                  style={styles.formItem}
+                  clearButtonMode='while-editing'
+                  style={styles.input}
+                  onChangeText={v => this.setFormData('name', v)}
                 />
               </View>
-              <View style={styles.flexBox}>
-                <Text style={styles.label}>常驻地</Text>
-                {data.locationStr ? (
-                  <Text style={styles.formItem}>{data.locationStr}</Text>
-                ) : (
-                  <Image source={imgUrl.arrowIcon} style={styles.arrowIcon} />
-                )}
-              </View>
-              <View style={styles.dateBox}>
-                <DatePicker
-                  value={
-                    data.birthdayTimeStamp && new Date(data.birthdayTimeStamp)
-                  }
-                  mode="date"
-                  minDate={new Date(1970, 1, 1)}
-                  maxDate={new Date(2020, 1, 1)}
-                  onChange={(val) => this.changeDate(val)}
-                  format="YYYY-MM-DD"
-                >
-                  <List.Item arrow="horizontal">
-                    <Text style={styles.dateLabel}>出生日期</Text>
-                  </List.Item>
-                </DatePicker>
-              </View>
-              <View style={styles.flexBox}>
-                <Text style={styles.label}>性别</Text>
-                <RadioGroup
-                  style={styles.sexBox}
-                  onSelect={(value) => this.onSelectSex(value)}
-                >
-                  <RadioButton value={1}>
-                    <Text>女</Text>
-                  </RadioButton>
-                  <RadioButton value={2}>
-                    <Text>男</Text>
-                  </RadioButton>
-                </RadioGroup>
-              </View>
-              <View>
-                <TextareaItem
-                  placeholder="描述一下自己吧..."
-                  style={styles.introduction}
-                  rows={4}
-                  value={data.introduction}
-                  onChange={(val) =>
-                    this.setState({
-                      registerForm: {
-                        ...data,
-                        introduction: val,
-                      },
-                    })
-                  }
+              <View style={styles.formItem}>
+                <Text style={styles.formLabel}>常住地：</Text>
+                <TextInput
+                  clearButtonMode='while-editing'
+                  style={styles.input}
+                  value={this.state.locationStr}
+                  onChangeText={v => this.setFormData('city', v)}
                 />
               </View>
-              <Button style={styles.registerBtnBox} onPress={() => this.next()}>
-                <Text style={styles.registerBtnText}>下一步</Text>
-              </Button>
-            </List>
-          </View>
-        </Fragment>
-      </Provider>
-    );
+              <TouchableOpacity style={styles.formItem} onPress={() => this.setState({ showDateTimePicker: true })}>
+                <Text style={styles.formLabel}>出生日期：</Text>
+                <Text style={[styles.birthdayDate]}>{this.state.birthdayDate}</Text>
+              </TouchableOpacity>
+              <View style={[styles.formItem, styles.noBorder]}>
+                <Text style={styles.formLabel}>性别：</Text>
+                <View style={styles.genderbox}>
+                  <CheckBox onChange={this.onCheckboxChange} options={genderOptions}/>
+                </View>
+              </View>
+              <View style={styles.textareaContainer}>
+                <TextInput 
+                  style={styles.textarea}
+                  clearButtonMode='while-editing'
+                  multiline={true}
+                  maxLength={40}
+                  onBlur={() => this.scrollView.current.scrollTo({ x: 0, y: 0, animated: true })}
+                  onFocus={() => this.scrollView.current.scrollTo({ x: 0, y: 750, animated: true })}
+                  onChangeText={v => this.setFormData('introduction', v)}
+                  placeholder='请描述一下自己吧...'
+                ></TextInput>
+                <Text style={styles.count}>{this.state.introduction.length}/40</Text>
+              </View>
+            </View>
+            
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity activeOpacity={0.8} style={styles.loginButton} onPress={this.toNextStep}>
+                <Text style={styles.loginButtonText}>下一步</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+          : <View style={styles.loginContainer}>
+              <View style={styles.selectTypeTitleContainer}>
+                <Text style={styles.selectTypeTitle}>选择你喜欢的</Text>
+              </View>
+              <ScrollView style={styles.selectTypeContainer}>
+                <SelectType onChange={v => this.setFormData('hobbyTagNameList', v)}/>
+              </ScrollView>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.registerButton} onPress={this.toRegiste}>
+                  <Text style={styles.registerButtonText}>开启探熊之旅</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          }
+          <DateTimePicker
+            show={this.state.showDateTimePicker}
+            onComplete={this.onComplete}
+            onCancel={() => this.setState({ showDateTimePicker: false })}
+          />
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    )
   }
 }
 
 const styles = StyleSheet.create({
-  bgWrapper: {
-    backgroundColor: "#fff",
-    height: "100%",
+  loginContainer: {
+    flex: 1,
+    backgroundColor: '#fff'
   },
-  flexImg: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    marginTop: scaleSize(150),
-    marginBottom: scaleSize(100),
-    alignItems: "center",
-    textAlign: "center",
-    borderWidth: 0,
+  topContainer: {
+    height: 150,
+    marginTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
-  avaterIcon: {
-    alignSelf: "center",
-    width: scaleSize(280),
-    height: scaleSize(280),
-    marginBottom: scaleSize(50),
-    borderRadius: scaleSize(140),
-    backgroundColor: "#000",
+  avatarContainer: {
+    height: 100,
+    width: 100,
+    borderRadius: 100,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ccc',
+    // borderWidth: 1,
+    // borderColor: 'rgba(169,169,169,0.5)',
+    overflow: 'hidden',
   },
-  registerForm: {
-    paddingLeft: scaleSize(110),
-    paddingRight: scaleSize(110),
-  },
-  label: {
-    fontSize: scaleFont(42),
-    color: "#999999",
-    width: scaleSize(200),
-  },
-  birthdayLabel: {
-    fontSize: scaleFont(42),
-    color: "#999999",
-  },
-  birthdayBox: {
-    marginBottom: scaleSize(87),
-    paddingBottom: scaleSize(36),
-    paddingLeft: 0,
-    paddingRight: 0,
-    color: "#999999",
-  },
-  arrowIcon: {
-    width: scaleSize(60),
-    height: scaleSize(60),
-    marginLeft: scaleSize(6),
-  },
-  flexBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: scaleSize(2),
-    borderBottomColor: "#eee",
-    marginBottom: scaleSize(87),
-    paddingBottom: scaleSize(36),
+  uploadImageLabel: {
+    fontSize: scaleFont(30),
+    color:'#999999'
   },
   formItem: {
-    flex: 1,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(169,169,169,0.2)',
+    marginBottom: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  formLabel: {
+    color: '#999999',
+    height: 40,
+    lineHeight: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
     fontSize: scaleFont(42),
-    margin: 0,
-    padding: 0,
-    textAlign: "left",
-    color: "#999999",
   },
-  description: {
-    width: "100%",
-    height: scaleSize(300),
-    borderWidth: scaleSize(3),
-    padding: scaleSize(10),
-    borderColor: "#f2f2f2",
-    borderTopWidth: scaleSize(3),
+  title: {
+    fontSize: scaleFont(56),
+    color: '#564F5F',
   },
-  registerBtnBox: {
-    width: "100%",
-    height: scaleSize(120),
-    borderRadius: scaleSize(40),
-    backgroundColor: "#8A8DF9",
-    marginTop: scaleSize(70),
+  infoContainer: {
+    padding: 15,
+    marginBottom: 30
   },
-  registerBtnText: {
-    color: "#fff",
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 30,
+    height: 100,
   },
-  sexBox: {
+  birthdayDate: {
     flex: 1,
-    display: "flex",
-    justifyContent: "space-around",
-    flexDirection: "row",
+    lineHeight: 40,
+    color: '#999999',
+    textAlign: 'right',
   },
-  radio: {
-    borderWidth: scaleSize(1),
-    borderColor: "#999",
-    margin: scaleSize(10),
+  arrowImage: {
+    height: 25,
+    width: 25,
+    marginLeft: 10,
   },
-  dateLabel: {
-    color: "#999999",
-    fontSize: scaleSize(42),
+  input: {
+    flex: 1,
+    height: 40,
+    alignItems: 'center',
+    fontSize: scaleFont(42),
+    color: '#999999',
+    textAlign:'right'
   },
-  dateBox: {
-    marginLeft: scaleSize(-40),
-    marginTop: scaleSize(-70),
-    marginBottom: scaleSize(50),
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
+  noBorder: {
+    borderBottomWidth: 0
   },
-  introduction: {
-    width: scaleSize(850),
+  signButton: {
+    height: 40,
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-});
-
-export default connect(bindState, bindActions)(Register);
+  buttonText: {
+    fontSize: scaleFont(36),
+    color: '#564F5F'
+  },
+  buttonDisable: {
+    color: '#888889'
+  },
+  loginButton: {
+    height: 40,
+    width: 350,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#8A8DF9',
+    borderRadius: 20,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: scaleFont(45),
+  },
+  toHomeContainer: {
+    height: 40,
+    width: 80,
+    marginTop: 10,
+    marginLeft: 30,
+    justifyContent: 'center',
+  },
+  toHomeText: {
+    height: 30,
+    lineHeight: 30,
+    fontSize: scaleFont(32),
+    color: '#888889'
+  },
+  genderbox: {
+    flex: 1,
+    height: '100%',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  textarea: {
+    width: '100%',
+    height: 200,
+    lineHeight: 25,
+    padding: 10,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(169,169,169,0.2)',
+    color: '#888889'
+  },
+  textareaContainer: {
+    height: 200,
+  },
+  count: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    color: '#888889'
+  },
+  selectTypeContainer: {
+    flex: 1,
+  },
+  selectTypeTitle: {
+    fontSize: 20,
+    color: '#888889',
+  },
+  selectTypeTitleContainer: {
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  registerButton: {
+    height: 50,
+    width: 200,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOffset: { width: 0, height: 5 },
+    shadowColor: 'rgba(2,41,93,0.18)',
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    marginBottom: 100,
+    borderRadius: 50
+  },
+  registerButtonText: {
+    fontSize: 18,
+    fontWeight: '500'
+  }
+})
+export default connect(bindState, bindActions)(Register)

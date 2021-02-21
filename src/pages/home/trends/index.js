@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:57:04
- * @LastEditTime : 2021-01-30 17:33:05
+ * @LastEditTime : 2021-02-21 11:56:22
  * @FilePath     : /src/pages/home/trends/index.js
  */
 /**
@@ -71,10 +71,6 @@ class Trends extends React.Component {
     const { feedDetailVOList, isRefreshing } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <Button onPress={() => this.toSendMeessage(80)}><Text>发送到80</Text></Button>
-          <Button onPress={() => this.toSendMeessage(81)}><Text>发送到81</Text></Button>
-        </View>
         <FlatList
           style={styles.list}
           data={feedDetailVOList}

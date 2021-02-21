@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-23 19:52:34
- * @LastEditTime : 2021-01-30 17:29:46
+ * @LastEditTime : 2021-02-21 11:59:29
  * @FilePath     : /src/pages/home/index.js
  */
 import React, { Fragment } from "react";
@@ -16,7 +16,7 @@ import {
 import { bindState, bindActions, connect } from './../../redux'
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import CustomTabBar from "../../components/scrollable_tab_bar/CustomTabBar";
-import Activities from "./activities";
+import Relations from "./relations";
 import Trends from "./trends";
 import NotLogin from './../../components/notLogin'
 import {
@@ -166,7 +166,7 @@ class Home extends React.Component {
               <Trends {...this.props} toSendMeessage={this.toSendMeessage}/>
             </View>
             <View style={styles.container} tabLabel="关系网">
-              { userInfo.uid ? <Activities {...this.props}/> : <NotLogin {...this.props}/> }
+              { userInfo.uid ? <Relations {...this.props}/> : <NotLogin {...this.props}/> }
             </View>
           </ScrollableTabView>
         </SafeAreaView>

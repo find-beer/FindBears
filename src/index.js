@@ -2,13 +2,10 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-19 22:55:47
- * @LastEditTime : 2021-01-30 15:21:20
+ * @LastEditTime : 2021-02-21 22:03:42
  * @FilePath     : /src/index.js
  */
 import React from 'react';
-import {
-  Modal
-} from 'react-native'
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -23,11 +20,11 @@ import Loading from './components/loading'
 //============================================
 
 import Splash from "./pages/splash";
-import Activities from "./pages/home/activities";
+import Relations from "./pages/home/relations";
 import PublishTrend from "./pages/publish/publishTrend";
 
 
-import Register from "./pages/account/registry";
+import Register from "./pages/account/register";
 
 
 
@@ -69,7 +66,7 @@ const MainStack = () => {
       <Stack.Screen name='Tab' component={TabStack}  options={{ headerShown: false }}/>
       {/* ========================================================== */}
       <Stack.Screen name='Splash'   component={Splash}/>
-      <Stack.Screen name='Activities'   component={Activities}/>
+      <Stack.Screen name='Relations'   component={Relations}/>
       <Stack.Screen name='PublishTrend'   component={PublishTrend}/>
       <Stack.Screen name='Hobby'   component={Hobby}/>
       <Stack.Screen name='QrCode'   component={QrCode}/>
@@ -106,7 +103,7 @@ const AuthStack = () => {
   const Stack = createStackNavigator()
   return (
     <Stack.Navigator headerMode='none'>
-      <Stack.Screen name='Login'     component={Login}/>
+      {/* <Stack.Screen name='Login'     component={Login}/> */}
       <Stack.Screen name='Register'  component={Register}/>
     </Stack.Navigator>
   )
@@ -120,7 +117,7 @@ export default () => {
       <PersistGate loading={<Loading />} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator headerMode='none' mode='modal'>
-            <Stack.Screen name='Main'     component={MainStack}/>
+            {/* <Stack.Screen name='Main'     component={MainStack}/> */}
             <Stack.Screen name='Auth'     component={AuthStack}/>
             <Stack.Screen name='PublishActive'   component={PublishActive}/>
           </Stack.Navigator>
