@@ -71,7 +71,7 @@ export default class Mine extends Component{
 		this.props.navigation.navigate('RelationChain', {uid: this.state.personalInfo.uid})
 	}
 	// 关注
-		handleConcer = () => {
+	handleConcer = () => {
 		GetRequest(`/userRelation/follow/${this.state.personalInfo.uid}`).then(() => {
 			this.initPage();
 		})

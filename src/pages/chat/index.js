@@ -106,7 +106,11 @@ export default class Chat extends React.Component {
 
     componentDidMount() {
         // this.startLogin()
-    }
+		}
+		
+		handleAddFriend = () => {
+			this.props.navigation.navigate('DigFriend')
+		}
 
     render() {
 
@@ -115,7 +119,13 @@ export default class Chat extends React.Component {
 
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} noLeft title={'消息'} right={'添加好友'}/>
+            <Header 
+								{...this.props} 
+								noLeft 
+								title={'消息'} 
+								right={'添加好友'}
+								onRightClick={this.handleAddFriend}
+							/>
 
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => {

@@ -83,9 +83,9 @@ export default class ActivityDetail extends React.Component {
     }
 
     handleConcer = (uid) => {
-        GetRequest(`/userRelation/follow/${uid}`).then(() => {
-			this.requireDeviceData();
-		})
+      GetRequest(`/userRelation/follow/${uid}`).then(() => {
+				this.requireDeviceData();
+			})
     }
 
     render() {

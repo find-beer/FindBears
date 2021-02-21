@@ -1,7 +1,16 @@
 import React,{
   Fragment
 } from 'react';
-import {StyleSheet, View, SafeAreaView,Text,Image,TextInput,TouchableOpacity} from 'react-native';
+import {
+  StyleSheet, 
+  View, 
+  SafeAreaView,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity
+} from 'react-native';
+import {Provider, Toast} from '@ant-design/react-native';
 import {GetRequest} from "../../../utils/request";
 import Header from '../../../components/header/index'
 import { scaleSize,scaleFont } from '../../../utils/scaleUtil';
@@ -13,6 +22,7 @@ export default class DigFriends extends React.Component {
     super(props);
     this.state = {
       searchString:'',
+      searchResult:{},
       requestList:[{
         headPic:'',
         requestName:'李二狗',
@@ -26,9 +36,37 @@ export default class DigFriends extends React.Component {
       }]
     }
   }
+
+  handleSearchFriend = (val) => {
+    this.setState({
+      searchString:val
+    })
+    this.setState({searchResult:{}})
+    if(val.length === 11) {
+      GetRequest(`/user/getUserByPhoneNumber/${val}`).then(res => {
+        this.setState({
+          searchResult: res.data
+        })
+      })
+      return;
+    }
+  }
+
+  handleAddFriend = () => {
+    if(this.state.searchResult.uid){
+      GetRequest(`/userRelation/addFriend/${this.state.searchResult.uid}`).then(res => {
+        if(res.code === 0){
+          Toast.success(res.msg || '添加成功');
+        }else{
+          Toast.fail(res.msg || '添加失败，请稍后重试');
+        }
+      })
+    }
+  }
   render(){
     return(
-      <Fragment>
+      <Provider>
+        <Fragment>
 				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
         <SafeAreaView style={styles.container}>
           <Header {...this.props} title="挖好友" left={null} />
@@ -38,10 +76,30 @@ export default class DigFriends extends React.Component {
                 <TextInput 
                   style={styles.search_input}
                   placeholder="输入手机号/探熊号" 
-                  value={this.state.searchString}/>
+                  value={this.state.searchString}
+                  onChangeText={(val) => this.handleSearchFriend(val)}
+                  />
               </View>
             </View>
           </View>
+          {this.state.searchResult?.name && 
+            <View style={styles.searchList}>
+              <View style={styles.list_item}>
+                <Image style={styles.head_pic} source={this.state.searchResult.headPicUrl?{uri:this.state.searchResult.headPicUrl.replace('https','http')}:defaultHeader}/>
+                <View style={styles.info_box}>
+                  <Text style={styles.request_name}>
+                    {this.state.searchResult.name}
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={this.handleAddFriend}>
+                  <View style={styles.add_btn}>
+                    <Text style={styles.btn_txt}>添加好友</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.line}></View>
+            </View>
+          }
           <View style={styles.operate_item}>
             <Text style={styles.label}>扫一扫</Text>
             <Image style={styles.arrow} source={arrowIcon}/>
@@ -88,6 +146,7 @@ export default class DigFriends extends React.Component {
           </View>
       </SafeAreaView>
       </Fragment>
+      </Provider>
     )
   }
 }
@@ -164,6 +223,16 @@ const styles = StyleSheet.create({
     fontSize:scaleFont(40),
     color:'#999'
   },
+  add_btn: {
+    width:scaleSize(230),
+    height:scaleSize(70),
+    borderRadius:scaleSize(8),
+    backgroundColor:'#e2e1e8',
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+  },
   view_btn:{
     width:scaleSize(130),
     height:scaleSize(70),
@@ -186,5 +255,8 @@ const styles = StyleSheet.create({
   request_info:{
     fontSize:scaleFont(40),
     color:'#999'
+  },
+  searchList:{
+    marginTop:scaleSize(20)
   }
 })
