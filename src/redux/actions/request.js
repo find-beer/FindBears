@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 21:33:27
- * @LastEditTime : 2021-01-24 23:47:07
+ * @LastEditTime : 2021-02-23 22:38:42
  * @FilePath     : /src/redux/actions/request.js
  */
 export const get = (url, payload, config) => ({
@@ -20,6 +20,7 @@ export const get = (url, payload, config) => ({
 export const post = (url, payload, config) => ({
   type: 'POST',
   request(axios, headers) {
+    console.log('payload ------> ', payload)
     return axios.post(url, payload, { 
       headers: {
         ...headers,

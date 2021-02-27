@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-24 22:04:22
- * @LastEditTime : 2021-02-21 22:04:19
+ * @LastEditTime : 2021-02-23 22:59:22
  * @FilePath     : /src/pages/account/register/index.js
  */
 import React, { Component } from 'react'
@@ -48,8 +48,7 @@ class Register extends Component{
       sex: genderOptions[0].value,
       hobbyTagNameList: [],
       introduction: '',
-      // phoneNumber: props.route.params && props.route.params.phoneNumber,
-      phoneNumber: 15726633677,
+      phoneNumber: props.route.params && props.route.params.phoneNumber,
       birthdayDate: moment().format('YYYY-MM-DD'),
       showDateTimePicker: false,
       step: 1
@@ -171,24 +170,35 @@ class Register extends Component{
     })
   }
 
-  toRegiste = () => {
+  toRegiste = async () => {
+    const { avatarUrl, birthdayDate, hobbyTagNameList, introduction, lat,  lng, locationStr, name, phoneNumber, sex }  = this.state
     const payload = {
-      birthday: "string",
-      headPicUrl: "string",
-      hobbyTagNameList: [
-        "string"
-      ],
-      introduction: "string",
-      lat: 0,
-      lng: 0,
-      locationStr: "string",
-      loginToken: "string",
-      name: "string",
-      phoneNumber: "string",
-      sex: "string",
-      uid: 0
+      birthday: birthdayDate,
+      headPicUrl: avatarUrl,
+      hobbyTagNameList,
+      introduction,
+      lat,
+      lng,
+      locationStr,
+      name,
+      phoneNumber,
+      sex,
     }
-    console.log('this.staet', this.state)
+    try {
+      this.props.setModalLoading(true, '注册中')
+      const { success, data } = await this.props.post('/user/signUp', payload)
+      this.props.setModalLoading(false)
+      if (success) {
+        Toast.toast('注册成功', () => {
+          this.props.setUserInfo(data)
+          this.props.navigation.goBack(2)
+        })
+      } else {
+        Toast.toast('注册失败，请重试')
+      }
+    } catch(e) {
+      console.log('er', e)
+    }
   }
 
   render() {

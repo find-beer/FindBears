@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-19 22:55:47
- * @LastEditTime : 2021-02-21 22:03:42
+ * @LastEditTime : 2021-02-23 22:59:00
  * @FilePath     : /src/index.js
  */
 import React from 'react';
@@ -103,7 +103,7 @@ const AuthStack = () => {
   const Stack = createStackNavigator()
   return (
     <Stack.Navigator headerMode='none'>
-      {/* <Stack.Screen name='Login'     component={Login}/> */}
+      <Stack.Screen name='Login'     component={Login}/>
       <Stack.Screen name='Register'  component={Register}/>
     </Stack.Navigator>
   )
@@ -117,7 +117,7 @@ export default () => {
       <PersistGate loading={<Loading />} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator headerMode='none' mode='modal'>
-            {/* <Stack.Screen name='Main'     component={MainStack}/> */}
+            <Stack.Screen name='Main'     component={MainStack}/>
             <Stack.Screen name='Auth'     component={AuthStack}/>
             <Stack.Screen name='PublishActive'   component={PublishActive}/>
           </Stack.Navigator>
