@@ -51,8 +51,7 @@ export default class ActivityItem extends Component {
                     <View style={styles.outs}>
                         <TouchableOpacity onPress={() =>this.handlegoStrangerPage()}>
                             <Image
-                                resizeMode='contain'
-                                source={{uri: get(activity.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg')}}
+                                source={{uri: get(activity.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg').replace('https','http')}}
                                 style={styles.avatar}
                             />
                         </TouchableOpacity>

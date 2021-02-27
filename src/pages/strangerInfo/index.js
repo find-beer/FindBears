@@ -25,6 +25,7 @@ import DynamicTab from '../mine/index/dynamicTab';
 import PersonalInfo from '../mine/index/personalInfo';
 import {GetRequest} from '../../utils/request';
 import {scaleSize, scaleFont} from '../../utils/scaleUtil';
+import AsyncStorage from "@react-native-community/async-storage";
 
 const imageUrl = {
     configIcon: require('../../assets/mine/download-icon.png'),
@@ -47,13 +48,20 @@ export default class Mine extends Component{
 		super(props)
 		this.state = {
 			personalInfo : {},
-			isFriend:true,
-			uid:this.props.navigation.state.params.uid
+			uid:this.props.navigation.state.params.uid,
+			loginUser:{}
 		}
 	}
 	
 	componentDidMount(){
 		this.initPage()
+		AsyncStorage.getItem('userInfo', (error, result) => {
+			if(result){
+				this.setState({
+					loginUser: result
+				})
+			}
+		})
 	}
 	initPage = () => {
 		GetRequest('user/userInfo',{userId:this.state.uid}).then(res => {
@@ -90,47 +98,38 @@ export default class Mine extends Component{
 									</View>
 							</ImageBackground>
 							<View style={styles.operateBox}>
-								{
-									this.state.isFriend
-									?
-									<>
-										<View style={styles.chatBox}>
-											<TouchableOpacity onPress={this.handleChat}>
-												<View style={styles.centerStyle}>
-													<Image style={styles.operateIcon} source={imageUrl.relative}/>
-													<Text style={styles.operateText}>
-														聊天
-													</Text>
-												</View>
-											</TouchableOpacity>
+								<View style={styles.chatBox}>
+									<TouchableOpacity onPress={this.handleChat}>
+										<View style={styles.centerStyle}>
+											<Image style={styles.operateIcon} source={imageUrl.relative}/>
+											<Text style={styles.operateText}>
+												聊天
+											</Text>
 										</View>
-										{
-											// 好友
-											this.state.personalInfo.friend &&
-											<View style={styles.relativeBox}>
-												<TouchableOpacity  onPress={this.handleRealtiveLine}>
-													<View style={styles.centerStyle}>
-														<Image style={styles.operateIcon} source={imageUrl.relative}/>
-														<Text style={styles.operateText}>关系链</Text>
-													</View>
-												</TouchableOpacity>
+									</TouchableOpacity>
+								</View>
+								{/* {
+									this.state.personalInfo.friend &&
+									<View style={styles.relativeBox}>
+										<TouchableOpacity  onPress={this.handleRealtiveLine}>
+											<View style={styles.centerStyle}>
+												<Image style={styles.operateIcon} source={imageUrl.relative}/>
+												<Text style={styles.operateText}>关系链</Text>
 											</View>
-										}
-										{
-											// 非好友，且是商家
-											!this.state.personalInfo.friend && this.state.personalInfo.userType === 1 &&
-											<View style={styles.relativeBox}>
-												<TouchableOpacity onPress={this.handleConcer}>
-													<View style={styles.centerStyle}>
-														<Image style={styles.operateIcon} source={imageUrl.relative}/>
-														<Text style={styles.operateText}>{this.state.personalInfo.isConcer?'已关注':'关注'}</Text>
-													</View>
-												</TouchableOpacity>
+										</TouchableOpacity>
+									</View>
+								} */}
+								{
+									// 非好友，普通人进入商家
+									!this.state.personalInfo.friend && this.state.personalInfo.userType === 1 && this.state.loginUser.userType === 2 &&
+									<View style={styles.relativeBox}>
+										<TouchableOpacity onPress={this.handleConcer}>
+											<View style={styles.centerStyle}>
+												<Image style={styles.operateIcon} source={imageUrl.relative}/>
+												<Text style={styles.operateText}>{this.state.personalInfo.isConcer?'已关注':'关注'}</Text>
 											</View>
-										}
-									</>
-									:
-									<View style={styles.chatBox}></View>
+										</TouchableOpacity>
+									</View>
 								}
 							</View>
 							<View style={styles.lineSpace}/>

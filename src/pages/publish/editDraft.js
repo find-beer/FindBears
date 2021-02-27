@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
     draft: {
         height: 60,
         width: screenW / 2,
-        backgroundColor: '#cdcdcd',
+        backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -431,5 +431,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    txt: {color: 'white', fontSize: 16},
+    txt: {color: '#564F5F', fontSize: 16},
 });

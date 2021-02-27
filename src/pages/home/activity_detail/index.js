@@ -14,13 +14,15 @@ import {screenW} from "../../../constants";
 import {RichEditor} from "react-native-pell-rich-editor";
 import EventBus from '../../../utils/EventBus';
 import { scaleSize } from '../../../utils/scaleUtil';
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default class ActivityDetail extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            id: props.navigation.state.params.id,
+						id: props.navigation.state.params.id,
+						loginUser:{},
             data: {
                 activityTitle: '',
                 activityTime: '',
@@ -33,7 +35,14 @@ export default class ActivityDetail extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.navigation.goBack()
+			this.props.navigation.goBack()
+			AsyncStorage.getItem('userInfo', (error, result) => {
+				if(result){
+					this.setState({
+						loginUser: result
+					})
+				}
+			})
     }
 
     requireDeviceData = async () => {
@@ -101,11 +110,13 @@ export default class ActivityDetail extends React.Component {
                     <Text style={styles.userName}>{userVO?.userName || '探熊'}</Text>
                 </View>
                 <View>
-                    <TouchableOpacity onPress={()=>this.handleConcer(userVO?.userId)}>
-                        <View style={styles.concerBtn}>
-                            <Text style={{color:'red'}}>关注</Text>
-                        </View>
-                    </TouchableOpacity>
+                    {this.state.loginUser.userType === 1 && 
+											<TouchableOpacity onPress={()=>this.handleConcer(userVO?.userId)}>
+												<View style={styles.concerBtn}>
+													<Text style={{color:'red'}}>关注</Text>
+												</View>
+											</TouchableOpacity>
+										}	
                 </View>
             </View>
             <ScrollView>
