@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:57:04
- * @LastEditTime : 2021-02-21 11:56:22
+ * @LastEditTime : 2021-02-28 13:00:39
  * @FilePath     : /src/pages/home/trends/index.js
  */
 /**
@@ -32,7 +32,6 @@ class Trends extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Trends this.props", this.props);
     this.getData();
   }
 
@@ -41,7 +40,7 @@ class Trends extends React.Component {
       <FeedItem
         {...this.props}
         loginUid={this.state.loginUid}
-        feed={rowData.item}
+        data={rowData.item}
         key={rowData.item.id}
       />
     );
@@ -49,12 +48,13 @@ class Trends extends React.Component {
 
   getData = async () => {
     try {
-      const { success, data } = await this.props.get("/feed/feeds", {
+      const payload = {
         random: 0,
         limit: 500,
         offsetId: 0,
         location: "123.18152,41.269402",
-      });
+      }
+      const { success, data } = await this.props.get("/feed/feeds", payload);
       if (success) {
         return this.setState({ feedDetailVOList: data.feedDetailVOList });
       }

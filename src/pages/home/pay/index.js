@@ -14,16 +14,16 @@ import {apiProd} from "../../../config";
 import {screenW} from "../../../constants";
 import XPay from "react-native-puti-pay";
 import SettingItem from "../../../components/setting_item";
-
-export default class Pay extends React.Component {
+import { connect, bindState, bindActions } from './../../../redux'
+class Pay extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: props.navigation.state.params.data,
-            user: props.navigation.state.params.user,
-            ticket: props.navigation.state.params.ticket,
-            time: props.navigation.state.params.time,
+            data: props.route.params.data,
+            user: props.route.params.user,
+            ticket: props.route.params.ticket,
+            time: props.route.params.time,
             phone: '',
             name: '',
             card: ''
@@ -59,19 +59,12 @@ export default class Pay extends React.Component {
             alert('请填写证件号码')
             return;
         }
-
-        console.log('===>', time, ticket, name, phone, card);
-
         try {
             PostRequest(apiProd.host + 'pay/info', params).then(res => {
-                console.log('支付结果', res);
-                console.log('支付串码', res.data);
                 XPay.setAlipayScheme('tbApp');
                 XPay.setAlipaySandbox(false);
                 if (res.code === 0) {
                     XPay.alipay(res.data, (res) => {
-                        console.log(res);
-                        console.log(res.result);
                         if (res.resultStatus === '9000') {
                             alert('订单支付成功');
                             navigation.navigate('Home')
@@ -82,7 +75,6 @@ export default class Pay extends React.Component {
                 }
             });
         } catch (e) {
-            console.log('支付报错', e);
         }
 
 
@@ -90,15 +82,12 @@ export default class Pay extends React.Component {
 
     getUserInfo = async () => {
         const response = await GetRequest('user/detail', {});
-        console.log('用户信息', response);
         this.setState({
             user: response.data
         })
     }
 
     componentDidMount() {
-        console.log('==data==>', this.state.data);
-        console.log('===>', this.state.ticket);
         this.getUserInfo()
     }
 
@@ -169,7 +158,7 @@ export default class Pay extends React.Component {
         </Fragment>;
     }
 }
-
+export default connect(bindState, bindActions)(Pay)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

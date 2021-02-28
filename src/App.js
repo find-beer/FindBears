@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:54:57
- * @LastEditTime : 2021-01-23 13:03:19
+ * @LastEditTime : 2021-02-28 12:38:26
  * @FilePath     : /src/App.js
  */
 /**
@@ -32,7 +32,6 @@ export default class App extends React.Component {
 
   getUserInfo = async () => {
     const response = await GetRequest("user/detail", {});
-    console.log("用户信息", response);
     this.setState({
       user: response.data,
     });

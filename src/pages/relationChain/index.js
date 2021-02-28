@@ -4,8 +4,8 @@ import { scaleSize,scaleFont } from '../../utils/scaleUtil';
 import Header from '../../components/header/index'
 import {GetRequest} from '../../utils/request';
 import AsyncStorage from "@react-native-community/async-storage";
-
-export default class relationChain extends Component {
+import { connect, bindActions, bindState } from './../../redux'
+class RelationChain extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -19,24 +19,23 @@ export default class relationChain extends Component {
 		}
 	}
 	componentWillMount(){
-		AsyncStorage.getItem('userInfo',(err,res) => {
-			res = JSON.parse(res);
-			this.setState({
-				personalInfo:{
-					pic:res.headPicUrl,
-					name:res.name,
-					token:res.token
-				}
-			})
-		});
+		const { headPicUrl, name, token  } = this.props.userInfo
+		this.setState({
+			personalInfo:{
+				pic:headPicUrl,
+				name: name,
+				token: token
+			}
+		})
 		this.initChain();
 	}
-	initChain(){
-		GetRequest('/user/relation').then(res => {
+	initChain = async () => {
+		const { succes, data, msg }  = await this.props.get('/user/relation')
+		if (success) {
 			this.setState({
-				relationChain:res.data || []
+				relationChain: data || []
 			})
-		})
+		}
 	}
 	render() {
 		let length = this.state.relationChain.length;
@@ -48,7 +47,6 @@ export default class relationChain extends Component {
 			<Fragment>
 				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
 				<SafeAreaView style={styles.main}>
-						<Header {...this.props} title="关系链" />
 						<View style={styles.container}>
 								{/*  基本信息 */}
 								<ImageBackground
@@ -164,7 +162,7 @@ export default class relationChain extends Component {
 		);
 	}
 }
-
+export default connect(bindState, bindActions)(RelationChain)
 const images = {
     bgIntro: require('../../assets/relationChain/bg-intro.png'),
     bearGray: require('../../assets/relationChain/bear-gray.png'),

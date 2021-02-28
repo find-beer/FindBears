@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-24 22:04:22
- * @LastEditTime : 2021-02-23 22:59:22
+ * @LastEditTime : 2021-02-28 12:38:33
  * @FilePath     : /src/pages/account/register/index.js
  */
 import React, { Component } from 'react'
@@ -28,6 +28,7 @@ import CheckBox from './../../../components/checkBox'
 import { bindActions, bindState, connect } from '../../../redux';
 import SelectType from './../../../components/selectType'
 import moment from 'moment'
+import { setStorage } from './../../../utils/storage'
 import { ScrollView } from 'react-native-gesture-handler';
 
 const isiPhone = Platform.OS === 'ios'
@@ -98,7 +99,6 @@ class Register extends Component{
         Toast.toast('上传失败，请重试')
       }
     } catch(e) {
-      console.log('e', e)
       this.props.setModalLoading(false)
       Toast.toast('上传失败，请重试')
     }
@@ -186,18 +186,22 @@ class Register extends Component{
     }
     try {
       this.props.setModalLoading(true, '注册中')
-      const { success, data } = await this.props.post('/user/signUp', payload)
+      const result = await this.props.post('/user/signUp', payload)
+      const { success, data } = result
       this.props.setModalLoading(false)
       if (success) {
         Toast.toast('注册成功', () => {
           this.props.setUserInfo(data)
-          this.props.navigation.goBack(2)
+          setStorage('userInfo', data)
+          this.props.navigation.navigate('Home')
         })
       } else {
         Toast.toast('注册失败，请重试')
       }
-    } catch(e) {
-      console.log('er', e)
+    } catch(error) {
+      Toast.toast('注册失败，请重试')
+    } finally{
+      this.props.setModalLoading(false)
     }
   }
 
@@ -213,7 +217,7 @@ class Register extends Component{
             <View style={styles.topContainer}>
               <TouchableOpacity onPress={this.chooseImage}>
                 <ImageBackground style={styles.avatarContainer} source={require("../../../assets/register/uploadAvater.png")}>
-                  { avatarUrl ? <Image style={styles.avatarContainer} source={{ uri: avatarUrl.replace("https", "http") }} /> : null }
+                  { !!avatarUrl ? <Image style={styles.avatarContainer} source={{ uri: avatarUrl.replace("https", "http") }} /> : null }
                 </ImageBackground>
               </TouchableOpacity>
               { !avatarUrl ? <Text style={styles.uploadImageLabel}>上传头像</Text> : null }

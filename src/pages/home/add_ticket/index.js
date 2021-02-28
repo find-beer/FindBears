@@ -53,8 +53,6 @@ export default class AddTicket extends React.Component {
             )
         }, () => {
             this.saveData(arr);
-            // console.log('当前票种数据', this.state.ticketVoList)
-            console.log('--->', arr)
         })
 
     }
@@ -92,7 +90,6 @@ export default class AddTicket extends React.Component {
                 navigation.goBack();
             }
         } catch (e) {
-            console.log('报错了', e);
         }
     }
 
@@ -102,8 +99,6 @@ export default class AddTicket extends React.Component {
     queryDraft = async () => {
         const response = await GetRequest('activity/querydraft', {});
         if (response.data) { //
-            console.log('存在草稿');
-            console.log(response.data);
             this.setState({
                 activityTitle: response.data.activityTitle,
                 memberCount: response.data.memberCount,
@@ -118,7 +113,6 @@ export default class AddTicket extends React.Component {
                 id: response.data.id,
             })
         } else { //
-            console.log('不存在草稿');
         }
     }
 

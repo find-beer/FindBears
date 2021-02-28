@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 21:34:14
- * @LastEditTime : 2021-01-24 22:55:11
+ * @LastEditTime : 2021-02-27 15:01:43
  * @FilePath     : /src/redux/reducers/index.js
  */
 import { combineReducers } from 'redux';
@@ -17,7 +17,7 @@ const reducers = {
     const { type, userInfo } = action
     switch(type) {
       case USER_INFO:
-        return userInfo
+        return { ...userInfo }
       default: 
         return state;
     }
@@ -47,7 +47,6 @@ const reducers = {
     const { type, navigation } = action
     switch(type) {
       case SET_NAVIGATION:
-        console.log('navigation', navigation)
         return navigation
       default: 
         return state;

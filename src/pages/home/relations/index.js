@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:57:04
- * @LastEditTime : 2021-02-21 12:01:08
+ * @LastEditTime : 2021-02-28 14:41:27
  * @FilePath     : /src/pages/home/relations/index.js
  */
 /**
@@ -14,13 +14,12 @@
  */
 
 import React from "react";
-import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
+import { FlatList, Text, RefreshControl, StyleSheet, View, Dimensions } from "react-native";
 import ActivityItem from "../../../components/activity_item/activityItem";
 import DynamicItem from "../../../components/dynamic_item/dynamicItem";
 import { bindActions, bindState, connect } from "../../../redux";
-
-import Toast from "../../../utils/toast";
-
+const { width, height } = Dimensions.get('window')
+const emptyHeight = height - 200
 class Relations extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +27,9 @@ class Relations extends React.Component {
       relationDetailList: [],
       isRefreshing: false,
       userInfo: props.userInfo,
+      offset: 0,
+      limit: 10,
+      hasMore: true
     };
   }
 
@@ -40,25 +42,32 @@ class Relations extends React.Component {
 
   componentDidMount() {
     this.getData();
-    console.log('this.props', this.props)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { userInfo } = prevProps
+    if (userInfo !== this.props.userInfo && this.props.userInfo.uid) {
+      this.getData();
+    }
+  }
+  onBtnClick = (activity) => {
+    const { navigation } = this.props;
+    navigation.navigate("ActivityDetail", {
+      id: activity.id,
+      refresh: () => this.getData(),
+    })
   }
 
   renderItem = (rowData) => {
     const activity = rowData.item.activityDetailVO;
     const feed = rowData.item.feedDetailVO;
-    const { navigation } = this.props;
     if (activity) {
       return (
-        <ActivityItem
-          onBtnClick={() =>
-            navigation.navigate("ActivityDetail", {
-              id: activity.id,
-              refresh: () => this.getData(),
-            })
-          }
+        <ActivityItem 
           {...this.props}
           activity={activity}
           userId={this.state.userId}
+          onBtnClick={() => this.onBtnClick(activity)}
         />
       );
     }
@@ -69,29 +78,41 @@ class Relations extends React.Component {
     }
   };
 
-  getData = async () => {
-    const { success, data, msg } = await this.props.get("/user/relationfeed", {
-      limit: 500,
-      feedOffsetId: 0,
-      activityOffsetId: 0,
-    });
-    if (success) {
-      return this.setState({
-        relationDetailList: data.relationDetailList,
-      });
+  getData = async (offeset) => {
+    try {
+      const payload = {
+        limit: 500,
+        feedOffsetId: 0,
+        activityOffsetId: 0,
+      }
+      const { success, data, msg } = await this.props.get("/user/relationfeed", payload);
+      if (success) {
+        this.setState({
+          relationDetailList: data.relationDetailList,
+        });
+      }
+    } catch(e) {
+      console.log('error' ,e)
     }
-    Toast.toast("查询失败，请重试");
   };
 
-  
+  renderEmpty = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.noDataText}>暂无数据</Text>
+      </View>
+    )
+  }
 
   render() {
     const { relationDetailList, isRefreshing, userInfo } = this.state;
     return (
       <View style={styles.container}>
         <FlatList
+          style={styles.list}
           data={relationDetailList}
           renderItem={this.renderItem}
+          ListEmptyComponent={this.renderEmpty}
           keyExtractor={(item, index) => item + index}
           refreshControl={
             <RefreshControl
@@ -109,7 +130,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  
+  list: {
+    flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    width,
+    height: height - 200,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noDataText: {
+    color: '#888889'
+  }
 });
 
 export default connect(bindState, bindActions)(Relations);

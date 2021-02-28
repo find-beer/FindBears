@@ -6,7 +6,6 @@ const designHeight = 1920 / defaultPixel
 
 export const deviceWidth = Dimensions.get('window').width
 export const deviceHeight = Dimensions.get('window').height
-console.log('deviceHeight', deviceHeight)
 const pixelRatio = PixelRatio.get()
 const fontScale = PixelRatio.getFontScale()
 

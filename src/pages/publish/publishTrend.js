@@ -70,7 +70,6 @@ export default class PublishTrend extends React.Component {
             },
         };
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('图片文件', response);
             let formData = new FormData();
             formData.append('imgFile', {
                 uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
@@ -99,13 +98,11 @@ export default class PublishTrend extends React.Component {
                     return response.json();
                 })
                 .then(res => {
-                    console.log('---->', res);
                     arr.push(res.data.url);
                     this.setState({
                         images: arr
                     })
                 }).catch((e) => {
-                console.log('上传失败:', e)
             });
 
         });
@@ -126,7 +123,6 @@ export default class PublishTrend extends React.Component {
     immePublish = async () => {
         const {content, clockinTag, images, isPunchCard, isPermit} = this.state;
         const {navigation} = this.props;
-        console.log(content, clockinTag, images, isPunchCard ? 1 : 0, isPermit ? 1 : 0)
         const response = await PostRequest('feed/publish', {
             "address": "上帝之城",
             "clockIn": isPermit ? 1 : 0,
@@ -137,7 +133,6 @@ export default class PublishTrend extends React.Component {
             "picUrl": this.state.images.join(','),
             "videoUrl": ""
         });
-        console.log('发布动态结果:', response)
         if (response.code === 0) {
             navigation.goBack();
             EventBus.post('REFRESH_TREND', {});

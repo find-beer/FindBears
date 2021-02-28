@@ -24,7 +24,7 @@ export default class LocalAddTicket extends React.Component {
     }
 
     addTicket = async () => {
-        const {navigation} = this.props;
+        const {navigation, route} = this.props;
         const {ticketName, price, illustration} = this.state;
 
         if (!ticketName) {
@@ -45,7 +45,7 @@ export default class LocalAddTicket extends React.Component {
             ticketState: 1
         }
 
-        navigation.state.params.onAdd(item);
+        route.params.onAdd(item);
         navigation.goBack();
     }
 

@@ -22,7 +22,6 @@ export default class ActivityItem extends Component {
         }
 		}
 		componentDidMount(){
-			console.log(this.props)
 		}
     handleViewDetail(){
       this.props.navigation.navigate('ActivityDetail',{id:this.state.item.id})
@@ -54,7 +53,6 @@ export default class ActivityItem extends Component {
 		}
     render() {
 				const item = this.state.item;
-				console.log(item)
         const cardConfig = [
             {
                 title: '活动主题',

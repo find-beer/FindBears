@@ -2,14 +2,13 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-30 15:45:11
- * @LastEditTime : 2021-01-30 16:47:33
+ * @LastEditTime : 2021-02-28 12:49:15
  * @FilePath     : /src/redux/actions/nim.js
  */
 const SDK = require("../../../nim/NIM_Web_SDK_rn_v7.2.0.js");
 let instance;
 
 onConnect = (options) => {
-  console.log('instance -----> ', instance)
   instance.applyFriend({
       account: 'mjx',
       ps: 'sdjfsjdfsjdf',
@@ -18,33 +17,25 @@ onConnect = (options) => {
 };
 
 onWillReconnect = (options) => {
-  console.log("onWillReconnect", options);
 };
 
 onDisconnect = (options) => {
-  console.log("onDisconnect", options);
 };
 
 onError = (options) => {
-  console.log("onError", options);
 };
 
 onRoamingMsgs = (options) => {
-  console.log("onRoamingMsgs", options);
 };
 
 onOfflineMsgs = (options) => {
-  console.log("onOfflineMsgs", options);
 };
 
 onMsg = (msg) => {
-  console.log("收到消息", msg.scene, msg.type, msg);
 };
 
 
 const sendMsgDone = (error, msg) => {
-  console.log(error);
-  console.log(msg);
   console.log('发送' + msg.scene + ' ' + msg.type + '消息' + (!error?'成功':'失败') + ', id=' + msg.idClient);
   pushMsg(msg);
 }

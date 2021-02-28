@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:57:04
- * @LastEditTime : 2021-01-24 00:11:58
+ * @LastEditTime : 2021-02-28 15:13:01
  * @FilePath     : /src/pages/shoulder/activity_list.js
  */
 import React, { Component,Fragment } from 'react'
@@ -46,11 +46,10 @@ class ActivityList extends Component {
   }
   render(){
     return (
-      <Fragment>
+      <View style={styles.container}>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
         <ScrollView>
           <SafeAreaView style={styles.activity_list_wrapper}>
-            {/* <Header {...this.props} title={this.state.title} left={null} /> */}
             <View style={styles.list_box}>
               {
                 this.state.activityList.map(item => {
@@ -60,17 +59,22 @@ class ActivityList extends Component {
             </View>
           </SafeAreaView>
         </ScrollView>
-      </Fragment>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f6f7fa'
+  },
   list_box:{
-    display:'flex',
+    flex: 1,
     flexDirection:'row',
     flexWrap:'wrap',
-    paddingHorizontal:scaleSize(55),
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
   }
 });
 

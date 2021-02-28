@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:57:04
+ * @LastEditTime : 2021-02-28 12:43:37
+ * @FilePath     : /src/utils/request.js
+ */
 import axios from 'axios';
 import {apiProd} from '../config';
 import KV from "./KV";
@@ -19,7 +26,6 @@ instance.interceptors.request.use(
     async function (config) {
         // 添加响应头等等设置
         let result = await AsyncStorage.getItem('session');
-        console.log('token==>', result);
         config.headers.token = result;
         config.headers.session = KV.getSessionId();
         return config;
@@ -32,7 +38,6 @@ instance.interceptors.request.use(
 //返回拦截器
 instance.interceptors.response.use(
     function (response) {
-        console.log('response', response);
         if(response.data.code===2000){
             EventBus.post('SESSION_EXPIRED')
             return true
@@ -46,8 +51,6 @@ instance.interceptors.response.use(
 
 
 export function GetRequest(url, params) {
-    console.log('接口地址', url);
-    console.log('请求参数', params);
     return instance.get(url, {
         params: params,
         // data: payload,
@@ -55,13 +58,9 @@ export function GetRequest(url, params) {
 }
 
 export function PostRequest(url, par) {
-    console.log('接口地址', url);
-    console.log('请求参数', par);
     return instance.post(url, par);
 }
 
 export function PutRequest(url, par) {
-    console.log('接口地址', url);
-    console.log('请求参数', par);
     return instance.put(url, par);
 }

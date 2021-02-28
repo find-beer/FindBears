@@ -20,7 +20,6 @@ export const get = (url, payload, config) => ({
 export const post = (url, payload, config) => ({
   type: 'POST',
   request(axios, headers) {
-    console.log('payload ------> ', payload)
     return axios.post(url, payload, { 
       headers: {
         ...headers,

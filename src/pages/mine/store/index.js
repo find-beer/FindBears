@@ -23,7 +23,6 @@ export default class Store extends Component {
             <Fragment>
 				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                 <SafeAreaView style={styles.storeWrap}>
-                <Header {...this.props} title="仓库" left={null} />
                 {/* <View style={styles.storeCountWrap}>
                     <View style={styles.storeCountBox}>
                         <View style={styles.storeCountNum}>

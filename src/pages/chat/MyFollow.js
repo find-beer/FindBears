@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:54:57
+ * @LastEditTime : 2021-02-28 15:40:55
+ * @FilePath     : /src/pages/chat/MyFollow.js
+ */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -32,10 +39,9 @@ export default class MyFollow extends React.Component {
 	render() {
 			return <Fragment>
 					<SafeAreaView style={{backgroundColor: 'white'}}>
-						<Header {...this.props} title={'我的关注'}/>
 						<View style={styles.main}>
 							{
-								this.state.followList.map(item => {
+								this.state.followList?.map(item => {
 									return (
 										<TouchableOpacity onPress={() => this.handleGoNewFriendPage(item)}>
 											<View style={styles.friendItem}>

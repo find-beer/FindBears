@@ -10,13 +10,13 @@
  *  我的
  */
 
-import React,{Component,Fragment} from 'react';
+import React,{ Component, Fragment } from 'react';
 import {StyleSheet,Image, ImageBackground, Text, View,SafeAreaView,ScrollView} from 'react-native';
 import DynamicTab from '../mine/index/dynamicTab';
-import PersonalInfo from '../mine/index/personalInfo';
+import UserInfoDetail from '../mine/index/userInfoDetail';
 import {GetRequest} from '../../utils/request';
 import {scaleSize, scaleFont} from '../../utils/scaleUtil';
-
+import { connect, bindActions, bindState } from './../../redux'
 const imageUrl = {
     configIcon: require('../../assets/mine/download-icon.png'),
     avatarBg: require('../../assets/mine/avatar-bg.png'),
@@ -33,18 +33,17 @@ const imageUrl = {
 		relative:require('../../assets/stranger/guanxilian.png'),
 };
 
-export default class Mine extends Component{
+class StrangerInfo extends Component{
 	constructor(props){
 		super(props)
 		this.state = {
 			personalInfo : {},
 			isFriend:true,
-			uid:this.props.navigation.state.params.uid
+			uid:this.props.route.params.uid
 		}
 	}
 	
 	componentWillMount(){
-		console.log(this.props.navigation.state)
 		GetRequest('user/userInfo',{userId:this.state.uid}).then(res => {
 			this.setState({
 				personalInfo:res.data
@@ -60,7 +59,7 @@ export default class Mine extends Component{
 							<View>
 							<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
 									<View style={styles.bgaWrapper}>
-											<PersonalInfo personalInfo={this.state.personalInfo}/>
+											<UserInfoDetail data={this.state.personalInfo}/>
 									</View>
 							</ImageBackground>
 							<View style={styles.operateBox}>
@@ -96,7 +95,7 @@ export default class Mine extends Component{
 			)
 	}
 }
-
+export default connect(bindState, bindActions)(StrangerInfo)
 const styles = StyleSheet.create({
 	persionalTab: {},
 	bgaWrapper: {

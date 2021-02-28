@@ -66,7 +66,7 @@ class Register extends Component {
   }
 
   changePosition(val) {
-    console.log(val);
+    (val);
   }
 
   next() {
@@ -133,17 +133,11 @@ class Register extends Component {
 
     ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) {
-        console.log("User cancelled image picker");
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
-        console.log("User tapped custom button: ");
       } else {
-        console.log("图片文件", response);
-
         let formData = new FormData();
         const uri = Platform.OS === "ios" ? "data:image/jpeg;base64," + response.data : response.uri
-        console.log('uri', uri)
         formData.append("imgFile", { 
           uri,
           type: "multipart/form-data",
@@ -169,7 +163,6 @@ class Register extends Component {
             return res.json();
           })
           .then((res) => {
-              console.log('res', res)
             this.setState({
               registerForm: {
                 ...this.state.registerForm,
@@ -178,7 +171,6 @@ class Register extends Component {
             });
           })
           .catch((e) => {
-            console.log("上传失败:", e);
           });
       }
     });

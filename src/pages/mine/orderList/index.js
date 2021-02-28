@@ -37,11 +37,10 @@ export default class OrderList extends Component {
     }
   }
   backPay(item){
-    console.log(item)
   }
   componentDidMount(){
     GetRequest('/order/biz/orderlist',{
-      activityId:this.props.navigation.state.params.id,
+      activityId:this.props.route.params.id,
       pageNum:1,
       pageSize:500
     }).then(res => {

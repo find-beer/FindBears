@@ -67,17 +67,6 @@ export default class PublishActivity extends React.Component {
             activityTypeName, content, activityAddress, ticketVoList, needInfo, userType
         } = this.state;
 
-        console.log('activityTitle', activityTitle)
-        console.log('memberCount', memberCount)
-        console.log('activityAddress', activityAddress)
-        console.log('activityTypeName', activityTypeName)
-        console.log('activityType', activityType)
-        console.log('needInfo', needInfo)
-        console.log('activityTime', activityTime)
-        console.log('enrollEndTime', enrollEndTime)
-        console.log('content', content)
-        console.log('ticketVoList', ticketVoList)
-
         let params = null;
         if (userType === 0) {
             params = {
@@ -119,7 +108,6 @@ export default class PublishActivity extends React.Component {
 
         const response = await PostRequest('activity/publish', params, 'POST');
 
-        console.log('发布活动结果', response);
         if (response.code === 0) {
             navigation.goBack();
             EventBus.post('REFRESH_TREND', {});
@@ -141,7 +129,6 @@ export default class PublishActivity extends React.Component {
 
     handleConfirm = (date) => {
         this.setState({activityTime: moment(date).format("YYYY-MM-DD HH:mm")}, () => {
-            console.log('活动时间', this.state.activityTime)
         })
         this.hideDatePicker();
     };
@@ -160,7 +147,6 @@ export default class PublishActivity extends React.Component {
         navigation.navigate('LocalTickets', {
             ticketVoList,
             onSubmit: (data) => {
-                console.log('需要提交的票种', data)
                 this.setState({
                     ticketVoList: data
                 })
@@ -209,7 +195,6 @@ export default class PublishActivity extends React.Component {
             },
         };
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('图片文件', response);
             let formData = new FormData();
             formData.append('imgFile', {
                 uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
@@ -238,25 +223,21 @@ export default class PublishActivity extends React.Component {
                     return response.json();
                 })
                 .then(res => {
-                    console.log('---->', res);
                     this.setState({
                         pics: this.state.pics.concat(res.data.url)
                     })
                     this.richText.insertImage(res.data.url);
                     this.richText.blurContentEditor();
                 }).catch((e) => {
-                console.log('上传失败:', e)
             });
 
         });
     }
 
     handleChange = (html) => {
-        // console.log('editor data:', html);
         this.setState({
             content: html
         }, () => {
-            console.log(this.state.content)
         })
     }
 
@@ -311,7 +292,6 @@ export default class PublishActivity extends React.Component {
                                 this.setState({
                                     needInfo: status
                                 }, () => {
-                                    console.log('needInfo', status)
                                 })
                             }} subType={'switch'}
                                          switchStatus={needInfo === 1}

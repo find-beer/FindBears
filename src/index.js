@@ -2,10 +2,11 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-19 22:55:47
- * @LastEditTime : 2021-02-23 22:59:00
+ * @LastEditTime : 2021-02-28 15:58:01
  * @FilePath     : /src/index.js
  */
 import React from 'react';
+import { Image, TouchableOpacity } from 'react-native'
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -33,7 +34,7 @@ import QrCode from "./pages/mine/qrCode";
 import Store from "./pages/mine/store";
 import StoreList from "./pages/mine/storeList";
 import EditInfo from "./pages/mine/editInfo";
-import Config from "./pages/mine/config";
+import Setting from "./pages/mine/setting";
 import OrderList from "./pages/mine/orderList";
 import ActivityDetail from "./pages/home/activity_detail";
 import AddTicket from "./pages/home/add_ticket";
@@ -61,40 +62,46 @@ import LocalModifyTicket from "./pages/home/local_modify_ticket";
  */
 const MainStack = () => {
   const Stack = createStackNavigator()
+  const defautOptions = {
+    headerBackImage: () => (
+      <Image style={{ width: 30, height: 30 }}source={require('./assets/mine/arrow_left.png')} />
+    ),
+    headerBackTitleVisible: false
+  }
   return (
     <Stack.Navigator headerMode='float'>
-      <Stack.Screen name='Tab' component={TabStack}  options={{ headerShown: false }}/>
+      <Stack.Screen name='Tab' component={TabStack}  options={{ headerShown: false, headerTitleAlign: 'center' }}/>
       {/* ========================================================== */}
-      <Stack.Screen name='Splash'   component={Splash}/>
-      <Stack.Screen name='Relations'   component={Relations}/>
-      <Stack.Screen name='PublishTrend'   component={PublishTrend}/>
-      <Stack.Screen name='Hobby'   component={Hobby}/>
-      <Stack.Screen name='QrCode'   component={QrCode}/>
-      <Stack.Screen name='Store'   component={Store}/>
-      <Stack.Screen name='StoreList'   component={StoreList}/>
-      <Stack.Screen name='EditInfo'   component={EditInfo}/>
-      <Stack.Screen name='Config'   component={Config}/>
-      <Stack.Screen name='OrderList'   component={OrderList}/>
-      <Stack.Screen name='ActivityDetail'   component={ActivityDetail}/>
-      <Stack.Screen name='AddTicket'   component={AddTicket}/>
-      <Stack.Screen name='TicketSelect'   component={TicketSelect}/>
-      <Stack.Screen name='Pay'   component={Pay}/>
-      <Stack.Screen name='ActivityList'   component={ActivityList}/>
-      <Stack.Screen name='DynamicDetail'   component={DynamicDetail}/>
-      <Stack.Screen name='Tickets'   component={Tickets}/>
-      <Stack.Screen name='ModifyTicket'   component={ModifyTicket}/>
-      <Stack.Screen name='InteractiveList'   component={InteractiveList}/>
-      <Stack.Screen name='DigFriend'   component={DigFriend}/>
-      <Stack.Screen name='FriendsList'   component={FriendsList}/>
-      <Stack.Screen name='MyFollow'   component={MyFollow}/>
-      <Stack.Screen name='FansList'   component={FansList}/>
-      <Stack.Screen name='ActivityMsgList'   component={ActivityMsgList}/>
-      <Stack.Screen name='EditDraft'   component={EditDraft}/>
-      <Stack.Screen name='StrangerInfo'   component={StrangerInfo}/>
-      <Stack.Screen name='RelationChain'   component={RelationChain}/>
-      <Stack.Screen name='LocalTickets'   component={LocalTickets}/>
-      <Stack.Screen name='LocalAddTicket'   component={LocalAddTicket}/>
-      <Stack.Screen name='LocalModifyTicket'   component={LocalModifyTicket}/>
+      <Stack.Screen options={{ ...defautOptions, title: '支付' }}    name='Pay'                component={Pay}/>
+      <Stack.Screen options={{ ...defautOptions, title: '爱好' }}    name='Hobby'              component={Hobby}/>
+      <Stack.Screen options={{ ...defautOptions, title: '仓库' }}    name='Store'              component={Store}/>
+      <Stack.Screen options={{ ...defautOptions, title: '我的二维码' }}  name='QrCode'             component={QrCode}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='Splash'             component={Splash}/>
+      <Stack.Screen options={{ ...defautOptions, title: '票' }}      name='Tickets'            component={Tickets}/>
+      <Stack.Screen options={{ ...defautOptions, title: '设置' }}    name='Setting'            component={Setting}/>
+      <Stack.Screen options={{ ...defautOptions, title: '我的关注' }}    name='MyFollow'           component={MyFollow}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='FansList'           component={FansList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '编辑资料' }}    name='EditInfo'           component={EditInfo}/>
+      <Stack.Screen options={{ ...defautOptions, title: '订单列表' }}    name='OrderList'          component={OrderList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '关系链' }}    name='Relations'          component={Relations}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='EditDraft'          component={EditDraft}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='StoreList'          component={StoreList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='AddTicket'          component={AddTicket}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='DigFriend'          component={DigFriend}/>
+      <Stack.Screen options={{ ...defautOptions, title: '好友列表' }}    name='FriendsList'        component={FriendsList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalTickets'       component={LocalTickets}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='ModifyTicket'       component={ModifyTicket}/>
+      <Stack.Screen options={{ ...defautOptions, title: '用户信息' }}    name='StrangerInfo'       component={StrangerInfo}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='PublishTrend'       component={PublishTrend}/>
+      <Stack.Screen options={{ ...defautOptions, title: '选择票种' }}    name='TicketSelect'       component={TicketSelect}/>
+      <Stack.Screen options={{ ...defautOptions, title: '活动列表' }}    name='ActivityList'       component={ActivityList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '关系链' }}    name='RelationChain'      component={RelationChain}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='DynamicDetail'      component={DynamicDetail}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalAddTicket'     component={LocalAddTicket}/>
+      <Stack.Screen options={{ ...defautOptions, title: '活动详情' }}    name='ActivityDetail'     component={ActivityDetail}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='InteractiveList'    component={InteractiveList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '活动列表' }}    name='ActivityMsgList'    component={ActivityMsgList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalModifyTicket'  component={LocalModifyTicket}/>
     </Stack.Navigator>
   )
 }
@@ -114,7 +121,6 @@ export default () => {
   const Stack = createStackNavigator()
   return (
     <Provider store={store}>
-      <PersistGate loading={<Loading />} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator headerMode='none' mode='modal'>
             <Stack.Screen name='Main'     component={MainStack}/>
@@ -124,7 +130,6 @@ export default () => {
         </NavigationContainer>
         <ModalLoading />
         <Publish />
-      </PersistGate>
     </Provider>
   )
 }

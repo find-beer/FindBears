@@ -22,7 +22,6 @@ export default class QrCode extends Component {
             <Fragment>
                 <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                 <SafeAreaView style={styles.pages}>
-                    <Header {...this.props} title="我的二维码" left={null}/>
                     <View style={styles.container}>
                         <View style={styles.qrItemBox}>
                             <View style={styles.qrItem}>

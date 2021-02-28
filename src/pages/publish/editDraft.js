@@ -20,26 +20,26 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {apiProd} from "../../config";
 import {GetRequest, PostRequest} from "../../utils/request";
 import AsyncStorage from "@react-native-community/async-storage";
-
-export default class EditDraft extends React.Component {
+import { connect, bindActions, bindState } from './../../redux' 
+class EditDraft extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            activityTitle: props.navigation.state.params.draft.activityTitle,
-            memberCount: props.navigation.state.params.draft.memberCount,
-            activityAddress: props.navigation.state.params.draft.activityAddress,
-            activityTypeName: props.navigation.state.params.draft.activityTypeName,
-            activityType: props.navigation.state.params.draft.activityType,
-            needInfo: props.navigation.state.params.draft.needInfo,
-            activityTime: props.navigation.state.params.draft.activityTime,
-            enrollEndTime: props.navigation.state.params.draft.enrollEndTime,
-            content: props.navigation.state.params.draft.content,
-            ticketVoList: props.navigation.state.params.draft.ticketVoList,
-            id: props.navigation.state.params.draft.id,
+            activityTitle: props.route.params.draft.activityTitle,
+            memberCount: props.route.params.draft.memberCount,
+            activityAddress: props.route.params.draft.activityAddress,
+            activityTypeName: props.route.params.draft.activityTypeName,
+            activityType: props.route.params.draft.activityType,
+            needInfo: props.route.params.draft.needInfo,
+            activityTime: props.route.params.draft.activityTime,
+            enrollEndTime: props.route.params.draft.enrollEndTime,
+            content: props.route.params.draft.content,
+            ticketVoList: props.route.params.draft.ticketVoList,
+            id: props.route.params.draft.id,
             isStartVisible: false,
             isEndVisible: false,
-            userType: props.navigation.state.params.userType,
+            userType: props.route.params.userType,
             token: null,
             pics: []
         };
@@ -51,8 +51,6 @@ export default class EditDraft extends React.Component {
     queryDraft = async () => {
         const response = await GetRequest('activity/querydraft', {});
         if (response.data) { //
-            console.log('存在草稿');
-            console.log(response.data);
             this.setState({
                 activityTitle: response.data.activityTitle,
                 memberCount: response.data.memberCount,
@@ -67,7 +65,6 @@ export default class EditDraft extends React.Component {
                 id: response.data.id,
             })
         } else { //
-            console.log('不存在草稿');
         }
     }
 
@@ -86,7 +83,6 @@ export default class EditDraft extends React.Component {
         EventBus.on('REFRESH_TICKETS', (e) => {
             this.queryDraft();
         });
-        console.log('页面传参', this.state.draft);
         this.queryDraft();
     }
 
@@ -100,8 +96,6 @@ export default class EditDraft extends React.Component {
             needInfo, content, userType,pics
         } = this.state;
         const {navigation} = this.props;
-        console.log("flag===>", flag);
-        console.log("id===>", id);
 
         let params = null;
         if (userType === 0) {
@@ -146,14 +140,11 @@ export default class EditDraft extends React.Component {
 
         try {
             const response = await PostRequest('activity/publish', params, 'POST');
-
-            console.log('发布活动结果', response);
             if (response.code === 0) {
                 navigation.goBack();
                 EventBus.post('REFRESH_TREND', {});
             }
         } catch (e) {
-            console.log('报错了', e);
         }
     }
 
@@ -191,7 +182,6 @@ export default class EditDraft extends React.Component {
 
     handleConfirm = (date) => {
         this.setState({activityTime: moment(date).format("YYYY-MM-DD HH:mm")}, () => {
-            console.log('活动时间', this.state.activityTime)
         })
         this.hideDatePicker();
     };
@@ -232,7 +222,6 @@ export default class EditDraft extends React.Component {
             },
         };
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('图片文件', response);
             let formData = new FormData();
             formData.append('imgFile', {
                 uri: Platform.OS === 'ios' ? 'data:image/jpeg;base64,' + response.data : response.uri,
@@ -261,14 +250,12 @@ export default class EditDraft extends React.Component {
                     return response.json();
                 })
                 .then(res => {
-                    console.log('---->', res);
                     this.setState({
                         pics: this.state.pics.concat(res.data.url)
                     })
                     this.richText.insertImage(res.data.url);
                     this.richText.blurContentEditor();
                 }).catch((e) => {
-                console.log('上传失败:', e)
             });
 
         });
@@ -291,8 +278,6 @@ export default class EditDraft extends React.Component {
             activityTypeName, needInfo, memberCount, ticketVoList, content, enrollEndTime,
             userType
         } = this.state;
-
-        console.log('--------->', activityTime)
 
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
@@ -343,7 +328,6 @@ export default class EditDraft extends React.Component {
                                 this.setState({
                                     needInfo: status
                                 }, () => {
-                                    console.log('needInfo', status)
                                 })
                             }}
                                          switchStatus={needInfo === 1}
@@ -412,7 +396,7 @@ export default class EditDraft extends React.Component {
         </Fragment>;
     }
 }
-
+ export default connect(bindState, bindActions)(EditDraft)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

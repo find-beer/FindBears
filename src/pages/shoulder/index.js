@@ -15,8 +15,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput
 } from "react-native";
-import { screenW } from "../../constants";
 import ActivityItem from "./item.js";
 import { scaleFont, scaleSize } from "../../utils/scaleUtil";
 import { GetRequest } from "../../utils/request";
@@ -88,9 +88,10 @@ class Shoulder extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <SafeAreaView style={{ flex: 0, backgroundColor: "#fff" }} />
         <SafeAreaView />
-            <View style={styles.search}>
-            <Text style={styles.searchHint}>请输入你想去的地方</Text>
+            <View style={styles.searchContainer}>
+              <TextInput placeholder='请输入你想去的地方' style={styles.searchHint}></TextInput>
             </View>
             <ScrollView>
             <View>
@@ -223,24 +224,26 @@ export default connect(bindState, bindActions)(Shoulder);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f6f7fa",
+    backgroundColor: "#fff",
   },
-  search: {
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "rgba(0,0,0,.1)",
-    width: screenW - 32,
-    marginLeft: 16,
+  searchContainer: {
+    height: 64,
+    backgroundColor: "#fff",
     justifyContent: "center",
-    marginTop: 16,
   },
   searchHint: {
-    color: "#666",
+    height: 44,
+    margin: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#f6f7fa',
+    color: "#888889",
+    borderRadius: 44,
     marginLeft: 16,
   },
   menuContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
+    backgroundColor: '#fff'
   },
   imgMenu: {
     width: 40,
@@ -262,6 +265,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: scaleSize(30),
+    backgroundColor: '#fff'
   },
   tabItem: {
     display: "flex",
@@ -290,6 +294,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    paddingHorizontal: scaleSize(55),
+    paddingHorizontal: 15
   },
 });

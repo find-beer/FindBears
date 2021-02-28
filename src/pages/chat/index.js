@@ -76,7 +76,6 @@ class Chat extends React.Component {
   //     const { navigation } = this.props;
   //     NimSession.login("45", 'e979ba7cca09bf0c93c0a4c166738622"').then(
   //       (res) => {
-  //         console.log("登录结果", res);
   //       },
   //       (err) => {
   //         console.warn(err);
@@ -85,7 +84,6 @@ class Chat extends React.Component {
   //   };
 
   onConnect = (options) => {
-    console.log("onConnect", options);
     this.instance.applyFriend({
         account: 'mjx',
         ps: 'sdjfsjdfsjdf',
@@ -94,33 +92,26 @@ class Chat extends React.Component {
   };
 
   onWillReconnect = (options) => {
-    console.log("onWillReconnect", options);
   };
 
   onDisconnect = (options) => {
-    console.log("onDisconnect", options);
   };
 
   onError = (options) => {
-    console.log("onError", options);
   };
 
   onRoamingMsgs = (options) => {
-    console.log("onRoamingMsgs", options);
   };
 
   onOfflineMsgs = (options) => {
-    console.log("onOfflineMsgs", options);
   };
 
   onMsg = (msg) => {
-    console.log("收到消息", msg.scene, msg.type, msg);
   };
 
   initChat = () => {
     const { iminfo } = this.props.userInfo;
     const { accid, token } = iminfo;
-    console.log("this.props", iminfo);
     this.instance = SDK.NIM.getInstance({
       debug: true,
       appKey: "67b35e65c41efd1097ef8504d5a88455",
@@ -135,23 +126,16 @@ class Chat extends React.Component {
       onofflinemsgs: this.onOfflineMsgs,
       onmsg: this.onMsg,
     });
-    console.log("applyFriend", );
   };
 
   applyFriendDone = (error, options) => {
-      console.log('applyFriendDone error', error)
-      console.log('applyFriendDone options', options)
   }
 
   renderItem = (rowData) => {
     const { navigation } = this.props;
     const { item, index } = rowData;
     return (
-      <TouchableOpacity
-        onPress={() => {
-          // this.startLogin()
-        }}
-      >
+      <TouchableOpacity>
         <View style={styles.talkItem}>
           <Image
             source={require("../../assets/tab/publish.png")}
@@ -171,10 +155,13 @@ class Chat extends React.Component {
 
   componentDidMount() {
     // this.startLogin()
-    console.log("SDK", SDK);
     this.initChat();
   }
 
+  onRightClick = () => {
+
+  }
+  
   render() {
     const { navigation } = this.props;
     const { talks } = this.state;
@@ -182,7 +169,7 @@ class Chat extends React.Component {
     return (
       <Fragment>
         <SafeAreaView style={{ backgroundColor: "white" }} />
-        <Header {...this.props} noLeft title={"消息"} right={"添加好友"} />
+        <Header {...this.props} noLeft title={"消息"} right={"添加好友"} onRightClick={this.onRightClick}/>
 
         <View style={styles.header}>
           <TouchableOpacity

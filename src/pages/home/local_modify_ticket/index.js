@@ -11,13 +11,13 @@ import {SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 
 import Header from '../../../components/header/index'
 import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
-
-export default class LocalModifyTicket extends React.Component {
+import { connect, bindActions, bindState } from './../../../redux'
+class LocalModifyTicket extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: props.navigation.state.params.data,
+            data: props.route.params.data,
             ticketName: '',
             price: '',
             illustration: '',
@@ -26,7 +26,7 @@ export default class LocalModifyTicket extends React.Component {
 
     modiTicket = () => {
         const {price, illustration, ticketName} = this.state;
-        const {navigation} = this.props;
+        const {navigation,} = this.props;
         let item = {
             assemblePrice: price,
             price: price,
@@ -37,16 +37,13 @@ export default class LocalModifyTicket extends React.Component {
             assembleMemberCount: 0,
         };
 
-        navigation.state.params.onModify(item);
+        route.params.onModify(item);
         navigation.goBack();
 
     }
 
     componentDidMount() {
         const {data, index} = this.state;
-        console.log('----->', data);
-        console.log('----->', index);
-        console.log('----->', data[index]);
         this.setState({
             ticketName: data.ticketName,
             price: data.price,
@@ -103,7 +100,7 @@ export default class LocalModifyTicket extends React.Component {
         </Fragment>;
     }
 }
-
+export default connect(bindState, bindActions)(LocalModifyTicket)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

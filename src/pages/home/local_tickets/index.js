@@ -12,13 +12,13 @@ import Header from '../../../components/header/index'
 import Button from '../../../components/ticket_button/index'
 import {screenW} from "../../../constants";
 import {scaleSize} from "../../../utils/scaleUtil";
-
-export default class LocalTickets extends React.Component {
+import { connect, bindActions, bindState  } from './../../../redux'
+class LocalTickets extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            ticketVoList: props.navigation.state.params.ticketVoList ? props.navigation.state.params.ticketVoList : [],
+            ticketVoList: props.route.state.params.ticketVoList ? props.route.params.ticketVoList : [],
         };
     }
 
@@ -27,7 +27,6 @@ export default class LocalTickets extends React.Component {
         const {navigation} = this.props;
         navigation.navigate('LocalAddTicket', {
             onAdd: (data) => {
-                console.log('新增的数据', data);
                 arr.push(data);
                 this.setState({
                     ticketVoList: this.state.ticketVoList.concat(arr),
@@ -42,7 +41,6 @@ export default class LocalTickets extends React.Component {
         let arr = [];
         navigation.navigate('LocalModifyTicket', {
             onModify: (data) => {
-                console.log('修改的数据', data);
                 this.state.ticketVoList[index].ticketName = data.ticketName;
                 this.state.ticketVoList[index].price = data.price;
                 this.state.ticketVoList[index].illustration = data.illustration;
@@ -79,11 +77,8 @@ export default class LocalTickets extends React.Component {
 
     renderItem = (rowData) => {
         const {navigation} = this.props;
-        console.log(rowData.item);
-        console.log(rowData.index);
         const data = rowData.item;
         const index = rowData.index;
-        console.log('item', data);
 
         return <View><ImageBackground
             style={styles.tickeCard}
@@ -156,10 +151,9 @@ export default class LocalTickets extends React.Component {
     };
 
     saveTicket = () => {
-        console.log('最后提交数据', this.state.ticketVoList);
-        const {navigation} = this.props;
+        const {navigation, route} = this.props;
         const {ticketVoList} = this.state;
-        navigation.state.params.onSubmit(ticketVoList);
+        route.params.onSubmit(ticketVoList);
         navigation.goBack();
     }
 
@@ -193,7 +187,7 @@ export default class LocalTickets extends React.Component {
         </Fragment>;
     }
 }
-
+export default connect(bindState, bindActions)(LocalTickets)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

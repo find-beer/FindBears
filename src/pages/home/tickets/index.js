@@ -14,14 +14,14 @@ import {screenW} from "../../../constants";
 import {scaleSize} from "../../../utils/scaleUtil";
 import {GetRequest, PostRequest} from "../../../utils/request";
 import EventBus from "../../../utils/EventBus";
-
-export default class Tickets extends React.Component {
+import { connect, bindActions, bindState } from './../../../redux'
+class Tickets extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            // tickets: props.navigation.state.params.tickets,
-            // draft: props.navigation.state.params.draft,
+            // tickets: props.route.params.tickets,
+            // draft: props.route.params.draft,
         };
     }
 
@@ -29,12 +29,10 @@ export default class Tickets extends React.Component {
         let arr = [];
         this.props.navigation.navigate('AddTicket', {
             onAdd: (data) => {
-                console.log('新增数据', data);
                 arr.push(data);
                 this.setState({
                     tickets: this.state.tickets.concat(arr)
                 }, () => {
-                    console.log('最终数据=>', this.state.tickets)
                 })
             }
         })
@@ -50,8 +48,6 @@ export default class Tickets extends React.Component {
     queryDraft = async () => {
         const response = await GetRequest('activity/querydraft', {});
         if (response.data) { //
-            console.log('存在草稿');
-            console.log(response.data);
             this.setState({
                 activityTitle: response.data.activityTitle,
                 memberCount: response.data.memberCount,
@@ -66,7 +62,6 @@ export default class Tickets extends React.Component {
                 id: response.data.id,
             })
         } else { //
-            console.log('不存在草稿');
         }
     }
 
@@ -124,18 +119,14 @@ export default class Tickets extends React.Component {
                 this.queryDraft()
             }
         } catch (e) {
-            console.log('报错了', e);
         }
     }
 
 
     renderItem = (rowData) => {
         const {navigation} = this.props;
-        console.log(rowData.item);
-        console.log(rowData.index);
         const data = rowData.item;
         const index = rowData.index;
-        console.log('item', data);
 
         return <View><ImageBackground
             style={styles.tickeCard}
@@ -208,17 +199,16 @@ export default class Tickets extends React.Component {
     };
 
     saveTicket = () => {
-        console.log('最后提交数据', this.state.tickets);
         const {navigation} = this.props;
         const {tickets} = this.state;
-        // navigation.state.params.onSave(tickets);
+        // route.params.onSave(tickets);
         navigation.goBack();
     }
 
     componentWillUnmount() {
         const {navigation} = this.props;
         const {tickets} = this.state;
-        // navigation.state.params.onSave(tickets);
+        // route.params.onSave(tickets);
         navigation.goBack();
     }
 
@@ -256,7 +246,7 @@ export default class Tickets extends React.Component {
         </Fragment>;
     }
 }
-
+export default connect(bindState, bindActions)(Tickets)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

@@ -1,12 +1,12 @@
 import React, { Component,Fragment } from 'react'
 import { SafeAreaView,StyleSheet, View, Text, Image,TouchableOpacity} from 'react-native'
-import Header from '../../../components/header/index'
 const arrow = require('../../../assets/mine/arrow_right.png')
 import {Switch} from '@ant-design/react-native';
+import { removeStorage } from './../../../utils/storage'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
-import AsyncStorage from "@react-native-community/async-storage";
+import { connect, bindActions, bindState }  from '../../../redux'
 
-export default class Config extends Component {
+class Setting extends Component {
     state = {
         text:'',
         openNotice:false,
@@ -31,16 +31,18 @@ export default class Config extends Component {
     handleClearCache(){
 
     }
-    handleLogout(){
-        AsyncStorage.removeItem('session')
-        this.props.navigation.navigate('Login');
+
+    logout = async () => {
+        await removeStorage('userInfo')
+        this.props.setUserInfo({})
+        this.props.navigation.navigate('Home')
     }
+
     render (){
         return (
             <Fragment>
                 <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                 <SafeAreaView style={styles.configWrap}>
-                    <Header {...this.props} title="设置" left={null} />
                     <View style={styles.configInner}>
                         {/* <View style={styles.configItem}>
                             <Text style={styles.configItemText}>探熊介绍及反馈</Text>
@@ -98,7 +100,7 @@ export default class Config extends Component {
                             <Text style={styles.configItemText}>版本号</Text>
                             <Text style={styles.configItemDes}>V1.0.0</Text>
                         </View>
-                        <TouchableOpacity onPress={() => this.handleLogout()}>
+                        <TouchableOpacity onPress={this.logout}>
                             <Text style={styles.logoutBtn}>退出登录</Text>
                         </TouchableOpacity>
                         
@@ -159,3 +161,6 @@ const styles = StyleSheet.create({
         lineHeight:scaleSize(130),
     }
 })
+
+
+export default connect(bindState, bindActions)(Setting)

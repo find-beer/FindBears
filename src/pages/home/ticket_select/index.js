@@ -12,15 +12,15 @@ import Header from "../../../components/header";
 import {screenW} from "../../../constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
-
-export default class TicketSelect extends React.Component {
+import { connect, bindActions, bindState } from './../../../redux'
+class TicketSelect extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tickets: props.navigation.state.params.data.ticketVoList,
-            data: props.navigation.state.params.data,
-            publishTime: props.navigation.state.params.data.publishTime,
+            tickets: props.route.params.data.ticketVoList,
+            data: props.route.params.data,
+            publishTime: props.route.params.data.publishTime,
             isVisible: false,
             currentIndex: 0,
             time: ''
@@ -39,7 +39,6 @@ export default class TicketSelect extends React.Component {
     renderItem = (rowData) => {
         const {item, index} = rowData;
         const {currentIndex} = this.state;
-        console.log('item票种数据', item);
         return (
             <TouchableOpacity onPress={() => this.setState({currentIndex: index})}>
                 <View style={styles.card}>
@@ -77,8 +76,6 @@ export default class TicketSelect extends React.Component {
     }
 
     componentDidMount() {
-        console.log('数据', this.state.data);
-        console.log('票种', this.state.tickets);
         const {publishTime} = this.state;
         if (publishTime) {
             this.setState({
@@ -95,7 +92,6 @@ export default class TicketSelect extends React.Component {
         const {tickets, time, isVisible, publishTime} = this.state;
         return <Fragment>
             <SafeAreaView style={{backgroundColor: 'white'}}/>
-            <Header {...this.props} title={'选择票种'}/>
             <View style={{flex: 1}}>
                 <TouchableOpacity onPress={() => this.showTime()}>
                     <View style={styles.header}>
@@ -142,7 +138,7 @@ export default class TicketSelect extends React.Component {
         </Fragment>;
     }
 }
-
+export default connect(bindState, bindActions)(TicketSelect)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

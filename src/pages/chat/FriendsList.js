@@ -36,7 +36,6 @@ export default class FriendsList extends React.Component {
         return (
 					<Fragment>
 							<SafeAreaView style={{backgroundColor: 'white'}}>
-							<Header {...this.props} title={'好友列表'} right={'添加好友'}/>
 							<View style={styles.main}>
 								<TouchableOpacity onPress={() => this.handleGoNewFriendPage()}>
 									<View style={styles.newFriendBox}>
@@ -48,7 +47,7 @@ export default class FriendsList extends React.Component {
 									</View>
 								</TouchableOpacity>
 								{
-										this.state.friendList.map(item => {
+										this.state.friendList?.map(item => {
 												return (
 													<TouchableOpacity onPress={() => this.handleGoNewFriendPage(item)}>
 														<View style={styles.friendItem}>

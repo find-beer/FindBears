@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:54:57
+ * @LastEditTime : 2021-02-28 12:43:47
+ * @FilePath     : /src/utils/uploadImage.js
+ */
 import {PostRequest} from "../../../utils/request";
 
 
@@ -17,11 +24,9 @@ function uploadImage(url,params){
           body: formData,
       }).then((response) => response.json())
           .then((responseData)=> {
-              console.log('uploadImage', responseData);
               resolve(responseData);
           })
           .catch((err)=> {
-              console.log('err', err);
               reject(err);
           });
   });

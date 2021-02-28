@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:57:04
+ * @LastEditTime : 2021-02-28 12:44:00
+ * @FilePath     : /src/pages/home/dynamic_detail/user.js
+ */
 /**
  *  用户基本信息
  */
@@ -10,7 +17,6 @@ import {getDate} from '../../../utils/date'
 export default props => {
     const {data} = props;
     const {userVO, cityName, publishTime} = data;
-    console.log(data)
     return (
         <View style={{...styles.isRow, ...styles.container}}>
             <Image source={{uri:userVO?.pic.replace('https','http')}} style={styles.headshot} />

@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-23 19:52:34
- * @LastEditTime : 2021-02-21 11:59:29
+ * @LastEditTime : 2021-02-28 15:53:32
  * @FilePath     : /src/pages/home/index.js
  */
 import React, { Fragment } from "react";
@@ -19,6 +19,7 @@ import CustomTabBar from "../../components/scrollable_tab_bar/CustomTabBar";
 import Relations from "./relations";
 import Trends from "./trends";
 import NotLogin from './../../components/notLogin'
+import { getStorage } from './../../utils/storage'
 import {
   addLocationListener,
   Geolocation,
@@ -43,9 +44,17 @@ class Home extends React.Component {
   }
   componentDidMount() {
     this.props.setModalLoading(false)
+    this.initUserInfo()
     this.initIM()
   }
 
+  initUserInfo = async () => {
+    const userInfo = await getStorage('userInfo')
+    if (userInfo.uid) {
+      this.props.setUserInfo(userInfo)
+    }
+  }
+    
 
   initIM = async () => {
     const { iminfo } = this.props.userInfo
@@ -69,11 +78,9 @@ class Home extends React.Component {
   }
 
   onOfflineMsgs = (options) => {
-    console.log('onOfflineMsgs', options)
   }
 
   onMsg = (options) => {
-    console.log('onMsg', options)
   }
 
   onConnect = () => {
@@ -82,7 +89,6 @@ class Home extends React.Component {
       to: '80',
       text: 'hello',
       done: (response) => {
-        console.log('response --------> done', response)
       }
     })
   }
@@ -100,13 +106,11 @@ class Home extends React.Component {
       android: "2ed1655dedfd9f3453a54f2ab51a55bd",
     });
 
-    addLocationListener((location) => console.log("---->", location));
+    // addLocationListener((location) => console.log("---->", location));
     Geolocation.getCurrentPosition(
       ({ coords }) => {
-        console.log("定位===>", coords);
       },
       (error) => {
-        console.log("定位出错===>", error);
       }
     );
   };
@@ -117,13 +121,10 @@ class Home extends React.Component {
    */
   getUserInfo = async (flag) => {
     const response = await GetRequest('user/detail', {});
-    console.log('用户信息', response);
     if (response.code === 0) {
       if (flag) {
-        console.log('------->草稿');
         this.props.navigation.navigate('EditDraft', {"draft": response.data, userType: response.data.userType})
       } else {
-        console.log('------->首次');
         this.props.navigation.navigate('PublishActivity', {userType: response.data.userType})
       }
     }
@@ -135,11 +136,9 @@ class Home extends React.Component {
   queryDraft = async () => {
     const response = await GetRequest("activity/querydraft", {});
     if (response.data) {
-      console.log("存在草稿");
       this.getUserInfo(true);
     } else {
       //
-      console.log("不存在草稿");
       this.getUserInfo(false);
     }
   };
@@ -150,7 +149,6 @@ class Home extends React.Component {
       to: `${account}`,
       text: 'hello',
       done: (response) => {
-        console.log('response --------> done', response)
       }
     })
   }

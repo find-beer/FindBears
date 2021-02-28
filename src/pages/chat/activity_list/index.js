@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:54:57
+ * @LastEditTime : 2021-02-28 15:38:58
+ * @FilePath     : /src/pages/chat/activity_list/index.js
+ */
 import React,{
   Fragment
 } from 'react';
@@ -32,7 +39,6 @@ export default class ActivityList extends React.Component {
       <Fragment>
 				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
         <SafeAreaView  reaView style={styles.container}>
-          <Header title="活动列表" left={null} {...this.props}/>
           <View style={styles.horn_wrapper}>
             <View style={styles.horn_box}>
               <Image source={horn} style={styles.horn_icon}/>

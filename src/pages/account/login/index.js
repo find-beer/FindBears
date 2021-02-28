@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-23 13:39:21
- * @LastEditTime : 2021-02-21 21:48:56
+ * @LastEditTime : 2021-02-28 13:27:07
  * @FilePath     : /src/pages/account/login/index.js
  */
 import React, { Component } from 'react'
@@ -17,7 +17,8 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 import { scaleFont } from '../../../utils/scaleUtil';
-import * as Toast from './../../../utils/toast'
+import { setStorage } from './../../../utils/storage'
+import * as Toast from './../../../utils/toast';
 import { bindActions, bindState, connect } from './../../../redux';
 
 class Login extends Component{
@@ -115,11 +116,11 @@ class Login extends Component{
       const { phoneNumber, verifyCode } = this.state
       const payload = { phoneNumber, verifyCode }
       const { success, data, msg, code } = await this.props.get('/user/login', payload)
-      console.log('data ------> ', data);
       this.props.setModalLoading(false)
       if (success) {
-         this.props.setUserInfo(data)
-         this.props.navigation.goBack()
+          setStorage('userInfo', data)
+          this.props.setUserInfo(data)
+          this.props.navigation.goBack()
       } else {
         if (code === 10001) {
           this.props.navigation.navigate('Register', {
@@ -130,8 +131,10 @@ class Login extends Component{
         }
       }
     } catch(error) {
-      this.props.setModalLoading(false)
+      console.log('error ----> ', error)
       Toast.toast('登录失败，请重试')
+    } finally{
+      this.props.setModalLoading(false)
     }
   }
 

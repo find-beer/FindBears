@@ -13,7 +13,7 @@ export default class StoreList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            type:this.props.navigation.state.params.type || 'publish',
+            type:this.props.route.params.type || 'publish',
             activityList: [],
             pageInfo:{
                 pageSize:500,

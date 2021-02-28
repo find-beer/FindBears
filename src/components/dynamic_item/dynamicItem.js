@@ -15,7 +15,7 @@ const imageUrl = {
     share: require('../../assets/mine/share-icon.png'),
     relation: require('../../assets/home/relationline.png'),
 };
-
+const defaultAvatar = 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg'
 export default class DynamicItem extends Component {
     constructor(props) {
         super(props);
@@ -72,19 +72,12 @@ export default class DynamicItem extends Component {
         const {visible,currentIndex} = this.state;
         const feed = this.state.feed;
         const picList = feed.picUrl ? feed.picUrl.split(',') : [];
-        const images = [];
-        picList.map((dataItem, position) => {
-            let da = {uri: dataItem}
-            images.push(da);
-        })
+        const images = picList.map((dataItem, position) => { uri: dataItem })
         return (
             <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
                     <TouchableOpacity onPress={() => this.handlegoStrangerPage()}>
-                        <Image
-                            source={{uri: get(feed.userVO, 'pic', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1817066819,1530157012&fm=11&gp=0.jpg').replace('https','http')}}
-                            style={styles.avatarInner}
-                        />
+                        <Image style={styles.avatarInner} source={{uri: get(feed.userVO, 'pic',defaultAvatar).replace('https','http')}}/>
                     </TouchableOpacity>
                     <View style={styles.dynamicInfo}>
                         <Text style={styles.name}>
@@ -188,7 +181,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         borderBottomColor: '#F2F2F2',
         borderBottomWidth: scaleSize(1),
-        borderStyle: 'solid'
+        borderStyle: 'solid',
+        marginTop: 10,
+        marginHorizontal: 10,
+        borderRadius: 10
     },
     itemHeader: {
         display: 'flex',

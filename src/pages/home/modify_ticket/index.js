@@ -13,13 +13,13 @@ import SettingItem from "../../../components/setting_item";
 import {screenW} from "../../../constants";
 import {GetRequest, PostRequest} from "../../../utils/request";
 import EventBus from "../../../utils/EventBus";
-
-export default class ModifyTicket extends React.Component {
+import { connect, bindState, bindActions  } from './../../../redux'
+class ModifyTicket extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            index: props.navigation.state.params.index,
+            index: props.route.params.index,
             ticketName: '',
             price: '',
             illustration: '',
@@ -75,7 +75,6 @@ export default class ModifyTicket extends React.Component {
                 navigation.goBack();
             }
         } catch (e) {
-            console.log('报错了', e);
         }
     }
 
@@ -86,8 +85,6 @@ export default class ModifyTicket extends React.Component {
     queryDraft = async () => {
         const response = await GetRequest('activity/querydraft', {});
         if (response.data) { //
-            console.log('存在草稿');
-            console.log(response.data);
             this.setState({
                 activityTitle: response.data.activityTitle,
                 memberCount: response.data.memberCount,
@@ -108,7 +105,6 @@ export default class ModifyTicket extends React.Component {
                 })
             })
         } else { //
-            console.log('不存在草稿');
         }
     }
 
@@ -165,7 +161,7 @@ export default class ModifyTicket extends React.Component {
         </Fragment>;
     }
 }
-
+export default connect(bindState, bindActions)(ModifyTicket)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

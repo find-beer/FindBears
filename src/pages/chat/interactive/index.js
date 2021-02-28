@@ -1,3 +1,10 @@
+/*
+ * @Descripttion : 
+ * @Autor        : 刘振利
+ * @Date         : 2021-01-17 10:54:57
+ * @LastEditTime : 2021-02-28 12:44:48
+ * @FilePath     : /src/pages/chat/interactive/index.js
+ */
 import React,{Fragment} from 'react';
 import {FlatList, StyleSheet, View, SafeAreaView,Text,Image} from 'react-native';
 import {GetRequest} from "../../../utils/request";
@@ -25,7 +32,6 @@ export default class InteractiveList extends React.Component {
   }
   componentDidMount(){
     // GetRequest('',).then(res => {
-    //   console.log(res)
     // })
   }
   renderItem(data){

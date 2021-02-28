@@ -1,19 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-/**
- *  我的
- */
-
 import React,{Component,Fragment} from 'react';
-import {StyleSheet,Image, ImageBackground, Text, View,TouchableOpacity,ScrollView} from 'react-native';
+import {
+	StyleSheet,
+	Image,
+	ImageBackground,
+	Text,
+	View,
+	TouchableOpacity,
+	ScrollView,
+	StatusBar
+} from 'react-native';
 import DynamicTab from './dynamicTab';
-import PersonalInfo from './personalInfo';
+import UserInfoDetail from './userInfoDetail';
 import {SafeAreaView} from 'react-navigation';
 import {GetRequest} from '../../../utils/request';
 import {scaleSize, scaleFont} from '../../../utils/scaleUtil';
@@ -42,20 +39,19 @@ class Mine extends Component{
 		this.state = {
 			personalInfo : {
 				headPicUrl:''
-			}
+			},
+			userInfo: props.userInfo
 		}
 	}
 	componentWillMount(){
 		const { userInfo, navigation } = this.props
-		if (!userInfo.userId) {
-			navigation.navigate('Login')
+		if (!userInfo.uid) {
+			navigation.navigate('Auth', { screen: 'Login' } )
 		} 
-		console.log('userInfo', userInfo)
-		// this.initInfo()
 	}
 
 	componentDidMount() {
-
+		console.log('this.state.userInfo', this.state.userInfo)
 	}
 
 	initInfo(){
@@ -77,85 +73,61 @@ class Mine extends Component{
 		this.props.navigation.navigate('Store')
 	}
 	handleGoEdit(){
-		this.props.navigation.navigate('EditInfo',this.state.personalInfo)
+		this.props.navigation.navigate('EditInfo',this.state.userInfo)
 	}
 	handleGoConfig(){
-		this.props.navigation.navigate('Config')
+		this.props.navigation.navigate('Setting')
 	}
 	render(){
+		const { userInfo } = this.state
 			return (
-				<Provider>
-					<Fragment>
-					<SafeAreaView style={{flex: 0, backgroundColor: 'rgba(117,117,115,1)'}}/>
-					<SafeAreaView style={{flex:1}}>
-						<ScrollView>
-								<ImageBackground 
-								style={styles.persionalTab} 
-								source={{uri:this.state.personalInfo.headPicUrl.replace('https','http')}}
-								>
-									<View style={styles.bgaWrapper}>
-										<TouchableOpacity onPress={() => this.handleGoConfig()}>
-											<View style={styles.settingBox}>
-												<Image
-													source={imageUrl.configIcon}
-													style={styles.configIcon}
-												/>
-												<Text 
-													style={styles.configFont}
-												>设置</Text>
-											</View>
-										</TouchableOpacity>
-										<PersonalInfo personalInfo={this.state.personalInfo}/>
-										<View style={styles.operationBox}>
-													<TouchableOpacity onPress={() => this.handleGoCode()}>
-														<View style={styles.operationBtn}>
-																<Image
-																		source={imageUrl.QRCodeIcon}
-																		style={styles.btnIcon}
-																/>
-																<Text
-																	style={styles.btnText}
-																>二维码</Text>
-														</View>
-													</TouchableOpacity>
-													<TouchableOpacity onPress={() => this.handleGoStore()}>
-														<View style={styles.operationBtn}>
-																<Image
-																		source={imageUrl.EditIcon}
-																		style={styles.btnIcon}
-																/>
-																<Text
-																	style={styles.btnText}
-
-																>仓库</Text>
-														</View>
-													</TouchableOpacity>
-													<TouchableOpacity onPress={() => this.handleGoEdit()}>
-														<View style={styles.operationBtn}>
-																<Image
-																		source={imageUrl.EditIcon}
-																		style={styles.btnIcon}
-																/>
-																<Text
-																	style={styles.btnText}
-
-																>编辑资料</Text>
-														</View>
-													</TouchableOpacity>
-											</View>
+				<View style={styles.container}>
+					<ScrollView>
+						<ImageBackground  style={styles.persionalTab} source={{ uri: userInfo.headPicUrl.replace('https','http')}}>
+						<SafeAreaView style={{ flex: 0, backgroundColor: 'rgba(0,0,0,.5)'}}></SafeAreaView>
+							<View style={styles.bgaWrapper}>
+								<TouchableOpacity onPress={() => this.handleGoConfig()}>
+									<View style={styles.settingBox}>
+										<Image source={imageUrl.configIcon} style={styles.configIcon}/>
+										<Text  style={styles.configFont}>设置</Text>
 									</View>
-							</ImageBackground>
-							<View style={styles.lineSpace}/>
-							<DynamicTab personalInfo={this.state.personalInfo} {...this.props}/>
-						</ScrollView>
-					</SafeAreaView>
-				</Fragment>
-				</Provider>
+								</TouchableOpacity>
+								<UserInfoDetail userInfo={userInfo}/>
+								<View style={styles.operationBox}>
+											<TouchableOpacity onPress={() => this.handleGoCode()}>
+												<View style={styles.operationBtn}>
+													<Image source={imageUrl.QRCodeIcon} style={styles.btnIcon}/>
+													<Text style={styles.btnText}>二维码</Text>
+												</View>
+											</TouchableOpacity>
+											<TouchableOpacity onPress={() => this.handleGoStore()}>
+												<View style={styles.operationBtn}>
+													<Image source={imageUrl.EditIcon} style={styles.btnIcon} />
+													<Text style={styles.btnText} >仓库</Text>
+												</View>
+											</TouchableOpacity>
+											<TouchableOpacity onPress={() => this.handleGoEdit()}>
+												<View style={styles.operationBtn}>
+													<Image 	source={imageUrl.EditIcon} style={styles.btnIcon} />
+													<Text style={styles.btnText} >编辑资料</Text>
+												</View>
+											</TouchableOpacity>
+									</View>
+							</View>
+						</ImageBackground>
+						<View style={styles.lineSpace}/>
+						<DynamicTab personalInfo={this.state.personalInfo} {...this.props}/>
+					</ScrollView>
+				</View>
 			)
 	}
 }
 export default connect(bindState, bindActions)(Mine)
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#f6f7fa'
+	},
 	persionalTab: {},
 	bgaWrapper: {
 			width: '100%',

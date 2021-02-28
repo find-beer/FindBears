@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-20 00:04:33
- * @LastEditTime : 2021-01-30 14:34:21
+ * @LastEditTime : 2021-02-28 15:33:57
  * @FilePath     : /src/tabNavigation/tabBar.js
  */
 import React, { useState, useEffect }from "react";
@@ -34,7 +34,6 @@ const TabBar = (props) => {
   const [ userInfo, setUserInfo ] = useState({})
   const isiPhone = Platform.OS === 'ios'
   useEffect(() => {
-    console.log('props -----> ', props.userInfo)
     setUserInfo(props.userInfo)
     props.setRouteNavigation(navigation)
   }, [props.userInfo])
@@ -60,6 +59,7 @@ const TabBar = (props) => {
                 // 如果用户未登录则直接跳转登录页面
                 navigation.navigate('Auth', { screen: 'Login' } );
               } else {
+                console.log('route.name', route.name)
                 navigation.navigate(route.name);
               }
             } else if (isPublish) {

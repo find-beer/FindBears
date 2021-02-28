@@ -16,7 +16,7 @@ export default class Hobby extends Component {
         this.state = {
             hobbyList: [],
             checkedHobby: [],
-            registerForm: this.props.navigation.state.params,
+            registerForm: this.props.route.params,
         };
     }
     componentDidMount() {

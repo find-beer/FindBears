@@ -23,7 +23,7 @@ export default class Page extends React.Component {
         super(props);
         this.state = {
             placeholder: '请发表评论',
-            id: this.props.navigation.state.params.id,
+            id: this.props.route.params.id,
             detail: {},
             commentList: [],
             currentComment: {},
@@ -33,7 +33,6 @@ export default class Page extends React.Component {
     getDetail = () => {
         GetRequest('feed/detail', {id: this.state.id}).then(
 					res => {
-						console.log(res.data)
 						this.setState({
 							detail: res.data,
 						});
@@ -87,9 +86,6 @@ export default class Page extends React.Component {
             let da = {uri: dataItem}
             images.push(da);
         })
-        console.log('detail',detail)
-        console.log('picList',picList)
-        console.log('images',images)
         return (
             <Fragment>
                 <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>

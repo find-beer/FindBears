@@ -25,21 +25,17 @@ export default class Chatting extends React.Component {
         // NimSession.startSession('wzy', '2');
         NimSession.getRecentContactList().then(
             (data) => {
-                console.log('getRecentContactList', data)
             },
             (err) => {
-                console.log('错误', err);
             },
         );
         NativeAppEventEmitter.addListener(
             'observeReceiveMessage',
             (data) => {
-                console.log('observeReceiveMessage', data)
             },
         );
 
         const res=NimSession.sendTextMessage('你好，我是一条来自魏志扬发送的消息，请注意查收哦', ['mjx']);
-        console.log('发松结果',res)
     }
 
     render() {

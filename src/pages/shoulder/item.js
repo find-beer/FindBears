@@ -9,15 +9,13 @@ export default class Shoulder extends React.Component {
     super(props)
   }
   handleJoinTalk(){
-    console.log(this.props)
   }
   handlegoDetail(){
-    this.props.navigation.navigate('ActivityDetail', {id: this.props.item.id})
+    this.props.navigation.navigate('ActivityDetail', { id: this.props.item.id})
   }
   render(){
     const item = this.props.item;
     let url = item.picUrl?.split(',')[0];
-    console.log(url)
     return (
       <View style={styles.activity_item} >
         <TouchableOpacity onPress={() => this.handlegoDetail()}>
@@ -39,17 +37,20 @@ export default class Shoulder extends React.Component {
 
 const styles = StyleSheet.create({
   activity_item:{
-    width:'49%',
-    display:'flex',
     flexDirection:'column',
     justifyContent: 'center',
-    paddingBottom:scaleSize(60)
+    paddingBottom:scaleSize(60),
+    backgroundColor: '#fff',
+    padding: 5,
+    marginTop: 10,
+    borderRadius: 10
   },
   item_image:{
     width:scaleSize(460),
     height:scaleSize(420),
     borderRadius:scaleSize(12),
-    marginBottom:scaleSize(30)
+    marginBottom:scaleSize(30),
+    backgroundColor: '#f6f7fa'
   },
   item_title:{
     fontSize: scaleSize(40),

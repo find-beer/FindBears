@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-20 00:04:29
- * @LastEditTime : 2021-01-23 22:12:27
+ * @LastEditTime : 2021-02-28 15:57:24
  * @FilePath     : /src/tabNavigation/index.js
  */
 import React  from 'react';
@@ -60,6 +60,7 @@ const ChatTabOptions = {
 
 const MineTabOptions = {
   tabBarLabel: '我的',
+  title: '我的',
   tabBarIcon: ({ focused }) => (
     <Image style={styles.tabIcon} source={focused ? TabIcon.mineActive : TabIcon.mine } />
   )
