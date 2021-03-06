@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-17 10:54:57
- * @LastEditTime : 2021-02-28 12:44:48
+ * @LastEditTime : 2021-03-06 20:22:29
  * @FilePath     : /src/pages/chat/interactive/index.js
  */
 import React,{Fragment} from 'react';
@@ -62,7 +62,6 @@ export default class InteractiveList extends React.Component {
       <Fragment>
 				<SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
         <SafeAreaView style={styles.container}>
-          <Header {...this.props} title="互动列表" left={null} />
           <FlatList
               data={this.state.interactiveList}
               renderItem={this.renderItem}

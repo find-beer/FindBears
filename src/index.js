@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Autor        : 刘振利
  * @Date         : 2021-01-19 22:55:47
- * @LastEditTime : 2021-02-28 15:58:01
+ * @LastEditTime : 2021-03-06 20:22:54
  * @FilePath     : /src/index.js
  */
 import React from 'react';
@@ -99,7 +99,7 @@ const MainStack = () => {
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='DynamicDetail'      component={DynamicDetail}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalAddTicket'     component={LocalAddTicket}/>
       <Stack.Screen options={{ ...defautOptions, title: '活动详情' }}    name='ActivityDetail'     component={ActivityDetail}/>
-      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='InteractiveList'    component={InteractiveList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '互动通知' }}    name='InteractiveList'    component={InteractiveList}/>
       <Stack.Screen options={{ ...defautOptions, title: '活动列表' }}    name='ActivityMsgList'    component={ActivityMsgList}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalModifyTicket'  component={LocalModifyTicket}/>
     </Stack.Navigator>

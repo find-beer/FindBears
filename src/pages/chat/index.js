@@ -162,65 +162,38 @@ class Chat extends React.Component {
 
   }
   
+  toPage = (route) => {
+    this.props.navigation.navigate(route)
+  }
   render() {
     const { navigation } = this.props;
     const { talks } = this.state;
-
     return (
       <Fragment>
         <SafeAreaView style={{ backgroundColor: "white" }} />
         <Header {...this.props} noLeft title={"消息"} right={"添加好友"} onRightClick={this.onRightClick}/>
-
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("InteractiveList");
-            }}
-          >
-            <View style={styles.headerItem}>
-              <Image
-                source={require("../../assets/tab/publish.png")}
-                style={styles.headerImg}
-              />
+          <TouchableOpacity onPress={() => this.toPage('InteractiveList')}>
+            <View style={[styles.headerItem, styles.notify]}>
+              <Image source={require("../../assets/chat/bell.png")} style={styles.headerImg} />
               <Text style={styles.headerTxt}>互动通知</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("ActivityMsgList");
-            }}
-          >
-            <View style={styles.headerItem}>
-              <Image
-                source={require("../../assets/tab/publish.png")}
-                style={styles.headerImg}
-              />
+          <TouchableOpacity onPress={() => this.toPage("ActivityMsgList")} >
+            <View style={[styles.headerItem, styles.activityList]}>
+              <Image source={require("../../assets/chat/balloon.png")} style={styles.headerImg} />
               <Text style={styles.headerTxt}>活动列表</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("FriendsList");
-            }}
-          >
-            <View style={styles.headerItem}>
-              <Image
-                source={require("../../assets/tab/publish.png")}
-                style={styles.headerImg}
-              />
+          <TouchableOpacity onPress={() => this.toPage("FriendsList") }>
+            <View style={[styles.headerItem, styles.friendList]}>
+              <Image source={require("../../assets/chat/friendList.png")} style={styles.headerImg} />
               <Text style={styles.headerTxt}>好友列表</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("MyFollow");
-            }}
-          >
-            <View style={styles.headerItem}>
-              <Image
-                source={require("../../assets/tab/publish.png")}
-                style={styles.headerImg}
-              />
+          <TouchableOpacity onPress={() => this.toPage("MyFollow")}>
+            <View style={[styles.headerItem, styles.attention]}>
+              <Image source={require("../../assets/tab/publish.png")} style={styles.headerImg} />
               <Text style={styles.headerTxt}>我的关注</Text>
             </View>
           </TouchableOpacity>
@@ -241,16 +214,33 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    width: screenW,
-    height: 70,
-    backgroundColor: "white",
+    height: 130,
     flexDirection: "row",
+    justifyContent: 'space-around',
+    backgroundColor: '#fff',
+    paddingBottom: 20,
+    paddingTop: 20
   },
   headerItem: {
-    width: screenW / 4,
-    height: 70,
+    flex: 1,
+    height: 133,
+    marginHorizontal: 10,
+    paddingHorizontal: 12,
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 10
+  },
+  notify: {
+    backgroundColor: '#F36968'
+  },
+  activityList: {
+    backgroundColor: '#6AD8AF'
+  },
+  friendList: {
+    backgroundColor: '#62A6FC'
+  },
+  attention: {
+    backgroundColor: '#7463F6'
   },
   headerImg: {
     width: 38,
@@ -259,6 +249,7 @@ const styles = StyleSheet.create({
   headerTxt: {
     fontSize: 12,
     marginTop: 8,
+    color: '#fff'
   },
   talkItem: {
     backgroundColor: "white",
