@@ -38,8 +38,8 @@ instance.interceptors.request.use(
 //返回拦截器
 instance.interceptors.response.use(
     function (response) {
-        if(response.data.code===2000){
-            EventBus.post('SESSION_EXPIRED')
+        if(response.data.code === 2000){
+            EventBus.post('SESSION_EXPIRED',{})
             return true
         }
         return response.data;

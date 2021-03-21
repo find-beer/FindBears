@@ -2,7 +2,7 @@ import React, { Component,Fragment } from 'react'
 import { SafeAreaView,StyleSheet, View, Text, Image,TouchableOpacity} from 'react-native'
 const arrow = require('../../../assets/mine/arrow_right.png')
 import {Switch} from '@ant-design/react-native';
-import { removeStorage } from './../../../utils/storage'
+import { removeStorage } from '../../../utils/storage'
 import { scaleSize, scaleFont } from '../../../utils/scaleUtil'
 import { connect, bindActions, bindState }  from '../../../redux'
 

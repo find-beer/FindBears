@@ -13,7 +13,7 @@ import ActivityItem from './item'
 import {GetRequest} from "../../utils/request";
 import { scaleSize } from '../../utils/scaleUtil';
 import { bindActions, bindState, connect } from './../../redux'
-class ActivityList extends Component {
+export default class ActivityList extends Component {
   static navigationOptions = {
     header: null
   }
@@ -48,6 +48,7 @@ class ActivityList extends Component {
     return (
       <View style={styles.container}>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+        <Header {...this.props} title={this.state.title} left={null} />
         <ScrollView>
           <SafeAreaView style={styles.activity_list_wrapper}>
             <View style={styles.list_box}>
@@ -77,5 +78,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   }
 });
-
-export default connect(bindState, bindActions)(ActivityList)

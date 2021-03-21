@@ -19,6 +19,7 @@ import PublishDialog from "./components/publish_dialog/PublishDialog";
 import { LogBox, View } from "react-native";
 import SelectItemsDialog from "./components/select_dialog/SelectItemsDialog";
 import { GetRequest } from "./utils/request";
+import { removeStorage } from './utils/storage'
 
 LogBox.ignoreAllLogs(true);
 
@@ -36,6 +37,15 @@ export default class App extends React.Component {
       user: response.data,
     });
   };
+  UNSAFE_componentWillMount = async() => {
+    console.log(2323)
+    EventBus.on('SESSION_EXPIRED',() => {
+      console.log(1111)
+      await removeStorage('userInfo')
+      this.props.setUserInfo({})
+      this.props.navigation.navigate('Home')
+    })
+  }
 
 
   render() {

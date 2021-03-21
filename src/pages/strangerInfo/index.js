@@ -50,6 +50,21 @@ class StrangerInfo extends Component{
 			})
 		})
 	}
+
+	handleChat = () => {
+
+	}
+
+	handleRealtiveLine = () => {
+		this.props.navigation.navigate('RelationChain', {uid: this.state.personalInfo.uid})
+	}
+	// 关注
+	handleConcer = () => {
+		GetRequest(`/userRelation/follow/${this.state.personalInfo.uid}`).then(() => {
+			this.initPage();
+		})
+	}
+
 	render(){
 			return (
 				<Fragment>
@@ -57,33 +72,44 @@ class StrangerInfo extends Component{
 					<SafeAreaView>
 					<ScrollView>
 							<View>
-							<ImageBackground style={styles.persionalTab} source={imageUrl.avatar}>
+							<ImageBackground style={styles.persionalTab} source={{uri:this.state.personalInfo?.headPicUrl?.replace('https','http')}}>
 									<View style={styles.bgaWrapper}>
 											<UserInfoDetail data={this.state.personalInfo}/>
 									</View>
 							</ImageBackground>
 							<View style={styles.operateBox}>
-								{
-									this.state.isFriend
-									?
-									<>
-										<View style={styles.chatBox}>
-											<View style={styles.centerStyle}>
-												<Image style={styles.operateIcon} source={imageUrl.relative}/>
-												<Text style={styles.operateText}>
-													聊天
-												</Text>
-											</View>
+								<View style={styles.chatBox}>
+									<TouchableOpacity onPress={this.handleChat}>
+										<View style={styles.centerStyle}>
+											<Image style={styles.operateIcon} source={imageUrl.relative}/>
+											<Text style={styles.operateText}>
+												聊天
+											</Text>
 										</View>
-										<View style={styles.relativeBox}>
+									</TouchableOpacity>
+								</View>
+								{/* {
+									this.state.personalInfo.friend &&
+									<View style={styles.relativeBox}>
+										<TouchableOpacity  onPress={this.handleRealtiveLine}>
 											<View style={styles.centerStyle}>
 												<Image style={styles.operateIcon} source={imageUrl.relative}/>
 												<Text style={styles.operateText}>关系链</Text>
 											</View>
-										</View>
-									</>
-									:
-									<View style={styles.chatBox}></View>
+										</TouchableOpacity>
+									</View>
+								} */}
+								{
+									// 非好友，普通人进入商家
+									!this.state.personalInfo.friend && this.state.personalInfo.userType === 1 && this.state.loginUser.userType === 2 &&
+									<View style={styles.relativeBox}>
+										<TouchableOpacity onPress={this.handleConcer}>
+											<View style={styles.centerStyle}>
+												<Image style={styles.operateIcon} source={imageUrl.relative}/>
+												<Text style={styles.operateText}>{this.state.personalInfo.isConcer?'已关注':'关注'}</Text>
+											</View>
+										</TouchableOpacity>
+									</View>
 								}
 							</View>
 							<View style={styles.lineSpace}/>

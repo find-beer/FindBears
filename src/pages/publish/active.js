@@ -349,12 +349,12 @@ export default class PublishActivity extends React.Component {
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity onPress={() => this.saveData('draft')}>
                         <View style={styles.draft}>
-                            <Text style={styles.txt}>存为草稿</Text>
+                            <Text style={styles.draft_txt}>存为草稿</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.saveData('activity')}>
                         <View style={styles.publish}>
-                            <Text style={styles.txt}>立即发布</Text>
+                            <Text style={styles.publish_txt}>立即发布</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -371,16 +371,26 @@ const styles = StyleSheet.create({
     draft: {
         height: 60,
         width: screenW / 2,
-        backgroundColor: '#cdcdcd',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
     publish: {
+        
         height: 60,
         width: screenW / 2,
         backgroundColor: '#564F5F',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    txt: {color: 'white', fontSize: 16},
+    draft_txt:{
+        fontSize: 16,
+        color: '#564F5F', 
+        fontWeight: '500'
+    },
+    publish_txt:{
+        fontSize: 16,
+        color: "#FFFFFF", 
+        fontWeight: '500'
+    },
 });

@@ -76,7 +76,7 @@ export default class ActivityItem extends Component {
             <View style={styles.dynamicItemWrap}>
                 <View style={styles.itemHeader}>
                     <Image
-                        source={{uri:get(item.userVO,'pic','')}}
+                        source={{uri:get(item.userVO,'pic','')?.replace('https','http')}}
                         style={styles.avatarInner}
                     />
                     <View style={styles.dynamicInfo}>

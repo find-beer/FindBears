@@ -20,9 +20,10 @@ export default class DynamicItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feed: {...this.props.feed},
+            feed: {...props.feed},
             visible: false,
-            currentIndex: 0
+            currentIndex: 0,
+            userId: props.userId
         }
     }
 
@@ -65,7 +66,12 @@ export default class DynamicItem extends Component {
     }
 
     handlegoStrangerPage() {
-        this.props.navigation.navigate('StrangerInfo', {id: get(this.state, 'feed.userVO.userId', '')})
+        // 如果是自己，就去个人中心
+        if(this.state.userId === get(this.state,'feed.userVO.userId','')){
+            this.props.navigation.navigate('Mine')
+            return;
+        }
+        this.props.navigation.navigate('StrangerInfo', {uid: get(this.state, 'feed.userVO.userId', '')})
     }
 
     render() {

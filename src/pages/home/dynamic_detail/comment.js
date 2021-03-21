@@ -11,7 +11,7 @@ export default props => {
     const {data} = props;
     return (
         <View style={{...styles.isRow, ...styles.container}}>
-            <Image source={images.headshot} style={styles.headshot} />
+            <Image source={{uri:data.avatar?.replace('https','http')}} style={styles.headshot} />
             <View>
                 <Text style={styles.name}>{data.nickname || `探熊用户${parseInt(Math.random()*10000)}`}</Text>
                 <Text style={styles.time}>{getDate(data.commentTime)}</Text>
@@ -21,10 +21,6 @@ export default props => {
             </View>
         </View>
     )
-};
-
-const images = {
-    headshot: require('../../../assets/punchList/headshot.png'),
 };
 
 const styles = StyleSheet.create({
@@ -38,6 +34,7 @@ const styles = StyleSheet.create({
         height: scaleSize(88),
         width: scaleSize(88),
         marginRight: scaleSize(24),
+        borderRadius: scaleSize(44)
     },
     name: {
         fontSize: scaleSize(36),

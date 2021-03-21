@@ -80,14 +80,14 @@ const MainStack = () => {
       <Stack.Screen options={{ ...defautOptions, title: '票' }}      name='Tickets'            component={Tickets}/>
       <Stack.Screen options={{ ...defautOptions, title: '设置' }}    name='Setting'            component={Setting}/>
       <Stack.Screen options={{ ...defautOptions, title: '我的关注' }}    name='MyFollow'           component={MyFollow}/>
-      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='FansList'           component={FansList}/>
+      <Stack.Screen options={{ ...defautOptions, title: '我的粉丝' }}    name='FansList'           component={FansList}/>
       <Stack.Screen options={{ ...defautOptions, title: '编辑资料' }}    name='EditInfo'           component={EditInfo}/>
       <Stack.Screen options={{ ...defautOptions, title: '订单列表' }}    name='OrderList'          component={OrderList}/>
       <Stack.Screen options={{ ...defautOptions, title: '关系链' }}    name='Relations'          component={Relations}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='EditDraft'          component={EditDraft}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='StoreList'          component={StoreList}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='AddTicket'          component={AddTicket}/>
-      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='DigFriend'          component={DigFriend}/>
+      <Stack.Screen options={{ ...defautOptions, title: '挖好友' }}    name='DigFriend'          component={DigFriend}/>
       <Stack.Screen options={{ ...defautOptions, title: '好友列表' }}    name='FriendsList'        component={FriendsList}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalTickets'       component={LocalTickets}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='ModifyTicket'       component={ModifyTicket}/>
@@ -96,7 +96,7 @@ const MainStack = () => {
       <Stack.Screen options={{ ...defautOptions, title: '选择票种' }}    name='TicketSelect'       component={TicketSelect}/>
       <Stack.Screen options={{ ...defautOptions, title: '活动列表' }}    name='ActivityList'       component={ActivityList}/>
       <Stack.Screen options={{ ...defautOptions, title: '关系链' }}    name='RelationChain'      component={RelationChain}/>
-      <Stack.Screen options={{ ...defautOptions, title: '' }}    name='DynamicDetail'      component={DynamicDetail}/>
+      <Stack.Screen options={{ ...defautOptions, title: '动态详情' }}    name='DynamicDetail'      component={DynamicDetail}/>
       <Stack.Screen options={{ ...defautOptions, title: '' }}    name='LocalAddTicket'     component={LocalAddTicket}/>
       <Stack.Screen options={{ ...defautOptions, title: '活动详情' }}    name='ActivityDetail'     component={ActivityDetail}/>
       <Stack.Screen options={{ ...defautOptions, title: '互动通知' }}    name='InteractiveList'    component={InteractiveList}/>

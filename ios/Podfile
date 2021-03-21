@@ -10,6 +10,8 @@ target 'TBear' do
 
 
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'TBearTests' do
     inherit! :complete
     # Pods for testing

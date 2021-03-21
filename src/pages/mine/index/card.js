@@ -16,7 +16,7 @@ export default props => {
                             <View style={styles.tag} />
                             <View style={styles.info}>
                                 <Text style={styles.title}>{item.title}</Text>
-                                <Text style={styles.content}>
+                                <Text style={styles.content} numberOfLines={1}>
                                     {item.content}
                                 </Text>
                             </View>
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     itemContent: {
+        width:scaleSize(400),
         flexDirection: 'row',
     },
     tag: {
@@ -52,12 +53,14 @@ const styles = StyleSheet.create({
         borderRadius: scaleSize(7),
     },
     title: {
+        width:scaleSize(400),
         fontSize: scaleFont(40),
         color: '#999999',
         alignItems: 'center',
         marginBottom: scaleSize(24),
     },
     content: {
+        width:scaleSize(400),
         fontSize: scaleFont(48),
         color: '#333333',
     },
